@@ -18,14 +18,14 @@
     <normaloff>:/images/Knight1M-SW.gif</normaloff>:/images/Knight1M-SW.gif</iconset>
   </property>
   <property name="currentIndex">
-   <number>1</number>
+   <number>0</number>
   </property>
   <widget class="QWidget" name="page">
    <widget class="QPushButton" name="characterGenButton">
     <property name="geometry">
      <rect>
       <x>150</x>
-      <y>190</y>
+      <y>180</y>
       <width>191</width>
       <height>41</height>
      </rect>
@@ -51,6 +51,19 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="mapGenButton">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>230</y>
+      <width>191</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Create a Map</string>
     </property>
    </widget>
   </widget>

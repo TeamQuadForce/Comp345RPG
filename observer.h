@@ -1,6 +1,5 @@
 #ifndef OBSERVER_H
 #define OBSERVER_H
-#include "playercharacter.h"
 
 class Observable;
 

@@ -1,0 +1,37 @@
+//  This class hasn't been fully implemented yet. Future uses for this class
+//  is that it represents all possible tiles on the map
+
+#include "tileset.h"
+TileSet::TileSet()
+{
+
+}
+
+TileSet::TileSet(int aRowPosition, int aColumnPosition,
+                 bool aIsTerrain, QString aGamePiece)
+{
+    mRowPosition = aRowPosition;
+    mColumnPosition = aColumnPosition;
+    isTerrain = aIsTerrain;
+    mGamePiece = aGamePiece;
+}
+
+QString TileSet::getGamePiece()
+{
+    return mGamePiece;
+}
+
+void TileSet::setGamePiece(QString aGamePiece)
+{
+    mGamePiece = aGamePiece;
+}
+
+int TileSet::rowPosition()
+{
+    return mRowPosition;
+}
+
+int TileSet::columnPosition()
+{
+    return mColumnPosition;
+}
