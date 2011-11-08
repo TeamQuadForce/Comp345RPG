@@ -84,6 +84,11 @@ CharacterClass* PlayerCharacter::characterClass()
     return mClass;
 }
 
+Inventory* PlayerCharacter::inventory()
+{
+    return mInventory;
+}
+
 //Called when generating a new character. Sets all the ability scores
 //to the given parameters.
 void PlayerCharacter::modifyAbilityScores(short aStrength, short aDexterity,

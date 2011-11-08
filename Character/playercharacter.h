@@ -28,6 +28,7 @@ public:
     void init();
     void levelUp();
     CharacterClass * characterClass();
+    Inventory * inventory();
     QString race();
     QString className();
     QString gender();
@@ -54,7 +55,7 @@ public:
 private:
     QList<Observer*> mObserverList;
     CharacterClass *mClass;
-    Inventory mInventory;
+    Inventory *mInventory;
 
     QString mRace;
     QString mClassName;
