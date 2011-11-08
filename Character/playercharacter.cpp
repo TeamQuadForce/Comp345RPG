@@ -1,10 +1,8 @@
 #include <QApplication>
 #include <cmath>
-
 #include "playercharacter.h"
 #include "fighter.h"
 #include "diceroller.h"
-
 
 PlayerCharacter::PlayerCharacter()
 {
@@ -49,7 +47,7 @@ void PlayerCharacter::init()
     //Player starts with hit points equal to his/her class' hit die roll + CON modifier
     mHitPoints = mClass->hitDie() + abilityModifier(Constitution);
 
-    mArmorClass = 10; //base AC of all players, regardless of class or race
+    mBaseArmorClass = 10; //base AC of all players, regardless of class or race
     mLevel = 1;
 
     //Notify observers that a new character is finished initializing, aka all stats are done
@@ -175,7 +173,7 @@ short PlayerCharacter::hitPoints()
 short PlayerCharacter::armorClass()
 {
     //TODO: AC will also be based on shield and armor (if any) (size will not be implemented, maybe.. :))
-    return mArmorClass + abilityModifier(Dexterity);
+    return mBaseArmorClass + abilityModifier(Dexterity);
 }
 
 short PlayerCharacter::level()

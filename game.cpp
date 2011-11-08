@@ -1,5 +1,6 @@
 #include <QDialog>
 #include <QDebug>
+#include <QHBoxLayout>
 #include "game.h"
 #include "ui_game.h"
 #include "charactergenerator.h"
@@ -10,7 +11,7 @@ Game::Game(QWidget *parent) :
     ui(new Ui::Game)
 {
     ui->setupUi(this);
-    QObject::connect(ui->characterGenButton, SIGNAL(clicked()), SLOT(setWidget()));
+    QObject::connect(ui->characterGenButton, SIGNAL(clicked()), SLOT(showCharacterGenPage()));
     this->setCurrentIndex(0);
 }
 
@@ -19,7 +20,7 @@ Game::~Game()
     delete ui;
 }
 
-void Game::setWidget()
+void Game::showCharacterGenPage()
 {
     this->setCurrentIndex(1);
     ((CharacterGenerator*)this->currentWidget())->show();

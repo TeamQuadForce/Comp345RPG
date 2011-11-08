@@ -4,6 +4,7 @@
 #include <QString>
 #include <QPixmap>
 #include "characterclass.h"
+#include "inventory.h"
 #include "observable.h"
 #include "observer.h"
 
@@ -11,7 +12,7 @@ class PlayerCharacter : public Observable
 {
 public:
     PlayerCharacter();
-    PlayerCharacter(const QString &aName, const QString &aGender, const QString &aRace, const QString &aClassName, QPixmapData *aPortrait);
+    PlayerCharacter(const QString &aName, const QString &aGender, const QString &aRace, const QString &aClassName, QPixmapData *aPortrait = 0);
     virtual ~PlayerCharacter();
 
     enum AbilityScore
@@ -53,6 +54,8 @@ public:
 private:
     QList<Observer*> mObserverList;
     CharacterClass *mClass;
+    Inventory mInventory;
+
     QString mRace;
     QString mClassName;
     QString mGender;
@@ -61,7 +64,7 @@ private:
     QPixmap mPortrait;
 
     short mHitPoints;
-    short mArmorClass;
+    short mBaseArmorClass;
     short mLevel;
 
     //Ability scores
