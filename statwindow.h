@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "observer.h"
+#include "observable.h"
 
 namespace Ui {
     class StatWindow;
@@ -16,7 +17,7 @@ public:
     explicit StatWindow(QWidget *parent = 0);
     ~StatWindow();
 
-    void update(PlayerCharacter *aPlayer);
+    void update(Observable *aObs);
     void reset();
 
 private:

@@ -26,8 +26,8 @@ HEADERS  += \
     playercharacter.h \
     charactergenerator.h \
     diceroller.h \
-    observer.h \
     observable.h \
+    observer.h \
     statwindow.h \
     game.h \
     quitdialog.h
@@ -40,6 +40,10 @@ FORMS    += \
 
 RESOURCES += \
     resources.qrc
+
+
+
+
 
 
 

@@ -2,13 +2,12 @@
 #define OBSERVER_H
 #include "playercharacter.h"
 
-//Forward declarations
-class PlayerCharacter;
+class Observable;
 
 class Observer
 {
 public:
-    virtual void update(PlayerCharacter *aPlayer) = 0;
+    virtual void update(Observable *aObserved) = 0;
 };
 
 #endif // OBSERVER_H

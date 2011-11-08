@@ -18,7 +18,7 @@
     <normaloff>:/images/Knight1M-SW.gif</normaloff>:/images/Knight1M-SW.gif</iconset>
   </property>
   <property name="currentIndex">
-   <number>0</number>
+   <number>1</number>
   </property>
   <widget class="QWidget" name="page">
    <widget class="QPushButton" name="characterGenButton">
@@ -46,12 +46,16 @@
     <property name="text">
      <string/>
     </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/images/logo.png</pixmap>
+    </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>
   <widget class="QWidget" name="page_2"/>
+  <widget class="QWidget" name="page_3"/>
  </widget>
  <resources>
   <include location="resources.qrc"/>

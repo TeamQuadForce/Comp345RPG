@@ -334,6 +334,12 @@ void CharacterGenerator::returnToMenuButtonPress()
     mStatWindow->hide();
 }
 
+void CharacterGenerator::saveCharacter()
+{
+
+}
+
+//Resets the GUI back to it's default state
 void CharacterGenerator::reset()
 {
     mStatWindow->reset();

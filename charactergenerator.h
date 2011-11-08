@@ -46,6 +46,7 @@ private slots:
     void readyToGenerate();
     void returnToMenuButtonPress();
 
+    void saveCharacter();
     void reset();
 };
 

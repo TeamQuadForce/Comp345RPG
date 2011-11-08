@@ -4,8 +4,8 @@
 #include <QString>
 #include <QPixmap>
 #include "characterclass.h"
-#include "observer.h"
 #include "observable.h"
+#include "observer.h"
 
 class PlayerCharacter : public Observable
 {
@@ -51,6 +51,7 @@ public:
     void notifyObservers();
 
 private:
+    QList<Observer*> mObserverList;
     CharacterClass *mClass;
     QString mRace;
     QString mClassName;

@@ -18,28 +18,30 @@ StatWindow::~StatWindow()
 //Ability scores, Ability modifiers
 //Hit points, Armor class
 //Attack bonus
-void StatWindow::update(PlayerCharacter *aPlayer)
+void StatWindow::update(Observable *aObs)
 {
+    PlayerCharacter *player = (PlayerCharacter*)aObs;
+
     //Change name, race, gender, class
-    ui->name->setText(aPlayer->name());
-    ui->race->setText(aPlayer->race());
-    ui->gender->setText(aPlayer->gender());
-    ui->playerClass->setText(aPlayer->className());
+    ui->name->setText(player->name());
+    ui->race->setText(player->race());
+    ui->gender->setText(player->gender());
+    ui->playerClass->setText(player->className());
 
     //Change the ability scores
-    ui->playerStr->setText(QString::number(aPlayer->abilityScore(PlayerCharacter::Strength)));
-    ui->playerDex->setText(QString::number(aPlayer->abilityScore(PlayerCharacter::Dexterity)));
-    ui->playerCon->setText(QString::number(aPlayer->abilityScore(PlayerCharacter::Constitution)));
-    ui->playerInt->setText(QString::number(aPlayer->abilityScore(PlayerCharacter::Intelligence)));
-    ui->playerWis->setText(QString::number(aPlayer->abilityScore(PlayerCharacter::Wisdom)));
-    ui->playerCha->setText(QString::number(aPlayer->abilityScore(PlayerCharacter::Charisma)));
+    ui->playerStr->setText(QString::number(player->abilityScore(PlayerCharacter::Strength)));
+    ui->playerDex->setText(QString::number(player->abilityScore(PlayerCharacter::Dexterity)));
+    ui->playerCon->setText(QString::number(player->abilityScore(PlayerCharacter::Constitution)));
+    ui->playerInt->setText(QString::number(player->abilityScore(PlayerCharacter::Intelligence)));
+    ui->playerWis->setText(QString::number(player->abilityScore(PlayerCharacter::Wisdom)));
+    ui->playerCha->setText(QString::number(player->abilityScore(PlayerCharacter::Charisma)));
 
     //Change the picture
     ui->playerPortrait->clear();
-    ui->playerPortrait->setPixmap(QPixmap(aPlayer->portrait().pixmapData()));
+    ui->playerPortrait->setPixmap(QPixmap(player->portrait().pixmapData()));
 
     //Change the ability modifiers, make sure there is a + if the ability score is positive
-    short abilityMod = aPlayer->abilityModifier(PlayerCharacter::Strength);
+    short abilityMod = player->abilityModifier(PlayerCharacter::Strength);
     if (abilityMod > 0)
     {
         ui->playerStrMod->setText(QString("+%1").arg(abilityMod));
@@ -49,7 +51,7 @@ void StatWindow::update(PlayerCharacter *aPlayer)
         ui->playerStrMod->setText(QString::number(abilityMod));
     }
 
-    abilityMod = aPlayer->abilityModifier(PlayerCharacter::Dexterity);
+    abilityMod = player->abilityModifier(PlayerCharacter::Dexterity);
     if (abilityMod > 0)
     {
         ui->playerDexMod->setText(QString("+%1").arg(abilityMod));
@@ -59,7 +61,7 @@ void StatWindow::update(PlayerCharacter *aPlayer)
         ui->playerDexMod->setText(QString::number(abilityMod));
     }
 
-    abilityMod = aPlayer->abilityModifier(PlayerCharacter::Constitution);
+    abilityMod = player->abilityModifier(PlayerCharacter::Constitution);
     if (abilityMod > 0)
     {
         ui->playerConMod->setText(QString("+%1").arg(abilityMod));
@@ -69,7 +71,7 @@ void StatWindow::update(PlayerCharacter *aPlayer)
         ui->playerConMod->setText(QString::number(abilityMod));
     }
 
-    abilityMod = aPlayer->abilityModifier(PlayerCharacter::Intelligence);
+    abilityMod = player->abilityModifier(PlayerCharacter::Intelligence);
     if (abilityMod > 0)
     {
         ui->playerIntMod->setText(QString("+%1").arg(abilityMod));
@@ -79,7 +81,7 @@ void StatWindow::update(PlayerCharacter *aPlayer)
         ui->playerIntMod->setText(QString::number(abilityMod));
     }
 
-    abilityMod = aPlayer->abilityModifier(PlayerCharacter::Wisdom);
+    abilityMod = player->abilityModifier(PlayerCharacter::Wisdom);
     if (abilityMod > 0)
     {
         ui->playerWisMod->setText(QString("+%1").arg(abilityMod));
@@ -89,7 +91,7 @@ void StatWindow::update(PlayerCharacter *aPlayer)
         ui->playerWisMod->setText(QString::number(abilityMod));
     }
 
-    abilityMod = aPlayer->abilityModifier(PlayerCharacter::Charisma);
+    abilityMod = player->abilityModifier(PlayerCharacter::Charisma);
     if (abilityMod > 0)
     {
         ui->playerChaMod->setText(QString("+%1").arg(abilityMod));
@@ -101,24 +103,24 @@ void StatWindow::update(PlayerCharacter *aPlayer)
     //End of ability modifiers
 
     //Level
-    ui->level->setText((QString::number(aPlayer->level())));
+    ui->level->setText((QString::number(player->level())));
 
     //Hit points
-    ui->hitPoints->setText(QString::number(aPlayer->hitPoints()));
+    ui->hitPoints->setText(QString::number(player->hitPoints()));
 
     //AC
-    ui->armorClass->setText(QString::number(aPlayer->armorClass()));
+    ui->armorClass->setText(QString::number(player->armorClass()));
 
     //Change the melee and ranged bonuses, make sure there's a plus on positive values
     QString meleeBonuses;
     QString rangedBonuses;
 
-    for (int i = 1; i <= aPlayer->characterClass()->numberOfAttacks(); ++i)
+    for (int i = 1; i <= player->characterClass()->numberOfAttacks(); ++i)
     {
         short bonus;
-        if (i != aPlayer->characterClass()->numberOfAttacks())
+        if (i != player->characterClass()->numberOfAttacks())
         {
-            bonus = aPlayer->meleeAttackBonus(i);
+            bonus = player->meleeAttackBonus(i);
             if (bonus >= 0)
             {
                 meleeBonuses.append(QString("+%1 / ").arg(bonus));
@@ -128,7 +130,7 @@ void StatWindow::update(PlayerCharacter *aPlayer)
                 meleeBonuses.append(QString("%1 / ").arg(bonus));
             }
 
-            bonus = aPlayer->rangedAttackBonus(i);
+            bonus = player->rangedAttackBonus(i);
             if (bonus >= 0)
             {
                 rangedBonuses.append(QString("+%1 / ").arg(bonus));
@@ -141,7 +143,7 @@ void StatWindow::update(PlayerCharacter *aPlayer)
         }
         else
         {
-            bonus = aPlayer->meleeAttackBonus(i);
+            bonus = player->meleeAttackBonus(i);
             if (bonus >= 0)
             {
                 meleeBonuses.append(QString("+%1").arg(bonus));
@@ -152,7 +154,7 @@ void StatWindow::update(PlayerCharacter *aPlayer)
                 meleeBonuses.append(QString("%1").arg(bonus));
             }
 
-            bonus = aPlayer->rangedAttackBonus(i);
+            bonus = player->rangedAttackBonus(i);
             if (bonus >= 0)
             {
                 rangedBonuses.append(QString("+%1").arg(bonus));

@@ -12,7 +12,6 @@ Game::Game(QWidget *parent) :
     ui->setupUi(this);
     QObject::connect(ui->characterGenButton, SIGNAL(clicked()), SLOT(setWidget()));
     this->setCurrentIndex(0);
-    ui->logo->setPixmap(QPixmap(":/images/logo.png"));
 }
 
 Game::~Game()
