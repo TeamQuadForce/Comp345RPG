@@ -36,7 +36,6 @@ void CharacterGenerator::init()
     qsrand(QDateTime::currentMSecsSinceEpoch());
 
     mStatWindow = new StatWindow;
-    mStatWindow->move(725,50);
     connect(ui->raceComboBox, SIGNAL(currentIndexChanged(int)), SLOT(changePicture()));
     connect(ui->classComboBox, SIGNAL(currentIndexChanged(int)), SLOT(changePicture()));
     connect(ui->genderComboBox, SIGNAL(currentIndexChanged(int)), SLOT(changePicture()));
@@ -295,7 +294,8 @@ void CharacterGenerator::addToCharisma()
 }
 
 //Generates a new character based on the user's specified race, class, and
-//ability scores.
+//ability scores. It will also enable the LEVEL UP button to perform level ups
+//for the character.
 void CharacterGenerator::generateCharacter()
 {
     if (mPlayer != 0)
@@ -330,7 +330,7 @@ void CharacterGenerator::generateCharacter()
 void CharacterGenerator::returnToMenuButtonPress()
 {
     reset();
-    if (mPlayer != 0)
+    if (mPlayer == 0)
     {
         delete mPlayer;
         mPlayer = 0;
