@@ -3,5 +3,9 @@
         <file>Knight1M-SW.gif</file>
         <file>Knight1F-SW.gif</file>
         <file>logo.png</file>
+        <file>characterCreationBackground.png</file>
+        <file>wallpaperQuit.jpg</file>
+        <file>stats.jpg</file>
+        <file>map.PNG</file>
     </qresource>
 </RCC>

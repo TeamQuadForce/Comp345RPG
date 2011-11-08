@@ -2,6 +2,7 @@
 #include "ui_statwindow.h"
 #include "playercharacter.h"
 #include <QPixmap>
+#include <QSound>
 
 StatWindow::StatWindow(QWidget *parent) :
     QWidget(parent, Qt::FramelessWindowHint | Qt::WindowTitleHint),
