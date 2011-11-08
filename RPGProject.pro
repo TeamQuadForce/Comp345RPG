@@ -11,11 +11,15 @@ TEMPLATE = app
 
 INCLUDEPATH += Character \
                Equipment \
-               CharacterGenerator
+               CharacterGenerator \
+               Map \
+               MapGenerator
 
 include(Character/Character.pri)
 include(CharacterGenerator/CharacterGenerator.pri)
 include(Equipment/Equipment.pri)
+include(Map/Map.pri)
+include(MapGenerator/MapGenerator.pri)
 
 SOURCES += main.cpp \
     diceroller.cpp \

@@ -21,6 +21,7 @@ private:
 
 private slots:
     void showCharacterGenPage();
+    void showMapGenPage();
     void closeEvent(QCloseEvent *event);
 };
 

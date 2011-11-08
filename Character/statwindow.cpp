@@ -1,5 +1,6 @@
 #include "statwindow.h"
 #include "ui_statwindow.h"
+#include "playercharacter.h"
 #include <QPixmap>
 
 StatWindow::StatWindow(QWidget *parent) :

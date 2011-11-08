@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MapGenerator</class>
+ <widget class="QWidget" name="MapGenerator">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>661</width>
+    <height>452</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QGroupBox" name="mapElementsGroupBox">
+   <property name="geometry">
+    <rect>
+     <x>6</x>
+     <y>100</y>
+     <width>97</width>
+     <height>165</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Map Elements</string>
+   </property>
+   <widget class="QRadioButton" name="chestButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>23</y>
+      <width>65</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Chest</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+    <attribute name="buttonGroup">
+     <string>mapElementsButtonGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QRadioButton" name="monsterButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>46</y>
+      <width>62</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Monster</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string>mapElementsButtonGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QRadioButton" name="characterButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>69</y>
+      <width>71</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Character</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string>mapElementsButtonGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QRadioButton" name="wallButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>92</y>
+      <width>43</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Wall</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string>mapElementsButtonGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QRadioButton" name="terrainButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>115</y>
+      <width>56</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Terrain</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string>mapElementsButtonGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QRadioButton" name="exitButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>138</y>
+      <width>41</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Exit</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string>mapElementsButtonGroup</string>
+    </attribute>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="saveMapButton">
+   <property name="geometry">
+    <rect>
+     <x>116</x>
+     <y>200</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Save Map</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="loadMapButton">
+   <property name="geometry">
+    <rect>
+     <x>116</x>
+     <y>230</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Load Map</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="statusTextEdit">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>6</x>
+     <y>280</y>
+     <width>111</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QFrame" name="mapGeneratorFrame">
+   <property name="geometry">
+    <rect>
+     <x>206</x>
+     <y>20</y>
+     <width>431</width>
+     <height>411</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 1px solid black</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="mapDimensionsGroupBox">
+   <property name="geometry">
+    <rect>
+     <x>6</x>
+     <y>10</y>
+     <width>120</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Map Dimensions</string>
+   </property>
+   <widget class="QLineEdit" name="widthLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>20</y>
+      <width>41</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="maxLength">
+     <number>2</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="widthLabel">
+    <property name="geometry">
+     <rect>
+      <x>23</x>
+      <y>20</y>
+      <width>28</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Width</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="heightLabel">
+    <property name="geometry">
+     <rect>
+      <x>23</x>
+      <y>46</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Height</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="heightLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>46</y>
+      <width>41</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="maxLength">
+     <number>2</number>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="generateMapButton">
+   <property name="geometry">
+    <rect>
+     <x>117</x>
+     <y>112</y>
+     <width>76</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Generate Map</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="displayMapButton">
+   <property name="geometry">
+    <rect>
+     <x>117</x>
+     <y>170</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Display Map</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="clearMapButton">
+   <property name="geometry">
+    <rect>
+     <x>117</x>
+     <y>141</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Clear Map</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="returnToMenuButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>400</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Return to menu</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+ <buttongroups>
+  <buttongroup name="mapElementsButtonGroup"/>
+ </buttongroups>
+</ui>

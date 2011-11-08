@@ -12,6 +12,7 @@ Game::Game(QWidget *parent) :
 {
     ui->setupUi(this);
     QObject::connect(ui->characterGenButton, SIGNAL(clicked()), SLOT(showCharacterGenPage()));
+    QObject::connect(ui->mapGenButton, SIGNAL(clicked()), SLOT(showMapGenPage()));
     this->setCurrentIndex(0);
 }
 
@@ -25,6 +26,12 @@ void Game::showCharacterGenPage()
     this->setCurrentIndex(1);
     ((CharacterGenerator*)this->currentWidget())->show();
     this->resize(this->currentWidget()->size());
+}
+
+void Game::showMapGenPage()
+{
+    this->setCurrentIndex(2);
+    this->resize(this->widget(2)->size());
 }
 
 void Game::closeEvent(QCloseEvent *event)
