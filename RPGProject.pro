@@ -9,37 +9,32 @@ QT       += core gui
 TARGET = RPGAssignment2
 TEMPLATE = app
 
+INCLUDEPATH += Character \
+               Equipment
+
+include(Character/Character.pri)
+include(CharacterGenerator/CharacterGenerator.pri)
+include(Equipment/Equipment.pri)
 
 SOURCES += main.cpp \
-    fighter.cpp \
-    characterclass.cpp \
-    playercharacter.cpp \
-    charactergenerator.cpp \
     diceroller.cpp \
-    statwindow.cpp \
     game.cpp \
     quitdialog.cpp
 
 HEADERS  += \
-    fighter.h \
-    characterclass.h \
-    playercharacter.h \
-    charactergenerator.h \
     diceroller.h \
     observable.h \
     observer.h \
-    statwindow.h \
     game.h \
     quitdialog.h
 
-FORMS    += \
-    statwindow.ui \
-    game.ui \
-    charactergenerator.ui \
+FORMS    += game.ui \
     quitdialog.ui
 
 RESOURCES += \
     resources.qrc
+
+
 
 
 

@@ -2,6 +2,7 @@
 #include <QDesktopWidget>
 #include <QRect>
 #include <QObject>
+#include <QHBoxLayout>
 #include "charactergenerator.h"
 #include "game.h"
 #include <QSound>
