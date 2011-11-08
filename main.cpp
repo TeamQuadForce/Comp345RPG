@@ -14,9 +14,13 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     Game *mainGameWindow = new Game;
+
+    QSound intro("sounds/character.wav");
+    intro.setLoops( -1 );
+    intro.play();
     CharacterGenerator *charGen = new CharacterGenerator(mainGameWindow);
     charGen->init();
-    //QSound::play("mySounds/test.wav");
+
     MapGenerator *mapGen = new MapGenerator(mainGameWindow);
     mapGen->init();
     mainGameWindow->insertWidget(1, charGen);

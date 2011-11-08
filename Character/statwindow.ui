@@ -144,7 +144,7 @@
     <rect>
      <x>20</x>
      <y>110</y>
-     <width>151</width>
+     <width>171</width>
      <height>141</height>
     </rect>
    </property>
@@ -770,6 +770,34 @@
     </property>
    </widget>
   </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>-340</x>
+     <y>-80</y>
+     <width>821</width>
+     <height>351</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/images/stats.jpg);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>label</zorder>
+  <zorder>groupBox_4</zorder>
+  <zorder>groupBox_2</zorder>
+  <zorder>groupBox_3</zorder>
+  <zorder>groupBox</zorder>
+  <zorder>groupBox_5</zorder>
+  <zorder>groupBox_6</zorder>
+  <zorder>groupBox_7</zorder>
+  <zorder>groupBox_8</zorder>
+  <zorder>playerPortrait</zorder>
+  <zorder>groupBox_9</zorder>
+  <zorder>groupBox_10</zorder>
  </widget>
  <resources/>
  <connections/>

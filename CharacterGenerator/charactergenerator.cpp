@@ -7,6 +7,7 @@
 #include "charactergenerator.h"
 #include "ui_charactergenerator.h"
 #include "game.h"
+#include <QSound>
 
 using namespace std;
 
@@ -16,7 +17,6 @@ CharacterGenerator::CharacterGenerator(QWidget *parent) :
 {
     ui->setupUi(this);
     mPlayer = 0;
-
 }
 
 CharacterGenerator::~CharacterGenerator()

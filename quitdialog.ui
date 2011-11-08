@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Quit?</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-image: url(:/images/wallpaperQuit.jpg);</string>
+  </property>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
