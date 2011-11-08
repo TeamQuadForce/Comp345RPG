@@ -11,7 +11,7 @@ class PlayerCharacter : public Observable
 {
 public:
     PlayerCharacter();
-    PlayerCharacter(const QString &aName, const QString &aGender, const QString &aRace, const QString &aClassName, QPixmapData *aPortrait);
+    PlayerCharacter(const QString &aName, const QString &aGender, const QString &aRace, const QString &aClassName, QPixmapData *aPortrait = 0);
     virtual ~PlayerCharacter();
 
     enum AbilityScore

@@ -1,3 +1,6 @@
+#include <QFile>
+#include <QCoreApplication>
+#include <QTextStream>
 #include <QDateTime>
 #include <QLayout>
 #include <QDebug>
@@ -5,12 +8,15 @@
 #include "ui_charactergenerator.h"
 #include "game.h"
 
+using namespace std;
+
 CharacterGenerator::CharacterGenerator(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CharacterGenerator)
 {
     ui->setupUi(this);
     mPlayer = 0;
+
 }
 
 CharacterGenerator::~CharacterGenerator()
@@ -45,6 +51,7 @@ void CharacterGenerator::init()
     connect(ui->raceComboBox, SIGNAL(currentIndexChanged(int)), SLOT(readyToGenerate()));
     connect(ui->classComboBox, SIGNAL(currentIndexChanged(int)), SLOT(readyToGenerate()));
     connect(ui->returnToMenuButton, SIGNAL(clicked()), SLOT(returnToMenuButtonPress()));
+    connect(ui->saveCharacterButton, SIGNAL(clicked()), SLOT(saveCharacter()));
 }
 
 void CharacterGenerator::show()
@@ -336,9 +343,69 @@ void CharacterGenerator::returnToMenuButtonPress()
 
 void CharacterGenerator::saveCharacter()
 {
+    QString fileName = QString("%1.baus").arg(mPlayer->name());
+    QFile file(fileName);
+    file.open(QIODevice::WriteOnly | QIODevice::Text);
+    QTextStream out(&file);
+    out<<mPlayer->race()<<endl;
+    out<<mPlayer->className()<<endl;
+    out<<mPlayer->gender()<<endl;
+    out<<mPlayer->name()<<endl;
+    out<<mPlayer->abilityScore(PlayerCharacter::Strength)<<endl;
+    out<<mPlayer->abilityScore(PlayerCharacter::Dexterity)<<endl;
+    out<<mPlayer->abilityScore(PlayerCharacter::Constitution)<<endl;
+    out<<mPlayer->abilityScore(PlayerCharacter::Intelligence)<<endl;
+    out <<mPlayer->abilityScore(PlayerCharacter::Wisdom)<<endl;
+    out<<mPlayer->abilityScore(PlayerCharacter::Charisma)<<endl;
+    file.close();
+    reset();
+
+    QString race;
+    QString className;
+    QString gender;
+    QString name;
+    short strength;
+    short dexterity;
+    short constitution;
+    short intelligence;
+    short wisdom;
+    short charisma;
+
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QTextStream in(&file);
+    race = in.readLine();
+    className = in.readLine();
+    gender = in.readLine();
+    name = in.readLine();
+    strength = in.readLine().toShort();
+    dexterity = in.readLine().toShort();
+    constitution = in.readLine().toShort();
+    intelligence = in.readLine().toShort();
+    wisdom = in.readLine().toShort();
+    charisma = in.readLine().toShort();
+    file.close();
+
+    PlayerCharacter *newPlayer = new PlayerCharacter(name,gender,race,className);
+    newPlayer->modifyAbilityScores(strength,dexterity,constitution,intelligence,wisdom,charisma);
+
+    QString fileNam = QString("compare.baus");
+    QFile fil(fileNam);
+    fil.open(QIODevice::WriteOnly | QIODevice::Text);
+    QTextStream tout(&fil);
+    tout<<newPlayer->race()<<endl;
+    tout<<newPlayer->className()<<endl;
+    tout<<newPlayer->gender()<<endl;
+    tout<<newPlayer->name()<<endl;
+    tout<<newPlayer->abilityScore(PlayerCharacter::Strength)<<endl;
+    tout<<newPlayer->abilityScore(PlayerCharacter::Dexterity)<<endl;
+    tout<<newPlayer->abilityScore(PlayerCharacter::Constitution)<<endl;
+    tout<<newPlayer->abilityScore(PlayerCharacter::Intelligence)<<endl;
+    tout<<newPlayer->abilityScore(PlayerCharacter::Wisdom)<<endl;
+    tout<<newPlayer->abilityScore(PlayerCharacter::Charisma)<<endl;
+    fil.close();
+
 
 }
-
 //Resets the GUI back to it's default state
 void CharacterGenerator::reset()
 {

@@ -4,6 +4,8 @@
 #include <QObject>
 #include "charactergenerator.h"
 #include "game.h"
+#include <QSound>
+
 
 int main(int argc, char *argv[])
 {
@@ -12,6 +14,7 @@ int main(int argc, char *argv[])
     Game *mainGameWindow = new Game;
     CharacterGenerator *charGen = new CharacterGenerator(mainGameWindow);
     charGen->init();
+    QSound::play("mySounds/test.wav");
 
     mainGameWindow->insertWidget(1, charGen);
 
@@ -21,6 +24,7 @@ int main(int argc, char *argv[])
     mainGameWindow->move(QPoint(screenRect.center().x(), screenRect.center().y()) - mainGameWindow->rect().center());
 
     mainGameWindow->show();
+
 
     return a.exec();
 }
