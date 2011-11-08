@@ -10,7 +10,8 @@ TARGET = RPGAssignment2
 TEMPLATE = app
 
 INCLUDEPATH += Character \
-               Equipment
+               Equipment \
+               CharacterGenerator
 
 include(Character/Character.pri)
 include(CharacterGenerator/CharacterGenerator.pri)
