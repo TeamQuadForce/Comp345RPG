@@ -50,12 +50,17 @@ void MapGenerator::init()
 //  Identifies which radio button is selected in the Map Elements group box
 void MapGenerator::selectMapElement(QAbstractButton* button)
 {
-    mapElementSelected = button->text();
+    if (button->text().compare("Remove") == 0)
+        mapElementSelected = "";
+    else
+        mapElementSelected = button->text();
+
 }
 
 //  Adds the map element onto the map grid and in the map object
 void MapGenerator::addMapElement(QAbstractButton* button)
 {
+
     QString hiddenCoordinates = button->objectName();
     QStringList decipherCoordinates = hiddenCoordinates.split("_");
     if(decipherCoordinates.size() != 2)
@@ -66,16 +71,48 @@ void MapGenerator::addMapElement(QAbstractButton* button)
 
     int aRowPosition = decipherCoordinates.takeFirst().toInt();
     int aColumnPosition = decipherCoordinates.takeFirst().toInt();
+    int charOrExitRowPosition;
+    int charOrExitColumnPosition;
 
+    TileSet modifiedTile = mapObject->mapGridTileSet(aRowPosition, aColumnPosition);
+    modifiedTile.setGamePiece(mapElementSelected);
 
-    TileSet modifiedTile = mapObject->tileSet(aRowPosition, aColumnPosition);
-
-    if (mapElementSelected != modifiedTile.getGamePiece())
+    if(mapElementSelected.compare("Character") == 0)
     {
-        modifiedTile.setGamePiece(mapElementSelected);
+        if(mapObject->isCharacterPlaced())
+        {
+            TileSet aCharacterTileSet = mapObject->characterTileSet();
+            charOrExitRowPosition = aCharacterTileSet.rowPosition();
+            charOrExitColumnPosition = aCharacterTileSet.columnPosition();
+            mapObject->setTileSet(TileSet(charOrExitRowPosition, charOrExitColumnPosition, true, ""),
+                                  charOrExitRowPosition, charOrExitColumnPosition);
+        }
+    }
+    else if(mapElementSelected.compare("Exit") == 0)
+    {
+        if(mapObject->isExitPlaced())
+        {
+            TileSet aExitTileSet = mapObject->exitTileSet();
+            charOrExitRowPosition = aExitTileSet.rowPosition();
+            charOrExitColumnPosition = aExitTileSet.columnPosition();
+            mapObject->setTileSet(TileSet(charOrExitRowPosition, charOrExitColumnPosition, true, ""),
+                                  charOrExitRowPosition, charOrExitColumnPosition);
+        }
+    }
+    else if(mapElementSelected.compare("Remove") == 0)
+    {
+        if(modifiedTile.getGamePiece().compare("Character") == 0)
+        {
+            mapObject->setIsCharacterPlaced(false);
+        }
+        else if(modifiedTile.getGamePiece().compare("Exit") == 0)
+        {
+            mapObject->setIsExitPlaced(false);
+        }
+
     }
 
-    mapObject->setTileSet(modifiedTile);
+    mapObject->setLastModifiedTile(modifiedTile);
     mapObject->setTileSet(modifiedTile, aRowPosition, aColumnPosition);
     mapObject->notifyObservers();
 }
@@ -145,7 +182,7 @@ void MapGenerator::update(Observable *aObs)
             mapGrid.append(QList<QPushButton*>() );
             for (int column = 0; column < aMap->mapWidth(); column++)
             {
-                mapGrid[row].append(new QPushButton(aMap->tileSet(row, column).getGamePiece()));
+                mapGrid[row].append(new QPushButton(aMap->mapGridTileSet(row, column).getGamePiece()));
                 mapGrid[row][column]->setObjectName(QString::number(row)+"_"+QString::number(column));
                 mapGrid[row][column]->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
                 mapGridElements->addButton(mapGrid[row][column]);
@@ -161,7 +198,7 @@ void MapGenerator::update(Observable *aObs)
 
 
 
-    TileSet tile = mapObject->tileSet();
+    TileSet tile = mapObject->lastModifiedTileSet();
 
     if (tile.rowPosition() < mapObject->mapWidth() && tile.columnPosition() < mapObject->mapHeight())
     {

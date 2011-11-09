@@ -12,6 +12,9 @@ public:
     int rowPosition();
     int columnPosition();
 
+
+    void setRowPosition(int aRowPosition);
+    void setColumnPosition(int aColumnPosition);
     void setGamePiece(QString aGamePiece);
 
 private:

@@ -5,6 +5,7 @@
 TileSet::TileSet()
 {
 
+
 }
 
 TileSet::TileSet(int aRowPosition, int aColumnPosition,
@@ -34,4 +35,14 @@ int TileSet::rowPosition()
 int TileSet::columnPosition()
 {
     return mColumnPosition;
+}
+
+void TileSet::setRowPosition(int aRowPosition)
+{
+    mRowPosition = aRowPosition;
+}
+
+void TileSet::setColumnPosition(int aColumnPosition)
+{
+    mColumnPosition = aColumnPosition;
 }

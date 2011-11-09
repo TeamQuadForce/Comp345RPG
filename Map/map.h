@@ -28,27 +28,45 @@ public:
     int mapWidth();
     int mapHeight();
     QList<QList<TileSet> > mapGrid();
-    TileSet tileSet(); // last modified tile will be returned
-    TileSet tileSet(int aRowPosition, int aColumnPosition);
-
+    TileSet lastModifiedTileSet(); // last modified tile will be returned
+    TileSet mapGridTileSet(int aRowPosition, int aColumnPosition);
+    TileSet characterTileSet();
+    TileSet exitTileSet();
+    bool isCharacterPlaced();
+    bool isExitPlaced();
+    bool isDungeonCompleted();
 
     //  Mutators
     void setMapWidth(int aWidth);
     void setMapHeight(int aHeight);
-    void setTileSet(TileSet aTileSet);
+    void setLastModifiedTile(TileSet aTileSet);
     void setTileSet(TileSet aTileSet, int aRowPosition, int aColumnPosition);
+    void setCharacterTileSet(TileSet aTileSet);
+    void setExitTileSet(TileSet aTileSet);
+    void setIsCharacterPlaced(bool aIsCharacterPlaced);
+    void setIsExitPlaced(bool aIsExitPlaced);
+    void setIsDungeonCompleted(bool cleared);
 
     //Observer methods
     void addObserver(Observer *aObserver);
     void removeObserver(Observer *aObserver);
     void notifyObservers();
 
+    bool moveCharacter(QString aMovement);
+    void moveTile(TileSet tile, int row, int column);
+
+
 private:
     QList<QList<TileSet> > mMapGrid;
     QList<Observer*> observerList;
     int width;
     int height;
-    TileSet lastModifiedTile;
+    TileSet mLastModifiedTile;
+    TileSet mCharacterTileSet;
+    TileSet mExitTileSet;
+    bool mIsCharacterPlaced;
+    bool mIsExitPlaced;
+    bool mIsDungeonCompleted;
 
 
 //    TODO

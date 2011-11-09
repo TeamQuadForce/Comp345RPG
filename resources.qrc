@@ -4,4 +4,11 @@
         <file>Knight1F-SW.gif</file>
         <file>logo.png</file>
     </qresource>
+    <qresource prefix="/dungeon">
+        <file>images/chest.jpg</file>
+        <file>images/enemy.jpg</file>
+        <file>images/exit.jpg</file>
+        <file>images/terrain.jpg</file>
+        <file>images/wall.jpg</file>
+    </qresource>
 </RCC>
