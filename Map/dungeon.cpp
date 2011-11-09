@@ -20,13 +20,13 @@ Dungeon::~Dungeon()
 
 void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap)
 {
-    layout = new QGridLayout();
-    layout->setSpacing(0);
-    layout->setVerticalSpacing(0);
+    mLayout = new QGridLayout();
+    mLayout->setSpacing(0);
+    mLayout->setVerticalSpacing(0);
 
     assignMovementOperations();
-    mapObject = aMap;
-    mapObject->addObserver(this);
+    mMapObject = aMap;
+    mMapObject->addObserver(this);
     initializeMap();
 
     mPlayer = aPlayer;
@@ -49,23 +49,23 @@ void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap)
 //Method it initialize the map
 void Dungeon::initializeMap()
 {
-    if(layout->count() == 0)
+    if(mLayout->count() == 0)
     {
-        for (int row = 0; row < mapObject->mapHeight(); row++)
+        for (int row = 0; row < mMapObject->mapHeight(); row++)
         {
-            mapGrid.append(QList<QPushButton*>() );
-            for (int column = 0; column < mapObject->mapWidth(); column++)
+            mMapGrid.append(QList<QPushButton*>() );
+            for (int column = 0; column < mMapObject->mapWidth(); column++)
             {
-                mapGrid[row].append(new QPushButton(mapObject->mapGridTileSet(row, column).getGamePiece()));
-                mapGrid[row][column]->setObjectName(QString::number(row)+"_"+QString::number(column));
-                mapGrid[row][column]->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-                mapGrid[row][column]->setStyleSheet(mapStyleSheet(mapObject->mapGridTileSet(row, column)));
+                mMapGrid[row].append(new QPushButton(mMapObject->mapGridTileSet(row, column).getGamePiece()));
+                mMapGrid[row][column]->setObjectName(QString::number(row)+"_"+QString::number(column));
+                mMapGrid[row][column]->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+                mMapGrid[row][column]->setStyleSheet(mapStyleSheet(mMapObject->mapGridTileSet(row, column)));
 
-                layout->addWidget(mapGrid[row][column], row, column);
+                mLayout->addWidget(mMapGrid[row][column], row, column);
             }
         }
 
-        ui->mapDungeonFrame->setLayout(layout);
+        ui->mapDungeonFrame->setLayout(mLayout);
     }
     //Implement Matt Tam's "createMap" stuff
 }
@@ -80,7 +80,7 @@ void Dungeon::assignMovementOperations()
 void Dungeon::moveCharacter(QAbstractButton* button)
 {
 
-    mapObject->moveCharacter(button->text());
+    mMapObject->moveCharacter(button->text());
 }
 
 void Dungeon::update(Observable *aObs)
@@ -102,16 +102,16 @@ void Dungeon::update(Observable *aObs)
 
     if(tile.getGamePiece().compare("You") == 0)
     {
-        mapGrid[row][column]->setText("You");
-        mapGrid[row][column]->setStyleSheet("background-color: blue;");
+        mMapGrid[row][column]->setText("You");
+        mMapGrid[row][column]->setStyleSheet("background-color: blue;");
     }
     else
     {
-        mapGrid[row][column]->setText("");
-        mapGrid[row][column]->setStyleSheet("background-color: white;");
+        mMapGrid[row][column]->setText("");
+        mMapGrid[row][column]->setStyleSheet("background-color: white;");
     }
 
-    if(mapObject->isDungeonCompleted())
+    if(mMapObject->isDungeonCompleted())
     {
         mStatWindow->hide();
         mInventoryScreen->hide();

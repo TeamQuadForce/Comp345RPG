@@ -11,28 +11,28 @@ MapGenerator::MapGenerator(QWidget *parent) :
     ui(new Ui::MapGenerator)
 {
     ui->setupUi(this);
-    mapObject = 0;
+    mMapObject = 0;
 
 }
 
 MapGenerator::~MapGenerator()
 {
-    delete mapObject;
+    delete mMapObject;
     delete ui;
-    mapGrid.clear();
+    mMapGrid.clear();
 }
 
 //  Initializes signal and slot connections for the GUI
 void MapGenerator::init()
 {
-    layout = new QGridLayout();
-    layout->setSpacing(0);
-    layout->setVerticalSpacing(0);
+    mGridLayout = new QGridLayout();
+    mGridLayout->setSpacing(0);
+    mGridLayout->setVerticalSpacing(0);
 
-    intValidator = new QIntValidator(1, 10, this);
+    mIntValidator = new QIntValidator(1, 10, this);
 
-    ui->widthLineEdit->setValidator(intValidator);
-    ui->heightLineEdit->setValidator(intValidator);
+    ui->widthLineEdit->setValidator(mIntValidator);
+    ui->heightLineEdit->setValidator(mIntValidator);
 
     connect(ui->generateMapButton, SIGNAL(clicked()), SLOT(generateMap()));
     connect(ui->clearMapButton, SIGNAL(clicked()), SLOT(clearMap()));
@@ -51,11 +51,11 @@ void MapGenerator::init()
 void MapGenerator::selectMapElement(QAbstractButton* button)
 {
     if (button->text().compare("Remove") == 0)
-        mapElementSelected = "";
+        mSelectedMapElement = "";
     else if (button->text().compare("Character") == 0)
-        mapElementSelected = QString("You");
+        mSelectedMapElement = QString("You");
     else
-        mapElementSelected = button->text();
+        mSelectedMapElement = button->text();
 
 }
 
@@ -77,112 +77,112 @@ void MapGenerator::addMapElement(QAbstractButton* button)
     int charOrExitRowPosition;
     int charOrExitColumnPosition;
 
-    TileSet modifiedTile = mapObject->mapGridTileSet(aRowPosition, aColumnPosition);
-    modifiedTile.setGamePiece(mapElementSelected);
+    TileSet modifiedTile = mMapObject->mapGridTileSet(aRowPosition, aColumnPosition);
+    modifiedTile.setGamePiece(mSelectedMapElement);
     modifiedTile.setIsTerrain(true);
-    if(mapElementSelected.compare("Wall") == 0)
+    if(mSelectedMapElement.compare("Wall") == 0)
     {
         modifiedTile.setIsTerrain(false);
     }
-    else if(mapElementSelected.compare("You") == 0)
+    else if(mSelectedMapElement.compare("You") == 0)
     {
-        TileSet aCharacterTileSet = mapObject->characterTileSet();
-        if(mapObject->isCharacterPlaced())
+        TileSet aCharacterTileSet = mMapObject->characterTileSet();
+        if(mMapObject->isCharacterPlaced())
         {
             charOrExitRowPosition = aCharacterTileSet.rowPosition();
             charOrExitColumnPosition = aCharacterTileSet.columnPosition();
             aCharacterTileSet.setGamePiece("");
-            mapObject->setTileSet(aCharacterTileSet, charOrExitRowPosition, charOrExitColumnPosition);
-            mapGrid[charOrExitRowPosition][charOrExitColumnPosition]->setText("");
-            mapGrid[charOrExitRowPosition][charOrExitColumnPosition]->setStyleSheet("background-color: white;");
+            mMapObject->setTileSet(aCharacterTileSet, charOrExitRowPosition, charOrExitColumnPosition);
+            mMapGrid[charOrExitRowPosition][charOrExitColumnPosition]->setText("");
+            mMapGrid[charOrExitRowPosition][charOrExitColumnPosition]->setStyleSheet("background-color: white;");
 
         }
-        mapObject->setCharacterTileSet(modifiedTile);
-        mapObject->setIsCharacterPlaced(true);
+        mMapObject->setCharacterTileSet(modifiedTile);
+        mMapObject->setIsCharacterPlaced(true);
     }
-    else if(mapElementSelected.compare("Exit") == 0)
+    else if(mSelectedMapElement.compare("Exit") == 0)
     {
-        TileSet aExitTileSet = mapObject->exitTileSet();
-        if(mapObject->isExitPlaced())
+        TileSet aExitTileSet = mMapObject->exitTileSet();
+        if(mMapObject->isExitPlaced())
         {
 
             charOrExitRowPosition = aExitTileSet.rowPosition();
             charOrExitColumnPosition = aExitTileSet.columnPosition();
-            mapObject->setTileSet(TileSet(charOrExitRowPosition, charOrExitColumnPosition, true, ""),
+            mMapObject->setTileSet(TileSet(charOrExitRowPosition, charOrExitColumnPosition, true, ""),
                                   charOrExitRowPosition, charOrExitColumnPosition);
-            mapGrid[charOrExitRowPosition][charOrExitColumnPosition]->setText("");
-            mapGrid[charOrExitRowPosition][charOrExitColumnPosition]->setStyleSheet("background-color: white;");
+            mMapGrid[charOrExitRowPosition][charOrExitColumnPosition]->setText("");
+            mMapGrid[charOrExitRowPosition][charOrExitColumnPosition]->setStyleSheet("background-color: white;");
 
         }
-        mapObject->setExitTileSet(modifiedTile);
-        mapObject->setIsExitPlaced(true);
+        mMapObject->setExitTileSet(modifiedTile);
+        mMapObject->setIsExitPlaced(true);
     }
-    else if(mapElementSelected.compare("Remove") == 0)
+    else if(mSelectedMapElement.compare("Remove") == 0)
     {
         if(modifiedTile.getGamePiece().compare("You") == 0)
         {
-            mapObject->setIsCharacterPlaced(false);
+            mMapObject->setIsCharacterPlaced(false);
         }
         else if(modifiedTile.getGamePiece().compare("Exit") == 0)
         {
-            mapObject->setIsExitPlaced(false);
+            mMapObject->setIsExitPlaced(false);
         }
 
     }
 
 
-    mapObject->setLastModifiedTile(modifiedTile);
-    mapObject->setTileSet(modifiedTile, aRowPosition, aColumnPosition);
-    mapObject->notifyObservers();
+    mMapObject->setLastModifiedTile(modifiedTile);
+    mMapObject->setTileSet(modifiedTile, aRowPosition, aColumnPosition);
+    mMapObject->notifyObservers();
 }
 
 //  Generates the map grid in the GUI
 void MapGenerator::generateMap()
 {
     statusMessage(QString("Generating map...")); // if this isn't here, a weird bug pops up
-    if (layout->count() > 0 )
+    if (mGridLayout->count() > 0 )
     {
         clearMap();
     }
 
-    mapObject = new Map();
-    width = validateWidth(ui->widthLineEdit->text().toInt());
-    height = validateHeight(ui->heightLineEdit->text().toInt());
+    mMapObject = new Map();
+    mWidth = validateWidth(ui->widthLineEdit->text().toInt());
+    mHeight = validateHeight(ui->heightLineEdit->text().toInt());
 
-    mapObject->setMapWidth(width);
-    mapObject->setMapHeight(height);
+    mMapObject->setMapWidth(mWidth);
+    mMapObject->setMapHeight(mHeight);
 
 
-    mapObject->createMapGrid();
+    mMapObject->createMapGrid();
 
-    mapObject->addObserver(this);
-    mapObject->notifyObservers();
+    mMapObject->addObserver(this);
+    mMapObject->notifyObservers();
 }
 
 //  Clears the map and deletes the map object
 void MapGenerator::clearMap()
 {
-    while(layout->count() > 0) {
-        QWidget* widget = layout->itemAt(0)->widget();
-        layout->removeWidget(widget);
+    while(mGridLayout->count() > 0) {
+        QWidget* widget = mGridLayout->itemAt(0)->widget();
+        mGridLayout->removeWidget(widget);
         delete widget;
     }
-    disconnect(mapGridElements, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(addMapElement(QAbstractButton*)));
+    disconnect(mMapGridElements, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(addMapElement(QAbstractButton*)));
 
-    mapObject->clearMapGrid();
+    mMapObject->clearMapGrid();
 
-    if (mapObject != 0)
+    if (mMapObject != 0)
     {
-        delete mapObject;
-        mapObject = 0;
+        delete mMapObject;
+        mMapObject = 0;
     }
 
-    for (int row=0; row<mapGrid.size() ; row++)
+    for (int row=0; row<mMapGrid.size() ; row++)
     {
-        mapGrid[row].clear();
+        mMapGrid[row].clear();
     }
-    mapGrid.clear();
-    statusMessage(QString("Cleared map" + layout->count()));
+    mMapGrid.clear();
+    statusMessage(QString("Cleared map" + mGridLayout->count()));
 }
 
 //  The update method from the Observer pattern. Updates the GUI when a change has been
@@ -191,37 +191,37 @@ void MapGenerator::update(Observable *aObs)
 {
     Map *aMap = (Map*)aObs;
 
-    if(layout->count() == 0)
+    if(mGridLayout->count() == 0)
     {
-        mapGridElements = new QButtonGroup(ui->mapGeneratorFrame);
+        mMapGridElements = new QButtonGroup(ui->mapGeneratorFrame);
         for (int row = 0; row < aMap->mapHeight(); row++)
         {
-            mapGrid.append(QList<QPushButton*>() );
+            mMapGrid.append(QList<QPushButton*>() );
             for (int column = 0; column < aMap->mapWidth(); column++)
             {
-                mapGrid[row].append(new QPushButton(aMap->mapGridTileSet(row, column).getGamePiece()));
-                mapGrid[row][column]->setObjectName(QString::number(row)+"_"+QString::number(column));
-                mapGrid[row][column]->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-                mapGrid[row][column]->setStyleSheet(mapStyleSheet(aMap->mapGridTileSet(row, column)));
-                mapGridElements->addButton(mapGrid[row][column]);
+                mMapGrid[row].append(new QPushButton(aMap->mapGridTileSet(row, column).getGamePiece()));
+                mMapGrid[row][column]->setObjectName(QString::number(row)+"_"+QString::number(column));
+                mMapGrid[row][column]->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+                mMapGrid[row][column]->setStyleSheet(mapStyleSheet(aMap->mapGridTileSet(row, column)));
+                mMapGridElements->addButton(mMapGrid[row][column]);
                 //                connect(mapGrid[row][column], SIGNAL(clicked()), SLOT(addMapElement()));
-                layout->addWidget(mapGrid[row][column], row, column);
+                mGridLayout->addWidget(mMapGrid[row][column], row, column);
             }
         }
 
-        connect(mapGridElements, SIGNAL(buttonClicked(QAbstractButton*)), SLOT(addMapElement(QAbstractButton*)));
-        ui->mapGeneratorFrame->setLayout(layout);
+        connect(mMapGridElements, SIGNAL(buttonClicked(QAbstractButton*)), SLOT(addMapElement(QAbstractButton*)));
+        ui->mapGeneratorFrame->setLayout(mGridLayout);
         statusMessage(QString("Created map"));
     }
 
 
 
-    TileSet tile = mapObject->lastModifiedTileSet();
+    TileSet tile = mMapObject->lastModifiedTileSet();
 
-    if (tile.rowPosition() < mapObject->mapWidth() && tile.columnPosition() < mapObject->mapHeight())
+    if (tile.rowPosition() < mMapObject->mapWidth() && tile.columnPosition() < mMapObject->mapHeight())
     {
-        mapGrid[tile.rowPosition()][tile.columnPosition()]->setText(tile.getGamePiece());
-        mapGrid[tile.rowPosition()][tile.columnPosition()]->setStyleSheet(mapStyleSheet(tile));
+        mMapGrid[tile.rowPosition()][tile.columnPosition()]->setText(tile.getGamePiece());
+        mMapGrid[tile.rowPosition()][tile.columnPosition()]->setStyleSheet(mapStyleSheet(tile));
 
     }
 
@@ -267,36 +267,36 @@ int MapGenerator::validateWidth(int aWidth)
 
 void MapGenerator::displayMapObject()
 {
-    mapObject->displayMap();
+    mMapObject->displayMap();
 }
 
 void MapGenerator::saveMap()
 {
-    if (mapObject == 0)
+    if (mMapObject == 0)
     {
         return;
     }
-    mapObject->saveMap();
+    mMapObject->saveMap();
 }
 
 void MapGenerator::loadMap()
 {
-    if (layout->count() > 0 )
+    if (mGridLayout->count() > 0 )
     {
         clearMap();
     }
-    mapObject = new Map();
-    mapObject->loadMap();
-    mapObject->addObserver(this);
-    mapObject->notifyObservers();
+    mMapObject = new Map();
+    mMapObject->loadMap();
+    mMapObject->addObserver(this);
+    mMapObject->notifyObservers();
 }
 
 void MapGenerator::returnToMenuButtonPress()
 {
-    if (mapObject != 0)
+    if (mMapObject != 0)
     {
-        delete mapObject;
-        mapObject = 0;
+        delete mMapObject;
+        mMapObject = 0;
     }
     Game *game = (Game*)this->parentWidget();
     game->setCurrentIndex(0);

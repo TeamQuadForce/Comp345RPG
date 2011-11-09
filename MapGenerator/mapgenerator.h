@@ -29,13 +29,14 @@ public:
 private:
     Ui::MapGenerator *ui;
 
-    QGridLayout *layout;
-    QIntValidator *intValidator;
-    QList<QList<QPushButton*> > mapGrid;
-    QString mapElementSelected;
-    Map *mapObject;
-    QButtonGroup *mapGridElements;
-    int width, height;
+    QGridLayout *mGridLayout;
+    QIntValidator *mIntValidator;
+    QList<QList<QPushButton*> > mMapGrid;
+    QString mSelectedMapElement;
+    Map *mMapObject;
+    QButtonGroup *mMapGridElements;
+    int mWidth;
+    int mHeight;
 
     void statusMessage(QString aString);
     QString mapStyleSheet(TileSet aTile);

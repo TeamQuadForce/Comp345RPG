@@ -18,8 +18,8 @@ Map::Map()
 
 Map::Map(int aWidth, int aHeight)
 {    
-    width = aWidth;
-    height = aHeight;
+    mWidth = aWidth;
+    mHeight = aHeight;
     mIsCharacterPlaced = false;
     mIsExitPlaced = false;
     mIsDungeonCompleted = false;
@@ -55,10 +55,10 @@ void Map::displayMap()
 
 void Map::createMapGrid()
 {
-    for (int row = 0; row < height; row++)
+    for (int row = 0; row < mHeight; row++)
     {
         mMapGrid.append(QList<TileSet>() );
-        for (int column = 0; column < width; column++)
+        for (int column = 0; column < mWidth; column++)
         {
             mMapGrid[row].append(TileSet(row, column, true, QString("")));
         }
@@ -70,7 +70,7 @@ void Map::saveMap()
     QString fileName = QFileDialog::getSaveFileName();
 
     QString mapDetails;
-    QString mapDimensions = QString("%1,%2").arg(width).arg(height);
+    QString mapDimensions = QString("%1,%2").arg(mWidth).arg(mHeight);
 
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
@@ -118,14 +118,14 @@ void Map::loadMap()
 
         if (first == 0)
         {
-            width = mapTileSet.takeFirst().toInt();
-            height = mapTileSet.takeFirst().toInt();
+            mWidth = mapTileSet.takeFirst().toInt();
+            mHeight = mapTileSet.takeFirst().toInt();
             first = 1;
         }
         else
         {
             mMapGrid.append(QList<TileSet>() );
-            for (int column = 0; column < height; column++)
+            for (int column = 0; column < mHeight; column++)
             {
                 mMapGrid[row].append(TileSet(row, column, true, mapTileSet.takeFirst()));
                 if (mMapGrid[row][column].getGamePiece().compare("You") == 0)
@@ -167,12 +167,12 @@ TileSet Map::mapGridTileSet(int aRowPosition, int aColumnPosition)
 
 int Map::mapWidth()
 {
-    return width;
+    return mWidth;
 }
 
 int Map::mapHeight()
 {
-    return height;
+    return mHeight;
 }
 
 
@@ -190,12 +190,12 @@ void Map::setTileSet(TileSet aTileSet, int aRowPosition, int aColumnPosition)
 
 void Map::setMapWidth(int aWidth)
 {
-    width = aWidth;
+    mWidth = aWidth;
 }
 
 void Map::setMapHeight(int aHeight)
 {
-    height = aHeight;
+    mHeight = aHeight;
 }
 
 
@@ -256,7 +256,7 @@ bool Map::moveCharacter(QString aMovement)
             }
         }
         //Character wants to move down
-        else if(aMovement.compare("Down") == 0 && (oldRowPosition + 1) < height)
+        else if(aMovement.compare("Down") == 0 && (oldRowPosition + 1) < mHeight)
         {
             //if the cell to move to is empty terrain or a chest
             if(mMapGrid[oldRowPosition + 1][oldColPosition].getGamePiece().compare("") == 0 ||
@@ -288,7 +288,7 @@ bool Map::moveCharacter(QString aMovement)
             }
         }
         //Character wants to move right
-        else if(aMovement.compare("Right") == 0 && (oldColPosition + 1) < width)
+        else if(aMovement.compare("Right") == 0 && (oldColPosition + 1) < mWidth)
         {
             //if the cell to move to is empty terrain or a chest
             if(mMapGrid[oldRowPosition][oldColPosition + 1].getGamePiece().compare("") == 0 ||
@@ -334,16 +334,16 @@ bool Map::moveCharacter(QString aMovement)
 }
 
 //Moves the title to a new postion and notifies any observers
-void Map::moveTile(TileSet tile, int row, int column)
+void Map::moveTile(TileSet aTile, int aRow, int aColumn)
 {
-    mMapGrid[row][column] = tile;
+    mMapGrid[aRow][aColumn] = aTile;
     notifyObservers();
 }
 
 //Sets the dungeon as completed and notifies any observers
-void Map::setIsDungeonCompleted(bool cleared)
+void Map::setIsDungeonCompleted(bool aCleared)
 {
-    mIsDungeonCompleted = cleared;
+    mIsDungeonCompleted = aCleared;
     notifyObservers();
 }
 

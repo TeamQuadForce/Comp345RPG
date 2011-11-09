@@ -57,8 +57,8 @@ public:
 private:
     QList<QList<TileSet> > mMapGrid;
     QList<Observer*> observerList;
-    int width;
-    int height;
+    int mWidth;
+    int mHeight;
     TileSet mLastModifiedTile;
     TileSet mCharacterTileSet;
     TileSet mExitTileSet;

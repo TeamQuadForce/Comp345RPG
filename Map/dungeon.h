@@ -34,9 +34,9 @@ public:
 private:
     Ui::Dungeon *ui;
     void initializeMap();
-    Map *mapObject;
-    QGridLayout *layout;
-    QList<QList<QPushButton*> > mapGrid;
+    Map *mMapObject;
+    QGridLayout *mLayout;
+    QList<QList<QPushButton*> > mMapGrid;
 
     PlayerCharacter *mPlayer;
     StatWindow *mStatWindow;
