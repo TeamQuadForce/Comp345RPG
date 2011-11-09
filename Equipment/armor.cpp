@@ -22,7 +22,7 @@ short Armor::armorClass()
     return mArmorClass;
 }
 
-QString Armor::itemDesription()
+QString Armor::itemDescription()
 {
     return QString("%1 (+%2 AC)").arg(mItemName).arg(mArmorClass);
 }

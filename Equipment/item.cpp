@@ -19,3 +19,13 @@ Item::ItemType Item::itemType()
 {
     return mItemType;
 }
+
+void Item::setEquipped(bool aEquip)
+{
+    mIsEquipped = aEquip;
+}
+
+bool Item::isEquipped()
+{
+    return mIsEquipped;
+}

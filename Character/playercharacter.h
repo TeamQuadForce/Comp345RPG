@@ -8,6 +8,8 @@
 #include "observable.h"
 #include "observer.h"
 
+class Inventory;
+
 class PlayerCharacter : public Observable
 {
 public:

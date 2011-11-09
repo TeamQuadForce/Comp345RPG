@@ -19,10 +19,13 @@ public:
 
     QString itemName();
     ItemType itemType();
+    void setEquipped(bool aEquip);
+    bool isEquipped();
 
 protected:
     QString mItemName;
     ItemType mItemType;
+    bool mIsEquipped;
 };
 
 #endif // ITEM_H

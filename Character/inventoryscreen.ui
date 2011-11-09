@@ -201,7 +201,7 @@ border-color: rgb(0, 0, 0);
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="rightHandLabel_2">
+   <widget class="QLabel" name="bodyArmorLabel">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -245,7 +245,7 @@ border-color: rgb(0, 0, 0);
       <height>159</height>
      </rect>
     </property>
-    <widget class="QListView" name="inventoryPane">
+    <widget class="QListWidget" name="inventoryPane">
      <property name="geometry">
       <rect>
        <x>0</x>

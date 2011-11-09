@@ -3,11 +3,14 @@
 
 #include <QWidget>
 #include <Qlist>
-#include <map.h>
 #include <QAbstractButton>
 #include <QGridLayout>
 #include <QPushButton>
 
+#include "map.h"
+#include "playercharacter.h"
+#include "statwindow.h"
+#include "inventoryscreen.h"
 
 namespace Ui {
     class Dungeon;
@@ -22,17 +25,22 @@ public:
     Dungeon();
     ~Dungeon();
 
-    void init();
+    void init(PlayerCharacter *aPlayer, Map *aMap);
     void assignMovementOperations();
     void update(Observable *aObs);
 
     QString mapStyleSheet(TileSet aTile);
+
 private:
     Ui::Dungeon *ui;
     void initializeMap();
     Map *mapObject;
     QGridLayout *layout;
     QList<QList<QPushButton*> > mapGrid;
+
+    PlayerCharacter *mPlayer;
+    StatWindow *mStatWindow;
+    InventoryScreen *mInventoryScreen;
 
 private slots:
     void moveCharacter(QAbstractButton *button);

@@ -23,7 +23,7 @@ private slots:
 private:
     Ui::PlayGenerator *ui;
     PlayerCharacter *mPlayer;
-    Map *map;
+    Map *mMap;
 };
 
 #endif // PLAYGENERATOR_H

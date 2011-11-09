@@ -42,7 +42,7 @@ unsigned short Weapon::numOfHandsToWield()
     return mNumberOfHandsToWield;
 }
 
-QString Weapon::itemDesription()
+QString Weapon::itemDescription()
 {
     return QString("%1 (%2d%3)").arg(mItemName).arg(mNumberOfDamageDice).arg(mDamageDie);
 }

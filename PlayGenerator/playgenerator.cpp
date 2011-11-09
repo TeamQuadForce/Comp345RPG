@@ -8,6 +8,8 @@
 #include "playgenerator.h"
 #include "ui_playgenerator.h"
 #include "map.h"
+#include "game.h"
+#include "dungeon.h"
 
 PlayGenerator::PlayGenerator(QWidget *parent) :
     QWidget(parent),
@@ -17,16 +19,22 @@ PlayGenerator::PlayGenerator(QWidget *parent) :
     connect(ui->loadCharacterButton, SIGNAL(clicked()), SLOT(loadCharacter()));
     connect(ui->loadMapButton, SIGNAL(clicked()), SLOT(loadMap()));
     connect(ui->enterDungeonButton, SIGNAL(clicked()), SLOT(enterDungeon()));
+
+    mPlayer = 0;
+    mMap = 0;
 }
 
 PlayGenerator::~PlayGenerator()
 {
     delete ui;
+    delete mMap;
+    delete mPlayer;
 }
+
 void PlayGenerator::loadMap(){
 
-    map = new Map();
-    map->loadMap();
+    mMap = new Map();
+    mMap->loadMap();
 }
 
 void PlayGenerator::loadCharacter(){
@@ -64,5 +72,12 @@ void PlayGenerator::loadCharacter(){
 
 void PlayGenerator::enterDungeon()
 {
-
+    if (mPlayer != 0 && mMap != 0)
+    {
+        Game *game = (Game*)this->parentWidget();
+        Dungeon *dungeon = new Dungeon((Game*)this->parentWidget());
+        dungeon->init(mPlayer, mMap);
+        game->insertWidget(4, dungeon);
+        game->setCurrentIndex(4);
+    }
 }

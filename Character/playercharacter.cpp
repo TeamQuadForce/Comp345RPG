@@ -18,6 +18,7 @@ PlayerCharacter::PlayerCharacter(const QString &aName, const QString &aGender, c
     mName(aName),
     mPortrait(QPixmap(aPortrait))
 {
+
 }
 
 PlayerCharacter::~PlayerCharacter()
@@ -51,8 +52,7 @@ void PlayerCharacter::init()
 
     mBaseArmorClass = 10; //base AC of all players, regardless of class or race
     mLevel = 1;
-
-    mInventory = new Inventory;
+    mInventory = new Inventory();
     setStartingItems();
 
     //Notify observers that a new character is finished initializing, aka all stats are done
@@ -92,6 +92,7 @@ CharacterClass* PlayerCharacter::characterClass()
 Inventory* PlayerCharacter::inventory()
 {
     return mInventory;
+    notifyObservers();
 }
 
 //Called when generating a new character. Sets all the ability scores
@@ -183,9 +184,9 @@ short PlayerCharacter::hitPoints()
 short PlayerCharacter::armorClass()
 {
     short equipAC = 0;
-    foreach (Item* item, inventory()->equippedItems())
+    foreach (Item* item, inventory()->backpack())
     {
-        if (item->itemType() == Item::Armor)
+        if (item->itemType() == Item::Armor && item->isEquipped())
         {
             equipAC += ((Armor*)item)->armorClass();
         }

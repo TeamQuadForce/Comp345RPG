@@ -1,17 +1,16 @@
-#ifndef INVENTORY_H
-#define INVENTORY_H
+#ifndef INVENTORYSCREEN_H
+#define INVENTORYSCREEN_H
 
 #include <QWidget>
 #include "weapon.h"
 #include "armor.h"
 #include "observer.h"
 #include "observable.h"
-#include "inventory.h"
+#include "playercharacter.h"
 
 namespace Ui {
     class InventoryScreen;
 }
-class Inventory;
 
 class InventoryScreen : public QWidget, public Observer
 {
@@ -21,17 +20,19 @@ public:
     explicit InventoryScreen(QWidget *parent = 0);
     ~InventoryScreen();
 
-    void init(Inventory* aInventory);
+    void init(PlayerCharacter* aPlayer);
     void update(Observable* aObs);
 
 private:
     Ui::InventoryScreen *ui;
 
-    Inventory *mInventory;
+    PlayerCharacter *mPlayer;
+    int mIndex;
 
 private slots:
     void equipItem();
     void unequipItem();
+    void changeIndex(int aIndex);
 };
 
-#endif // INVENTORY_H
+#endif // INVENTORYSCREEN_H

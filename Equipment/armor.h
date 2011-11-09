@@ -19,7 +19,7 @@ public:
 
     ArmorType armorType();
     short armorClass();
-    QString itemDesription();
+    QString itemDescription();
 
 protected:
     short mArmorClass;

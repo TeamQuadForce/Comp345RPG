@@ -9,25 +9,39 @@ Dungeon::Dungeon(QWidget *parent) :
     ui(new Ui::Dungeon)
 {
     ui->setupUi(this);
-
 }
 
 Dungeon::~Dungeon()
 {
     delete ui;
+    delete mStatWindow;
+    delete mInventoryScreen;
 }
 
-void Dungeon::init()
+void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap)
 {
     layout = new QGridLayout();
     layout->setSpacing(0);
     layout->setVerticalSpacing(0);
 
     assignMovementOperations();
-    mapObject = new Map();
-    mapObject->loadMap();
+    mapObject = aMap;
     mapObject->addObserver(this);
     initializeMap();
+
+    mPlayer = aPlayer;
+
+    mStatWindow = new StatWindow;
+    mInventoryScreen = new InventoryScreen;
+    mInventoryScreen->init(mPlayer);
+
+    mPlayer->addObserver(mStatWindow);
+    mPlayer->addObserver(mInventoryScreen);
+
+    mPlayer->init();
+
+    mStatWindow->show();
+    mInventoryScreen->show();
     this->show();
 }
 
@@ -98,14 +112,14 @@ void Dungeon::update(Observable *aObs)
     }
 
     if(mapObject->isDungeonCompleted())
-    {/*
-        if (mapObject != 0)
-        {
-            delete mapObject;
-            mapObject = 0;
-        }*/
-        Game *game = (Game*)this->parentWidget();
-        game->setCurrentIndex(0);
+    {
+        mStatWindow->hide();
+        mInventoryScreen->hide();
+
+//        Game *game = (Game*)this->parentWidget();
+//        game->removeWidget(this);
+//        game->setCurrentIndex(0);
+        qApp->quit();
     }
 }
 

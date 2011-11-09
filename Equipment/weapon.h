@@ -23,7 +23,7 @@ public:
     unsigned short damageDie();
     unsigned short numOfHandsToWield();
 
-    QString itemDesription();
+    QString itemDescription();
 
 private:
     WeaponType mWeaponType;

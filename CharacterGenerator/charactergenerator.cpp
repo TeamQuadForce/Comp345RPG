@@ -345,7 +345,7 @@ void CharacterGenerator::returnToMenuButtonPress()
 void CharacterGenerator::saveCharacter()
 {
     QString fileName = QFileDialog::getSaveFileName();
-   // QString fileName = QString("%1.baus").arg(mPlayer->name());
+
     QFile file(fileName);
     file.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out(&file);
@@ -360,11 +360,8 @@ void CharacterGenerator::saveCharacter()
     out <<mPlayer->abilityScore(PlayerCharacter::Wisdom)<<endl;
     out<<mPlayer->abilityScore(PlayerCharacter::Charisma)<<endl;
     file.close();
-
-
-
-
 }
+
 //Resets the GUI back to it's default state
 void CharacterGenerator::reset()
 {

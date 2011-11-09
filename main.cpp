@@ -22,7 +22,6 @@ int main(int argc, char *argv[])
     CharacterGenerator *charGen = new CharacterGenerator(mainGameWindow);
     charGen->init();
 
-    //Dungeon *mapGen = new Dungeon(mainGameWindow);
     MapGenerator *mapGen = new MapGenerator(mainGameWindow);
     PlayGenerator *playGen = new PlayGenerator(mainGameWindow);
     mapGen->init();
