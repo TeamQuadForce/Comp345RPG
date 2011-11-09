@@ -234,7 +234,7 @@ void PlayerCharacter::setStartingItems()
     if (mClassName == "Fighter")
     {
         mInventory->addItem(new Weapon("Long Sword", Weapon::Melee, 1, 1, 8, 1));
-        mInventory->addItem(new Weapon("Long Bow", Weapon::Ranged, 4, 1, 10, 2));
+        mInventory->addItem(new Weapon("Long Bow", Weapon::Ranged, 4, 1, 8, 2));
         mInventory->addItem(new Armor("Rags", Armor::BodyArmor, 1));
     }
 }
