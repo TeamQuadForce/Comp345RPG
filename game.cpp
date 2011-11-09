@@ -16,7 +16,6 @@ Game::Game(QWidget *parent) :
     QObject::connect(ui->mapGenButton, SIGNAL(clicked()), SLOT(showMapGenPage()));
     QObject::connect(ui->playGenButton, SIGNAL(clicked()), SLOT(showPlayGenPage()));
     this->setCurrentIndex(0);
-
 }
 
 Game::~Game()

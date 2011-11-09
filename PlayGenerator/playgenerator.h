@@ -18,14 +18,12 @@ public:
 private slots:
     void loadCharacter();
     void loadMap();
-
+    void enterDungeon();
 
 private:
     Ui::PlayGenerator *ui;
     PlayerCharacter *mPlayer;
     Map *map;
-
-
 };
 
 #endif // PLAYGENERATOR_H

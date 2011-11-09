@@ -11,7 +11,6 @@
 #include "map.h"
 #include "observer.h"
 
-
 namespace Ui {
     class MapGenerator;
 }

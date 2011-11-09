@@ -16,6 +16,7 @@ PlayGenerator::PlayGenerator(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->loadCharacterButton, SIGNAL(clicked()), SLOT(loadCharacter()));
     connect(ui->loadMapButton, SIGNAL(clicked()), SLOT(loadMap()));
+    connect(ui->enterDungeonButton, SIGNAL(clicked()), SLOT(enterDungeon()));
 }
 
 PlayGenerator::~PlayGenerator()
@@ -26,8 +27,8 @@ void PlayGenerator::loadMap(){
 
     map = new Map();
     map->loadMap();
-
 }
+
 void PlayGenerator::loadCharacter(){
 
     QString race;
@@ -59,5 +60,9 @@ void PlayGenerator::loadCharacter(){
 
     mPlayer = new PlayerCharacter(name,gender,race,className);
     mPlayer->modifyAbilityScores(strength,dexterity,constitution,intelligence,wisdom,charisma);
+}
+
+void PlayGenerator::enterDungeon()
+{
 
 }
