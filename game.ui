@@ -75,7 +75,7 @@
      <string>Create a Map</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="playGenButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -94,7 +94,7 @@
    <zorder>logo</zorder>
    <zorder>characterGenButton</zorder>
    <zorder>mapGenButton</zorder>
-   <zorder>pushButton</zorder>
+   <zorder>playGenButton</zorder>
   </widget>
   <widget class="QWidget" name="page_2"/>
   <widget class="QWidget" name="page_3"/>
