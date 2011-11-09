@@ -11,12 +11,18 @@
 //  Constructors
 Map::Map()
 {
+    mIsCharacterPlaced = false;
+    mIsExitPlaced = false;
+    mIsDungeonCompleted = false;
 }
 
 Map::Map(int aWidth, int aHeight)
 {    
     width = aWidth;
     height = aHeight;
+    mIsCharacterPlaced = false;
+    mIsExitPlaced = false;
+    mIsDungeonCompleted = false;
 }
 
 //  Destructor
@@ -41,7 +47,7 @@ void Map::displayMap()
     {
         for (int column=0; column<mMapGrid[row].size(); column++)
         {
-           cout << mMapGrid[row][column].getGamePiece();
+            cout << mMapGrid[row][column].getGamePiece();
         }
         cout << endl;
     }
@@ -139,12 +145,12 @@ QList<QList<TileSet> > Map::mapGrid()
     return mMapGrid;
 }
 
-TileSet Map::tileSet()
+TileSet Map::lastModifiedTileSet()
 {
-    return lastModifiedTile;
+    return mLastModifiedTile;
 }
 
-TileSet Map::tileSet(int aRowPosition, int aColumnPosition)
+TileSet Map::mapGridTileSet(int aRowPosition, int aColumnPosition)
 {
     return mMapGrid[aRowPosition][aColumnPosition];
 }
@@ -162,9 +168,9 @@ int Map::mapHeight()
 
 //  Mutators
 
-void Map::setTileSet(TileSet aTileSet)
+void Map::setLastModifiedTile(TileSet aTileSet)
 {
-    lastModifiedTile = aTileSet;
+    mLastModifiedTile = aTileSet;
 }
 
 void Map::setTileSet(TileSet aTileSet, int aRowPosition, int aColumnPosition)
@@ -209,35 +215,159 @@ void Map::notifyObservers()
     }
 }
 
+bool Map::moveCharacter(QString aMovement)
+{
+    int oldRowPosition = mCharacterTileSet.rowPosition();
+    int oldColPosition = mCharacterTileSet.columnPosition();
+    int newRowPosition = -1;
+    int newColPosition = -1;
 
-void Map::saveMap2()
-{/*
+    //If the character isn't place or the movement ID is invalid
+    if (!mIsCharacterPlaced)
+    {
+        return false;
+    }
+    else
+    {
+        //Character wants to move up
+        if(aMovement.compare("Up") == 0 && (oldRowPosition - 1) >= 0)
+        {
+            //if the cell to move to is empty terrain or a chest
+            if(mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("Terrain") == 0 ||
+                    mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("Chest") == 0 ||
+                    mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("Exit") == 0)
+            {
+                newRowPosition = oldRowPosition - 1;
+                newColPosition = oldColPosition;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-    QFile file("test.dat");
-    file.open(QIODevice::WriteOnly);
-    QDataStream out(&file);
-    QDataStream & operator<< (QDataStream& out, const QList<QList<TileSet> >& );
+        //Character wants to move down
+        if(aMovement.compare("Down") == 0 && (oldRowPosition + 1) < height)
+        {
+            //if the cell to move to is empty terrain or a chest
+            if(mMapGrid[oldRowPosition + 1][oldColPosition].getGamePiece().compare("Terrain") == 0 ||
+                    mMapGrid[oldRowPosition + 1][oldColPosition].getGamePiece().compare("Chest") ||
+                    mMapGrid[oldRowPosition + 1][oldColPosition].getGamePiece().compare("Exit") == 0)
+            {
+                newRowPosition = oldRowPosition + 1;
+                newColPosition = oldColPosition;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-    out << mapGrid();
+        //Character wants to move left
+        if(aMovement.compare("Left") == 0 && (oldColPosition - 1) >= 0)
+        {
+            //if the cell to move to is empty terrain or a chest
+            if(mMapGrid[oldRowPosition][oldColPosition - 1].getGamePiece().compare("Terrain") == 0 ||
+                    mMapGrid[oldRowPosition][oldColPosition - 1].getGamePiece().compare("Chest") == 0  ||
+                    mMapGrid[oldRowPosition][oldColPosition - 1].getGamePiece().compare("Exit") == 0)
+            {
+                newRowPosition = oldRowPosition;
+                newColPosition = oldColPosition - 1;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-    file.flush();
-    file.close();*/
+        //Character wants to move right
+        if(aMovement.compare("Right") == 0 && (oldColPosition + 1) < width)
+        {
+            //if the cell to move to is empty terrain or a chest
+            if(mMapGrid[oldRowPosition][oldColPosition + 1].getGamePiece().compare("Terrain") == 0 ||
+                    mMapGrid[oldRowPosition][oldColPosition + 1].getGamePiece().compare("Chest") == 0 ||
+                    mMapGrid[oldRowPosition][oldColPosition + 1].getGamePiece().compare("Exit") == 0)
+            {
+                newRowPosition = oldRowPosition;
+                newColPosition = oldColPosition + 1;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        mCharacterTileSet.setRowPosition(newRowPosition);
+        mCharacterTileSet.setColumnPosition(newColPosition);
+        mMapGrid[oldRowPosition][oldColPosition].setGamePiece("");
+        mMapGrid[newRowPosition][newColPosition].setGamePiece("Character");
+
+
+        if(mCharacterTileSet.rowPosition() == mExitTileSet.rowPosition() &&
+                mCharacterTileSet.columnPosition() == mExitTileSet.columnPosition())
+        {
+            setIsDungeonCompleted(true);
+        }
+        return true;
+    }
 }
 
+//Moves the title to a new postion and notifies any observers
+void Map::moveTile(TileSet tile, int row, int column)
+{
+    mMapGrid[row][column] = tile;
+    notifyObservers();
+}
 
+//Sets the dungeon as completed and notifies any observers
+void Map::setIsDungeonCompleted(bool cleared)
+{
+    mIsDungeonCompleted = cleared;
+    notifyObservers();
+}
 
+//Return  if the dungeon is completed
+bool Map::isDungeonCompleted()
+{
+    return mIsDungeonCompleted;
+}
 
-void Map::loadMap2()
-{/*
+bool Map::isCharacterPlaced()
+{
+    return mIsCharacterPlaced;
+}
 
-    QFile file("test.dat");
-    file.open(QIODevice::ReadOnly);
-    QDataStream in(&file);
-QDataStream & operator>> (QDataStream&, QList<QList<TileSet> >& mMapGrid);
-    clearMapGrid();
+bool Map::isExitPlaced()
+{
+    return mIsExitPlaced;
+}
 
-    in >> mMapGrid;
+void Map::setCharacterTileSet(TileSet aTileSet)
+{
+    mCharacterTileSet = aTileSet;
+}
 
-    file.flush();
-    file.close();*/
+void Map::setExitTileSet(TileSet aTileSet)
+{
+    mExitTileSet = aTileSet;
+}
+
+TileSet Map::characterTileSet()
+{
+    return mCharacterTileSet;
+}
+
+TileSet Map::exitTileSet()
+{
+    return mExitTileSet;
+}
+
+void Map::setIsCharacterPlaced(bool aIsCharacterPlaced)
+{
+    mIsCharacterPlaced = aIsCharacterPlaced;
+}
+
+void Map::setIsExitPlaced(bool aIsExitPlaced)
+{
+    mIsExitPlaced = aIsExitPlaced;
 }

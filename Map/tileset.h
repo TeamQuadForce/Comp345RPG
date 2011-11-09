@@ -12,12 +12,15 @@ public:
     int rowPosition();
     int columnPosition();
 
+    void setIsTerrain(bool aIsTerrain);
+    void setRowPosition(int aRowPosition);
+    void setColumnPosition(int aColumnPosition);
     void setGamePiece(QString aGamePiece);
 
 private:
     int mRowPosition;
     int mColumnPosition;
-    bool isTerrain;
+    bool mIsTerrain;
     QString mGamePiece;
 };
 

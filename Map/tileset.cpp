@@ -5,6 +5,7 @@
 TileSet::TileSet()
 {
 
+
 }
 
 TileSet::TileSet(int aRowPosition, int aColumnPosition,
@@ -12,7 +13,7 @@ TileSet::TileSet(int aRowPosition, int aColumnPosition,
 {
     mRowPosition = aRowPosition;
     mColumnPosition = aColumnPosition;
-    isTerrain = aIsTerrain;
+    mIsTerrain = aIsTerrain;
     mGamePiece = aGamePiece;
 }
 
@@ -34,4 +35,19 @@ int TileSet::rowPosition()
 int TileSet::columnPosition()
 {
     return mColumnPosition;
+}
+
+void TileSet::setRowPosition(int aRowPosition)
+{
+    mRowPosition = aRowPosition;
+}
+
+void TileSet::setColumnPosition(int aColumnPosition)
+{
+    mColumnPosition = aColumnPosition;
+}
+
+void TileSet::setIsTerrain(bool aIsTerrain)
+{
+    mIsTerrain = aIsTerrain;
 }
