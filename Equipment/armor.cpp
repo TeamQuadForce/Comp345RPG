@@ -5,8 +5,8 @@ Armor::Armor()
 }
 
 Armor::Armor(const QString &aItemName, const ArmorType &aArmorType, const short &aArmorClass) :
-    mArmorType(aArmorType),
-    mArmorClass(aArmorClass)
+    mArmorClass(aArmorClass),
+    mArmorType(aArmorType)
 {
     mItemName = aItemName;
     mItemType = Item::Armor;
