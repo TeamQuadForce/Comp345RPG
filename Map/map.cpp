@@ -243,7 +243,7 @@ bool Map::moveCharacter(QString aMovement)
         if(aMovement.compare("Up") == 0 && (oldRowPosition - 1) >= 0)
         {
             //if the cell to move to is empty terrain or a chest
-            if(mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("Terrain") == 0 ||
+            if(mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("") == 0 ||
                     mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("Chest") == 0 ||
                     mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("Exit") == 0)
             {
@@ -255,13 +255,12 @@ bool Map::moveCharacter(QString aMovement)
                 return false;
             }
         }
-
         //Character wants to move down
-        if(aMovement.compare("Down") == 0 && (oldRowPosition + 1) < height)
+        else if(aMovement.compare("Down") == 0 && (oldRowPosition + 1) < height)
         {
             //if the cell to move to is empty terrain or a chest
-            if(mMapGrid[oldRowPosition + 1][oldColPosition].getGamePiece().compare("Terrain") == 0 ||
-                    mMapGrid[oldRowPosition + 1][oldColPosition].getGamePiece().compare("Chest") ||
+            if(mMapGrid[oldRowPosition + 1][oldColPosition].getGamePiece().compare("") == 0 ||
+                    mMapGrid[oldRowPosition + 1][oldColPosition].getGamePiece().compare("Chest") == 0 ||
                     mMapGrid[oldRowPosition + 1][oldColPosition].getGamePiece().compare("Exit") == 0)
             {
                 newRowPosition = oldRowPosition + 1;
@@ -272,12 +271,11 @@ bool Map::moveCharacter(QString aMovement)
                 return false;
             }
         }
-
         //Character wants to move left
-        if(aMovement.compare("Left") == 0 && (oldColPosition - 1) >= 0)
+        else if(aMovement.compare("Left") == 0 && (oldColPosition - 1) >= 0)
         {
             //if the cell to move to is empty terrain or a chest
-            if(mMapGrid[oldRowPosition][oldColPosition - 1].getGamePiece().compare("Terrain") == 0 ||
+            if(mMapGrid[oldRowPosition][oldColPosition - 1].getGamePiece().compare("") == 0 ||
                     mMapGrid[oldRowPosition][oldColPosition - 1].getGamePiece().compare("Chest") == 0  ||
                     mMapGrid[oldRowPosition][oldColPosition - 1].getGamePiece().compare("Exit") == 0)
             {
@@ -289,12 +287,11 @@ bool Map::moveCharacter(QString aMovement)
                 return false;
             }
         }
-
         //Character wants to move right
-        if(aMovement.compare("Right") == 0 && (oldColPosition + 1) < width)
+        else if(aMovement.compare("Right") == 0 && (oldColPosition + 1) < width)
         {
             //if the cell to move to is empty terrain or a chest
-            if(mMapGrid[oldRowPosition][oldColPosition + 1].getGamePiece().compare("Terrain") == 0 ||
+            if(mMapGrid[oldRowPosition][oldColPosition + 1].getGamePiece().compare("") == 0 ||
                     mMapGrid[oldRowPosition][oldColPosition + 1].getGamePiece().compare("Chest") == 0 ||
                     mMapGrid[oldRowPosition][oldColPosition + 1].getGamePiece().compare("Exit") == 0)
             {
@@ -306,12 +303,18 @@ bool Map::moveCharacter(QString aMovement)
                 return false;
             }
         }
+        else
+        {
+            return false;
+        }
 
         mCharacterTileSet.setRowPosition(newRowPosition);
         mCharacterTileSet.setColumnPosition(newColPosition);
-        TileSet aLastModifiedTileSet = mMapGrid[newRowPosition][newColPosition];
+
+
 
         mMapGrid[newRowPosition][newColPosition].setGamePiece("Character");
+        TileSet aLastModifiedTileSet = mMapGrid[newRowPosition][newColPosition];
         setLastModifiedTile(aLastModifiedTileSet);
         notifyObservers();
 
@@ -325,6 +328,7 @@ bool Map::moveCharacter(QString aMovement)
         {
             setIsDungeonCompleted(true);
         }
+
         return true;
     }
 }
@@ -340,7 +344,7 @@ void Map::moveTile(TileSet tile, int row, int column)
 void Map::setIsDungeonCompleted(bool cleared)
 {
     mIsDungeonCompleted = cleared;
-//    notifyObservers();
+    notifyObservers();
 }
 
 //Return  if the dungeon is completed

@@ -2,6 +2,7 @@
 #include "ui_dungeon.h"
 #include <QFileDialog>
 #include <QTextStream>
+#include "game.h"
 
 Dungeon::Dungeon(QWidget *parent) :
     QWidget(parent),
@@ -70,8 +71,7 @@ void Dungeon::moveCharacter(QAbstractButton* button)
 
 void Dungeon::update(Observable *aObs)
 {
-    QTextStream cout(stdout, QIODevice::WriteOnly);
-    cout << "hi";
+
 //    QIcon characterImage(":/images/fighter.jpg");
 //    QIcon wallImage(":/images/wall.jpg");
 //    QIcon enemyImage(":/images/enemy.jpg");
@@ -84,21 +84,28 @@ void Dungeon::update(Observable *aObs)
     int row = tile.rowPosition();
     int column = tile.columnPosition();
 
-//    cout << row <<;
+
 
     if(tile.getGamePiece().compare("Character") == 0)
     {
+        mapGrid[row][column]->setText("Character");
         mapGrid[row][column]->setStyleSheet("background-color: blue;");
     }
     else
     {
+        mapGrid[row][column]->setText("");
         mapGrid[row][column]->setStyleSheet("background-color: white;");
     }
 
     if(mapObject->isDungeonCompleted())
-    {
-        //Perform Dungeon Cleared message
-        //Return to main menu
+    {/*
+        if (mapObject != 0)
+        {
+            delete mapObject;
+            mapObject = 0;
+        }*/
+        Game *game = (Game*)this->parentWidget();
+        game->setCurrentIndex(0);
     }
 }
 
