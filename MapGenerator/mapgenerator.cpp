@@ -43,7 +43,7 @@ void MapGenerator::init()
     connect(ui->returnToMenuButton, SIGNAL(clicked()), SLOT(returnToMenuButtonPress()));
 
     ui->chestButton->click(); // Default map element that is selected, put after connect so signal triggers method
-
+    ui->displayMapButton->setVisible(false);
 }
 
 //  SLOT METHODS
@@ -52,6 +52,8 @@ void MapGenerator::selectMapElement(QAbstractButton* button)
 {
     if (button->text().compare("Remove") == 0)
         mapElementSelected = "";
+    else if (button->text().compare("Character") == 0)
+        mapElementSelected = QString("You");
     else
         mapElementSelected = button->text();
 
@@ -82,7 +84,7 @@ void MapGenerator::addMapElement(QAbstractButton* button)
     {
         modifiedTile.setIsTerrain(false);
     }
-    else if(mapElementSelected.compare("Character") == 0)
+    else if(mapElementSelected.compare("You") == 0)
     {
         TileSet aCharacterTileSet = mapObject->characterTileSet();
         if(mapObject->isCharacterPlaced())
@@ -117,7 +119,7 @@ void MapGenerator::addMapElement(QAbstractButton* button)
     }
     else if(mapElementSelected.compare("Remove") == 0)
     {
-        if(modifiedTile.getGamePiece().compare("Character") == 0)
+        if(modifiedTile.getGamePiece().compare("You") == 0)
         {
             mapObject->setIsCharacterPlaced(false);
         }
@@ -319,7 +321,7 @@ QString MapGenerator::mapStyleSheet(TileSet aTile)
     {
         styleSheet = QString("background-color: black;");
     }
-    else if(aTile.getGamePiece() == "Character")
+    else if(aTile.getGamePiece() == "You")
     {
         styleSheet = QString("background-color: blue;");
     }

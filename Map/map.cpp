@@ -128,7 +128,7 @@ void Map::loadMap()
             for (int column = 0; column < height; column++)
             {
                 mMapGrid[row].append(TileSet(row, column, true, mapTileSet.takeFirst()));
-                if (mMapGrid[row][column].getGamePiece().compare("Character") == 0)
+                if (mMapGrid[row][column].getGamePiece().compare("You") == 0)
                 {
                     setCharacterTileSet(mMapGrid[row][column]);
                     setIsCharacterPlaced(true);
@@ -313,7 +313,7 @@ bool Map::moveCharacter(QString aMovement)
 
 
 
-        mMapGrid[newRowPosition][newColPosition].setGamePiece("Character");
+        mMapGrid[newRowPosition][newColPosition].setGamePiece("You");
         TileSet aLastModifiedTileSet = mMapGrid[newRowPosition][newColPosition];
         setLastModifiedTile(aLastModifiedTileSet);
         notifyObservers();

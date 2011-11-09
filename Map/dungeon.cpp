@@ -100,9 +100,9 @@ void Dungeon::update(Observable *aObs)
 
 
 
-    if(tile.getGamePiece().compare("Character") == 0)
+    if(tile.getGamePiece().compare("You") == 0)
     {
-        mapGrid[row][column]->setText("Character");
+        mapGrid[row][column]->setText("You");
         mapGrid[row][column]->setStyleSheet("background-color: blue;");
     }
     else
@@ -142,7 +142,7 @@ QString Dungeon::mapStyleSheet(TileSet aTile)
     {
         styleSheet = QString("background-color: black;");
     }
-    else if(aTile.getGamePiece() == "Character")
+    else if(aTile.getGamePiece() == "You")
     {
         styleSheet = QString("background-color: blue;");
     }
