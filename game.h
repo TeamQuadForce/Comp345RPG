@@ -20,6 +20,7 @@ private:
     Ui::Game *ui;
 
 private slots:
+
     void showCharacterGenPage();
     void showMapGenPage();
     void closeEvent(QCloseEvent *event);

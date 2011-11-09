@@ -1,25 +1,27 @@
 #ifndef ARMOR_H
 #define ARMOR_H
+#include "item.h"
 
-class Armor
+class Armor : public Item
 {
 public:
     enum ArmorType
     {
         BodyArmor = 0,
-        Hand,
-        Ring,
+        Gloves,
         Helmet,
-        Boot,
+        Boots,
         Belt
     };
 
-    Armor(const ArmorType &aArmorType);
+    Armor();
+    Armor(const QString &aItemName, const ArmorType &aArmorType);
 
-
+    ArmorType armorType();
 
 private:
-
+    short mArmorClass;
+    ArmorType mArmorType;
 };
 
 #endif // ARMOR_H

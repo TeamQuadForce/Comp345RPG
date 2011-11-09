@@ -7,6 +7,8 @@
 #include "charactergenerator.h"
 #include "ui_charactergenerator.h"
 #include "game.h"
+#include <QSound>
+#include <QFileDialog>
 
 using namespace std;
 
@@ -16,7 +18,6 @@ CharacterGenerator::CharacterGenerator(QWidget *parent) :
 {
     ui->setupUi(this);
     mPlayer = 0;
-
 }
 
 CharacterGenerator::~CharacterGenerator()
@@ -36,6 +37,7 @@ void CharacterGenerator::init()
     qsrand(QDateTime::currentMSecsSinceEpoch());
 
     mStatWindow = new StatWindow;
+    mStatWindow->move(725,50);
     connect(ui->raceComboBox, SIGNAL(currentIndexChanged(int)), SLOT(changePicture()));
     connect(ui->classComboBox, SIGNAL(currentIndexChanged(int)), SLOT(changePicture()));
     connect(ui->genderComboBox, SIGNAL(currentIndexChanged(int)), SLOT(changePicture()));
@@ -342,7 +344,8 @@ void CharacterGenerator::returnToMenuButtonPress()
 
 void CharacterGenerator::saveCharacter()
 {
-    QString fileName = QString("%1.baus").arg(mPlayer->name());
+    QString fileName = QFileDialog::getSaveFileName();
+   // QString fileName = QString("%1.baus").arg(mPlayer->name());
     QFile file(fileName);
     file.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out(&file);

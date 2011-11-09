@@ -6,16 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>493</width>
-    <height>310</height>
+    <width>789</width>
+    <height>518</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>This Is Mattam Game</string>
+   <string>Treasure Hunter</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
     <normaloff>:/images/Knight1M-SW.gif</normaloff>:/images/Knight1M-SW.gif</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <property name="currentIndex">
    <number>0</number>
@@ -24,11 +27,14 @@
    <widget class="QPushButton" name="characterGenButton">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>180</y>
+      <x>10</x>
+      <y>470</y>
       <width>191</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 178, 102, 255), stop:0.55 rgba(235, 148, 61, 255), stop:0.98 rgba(0, 0, 0, 255), stop:1 rgba(0, 0, 0, 0));</string>
     </property>
     <property name="text">
      <string>Create a Character</string>
@@ -37,10 +43,10 @@
    <widget class="QLabel" name="logo">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>20</y>
-      <width>371</width>
-      <height>151</height>
+      <x>0</x>
+      <y>10</y>
+      <width>791</width>
+      <height>521</height>
      </rect>
     </property>
     <property name="text">
@@ -56,16 +62,39 @@
    <widget class="QPushButton" name="mapGenButton">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>230</y>
+      <x>10</x>
+      <y>420</y>
       <width>191</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 178, 102, 255), stop:0.55 rgba(235, 148, 61, 255), stop:0.98 rgba(0, 0, 0, 255), stop:1 rgba(0, 0, 0, 0));</string>
     </property>
     <property name="text">
      <string>Create a Map</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>370</y>
+      <width>191</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 178, 102, 255), stop:0.55 rgba(235, 148, 61, 255), stop:0.98 rgba(0, 0, 0, 255), stop:1 rgba(0, 0, 0, 0));</string>
+    </property>
+    <property name="text">
+     <string>Play!</string>
+    </property>
+   </widget>
+   <zorder>logo</zorder>
+   <zorder>characterGenButton</zorder>
+   <zorder>mapGenButton</zorder>
+   <zorder>pushButton</zorder>
   </widget>
   <widget class="QWidget" name="page_2"/>
   <widget class="QWidget" name="page_3"/>
