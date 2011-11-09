@@ -60,6 +60,7 @@ void MapGenerator::selectMapElement(QAbstractButton* button)
 //  Adds the map element onto the map grid and in the map object
 void MapGenerator::addMapElement(QAbstractButton* button)
 {
+    QTextStream cout(stdout, QIODevice::WriteOnly);
 
     QString hiddenCoordinates = button->objectName();
     QStringList decipherCoordinates = hiddenCoordinates.split("_");
@@ -76,28 +77,43 @@ void MapGenerator::addMapElement(QAbstractButton* button)
 
     TileSet modifiedTile = mapObject->mapGridTileSet(aRowPosition, aColumnPosition);
     modifiedTile.setGamePiece(mapElementSelected);
-
-    if(mapElementSelected.compare("Character") == 0)
+    modifiedTile.setIsTerrain(true);
+    if(mapElementSelected.compare("Wall") == 0)
     {
+        modifiedTile.setIsTerrain(false);
+    }
+    else if(mapElementSelected.compare("Character") == 0)
+    {
+        TileSet aCharacterTileSet = mapObject->characterTileSet();
         if(mapObject->isCharacterPlaced())
         {
-            TileSet aCharacterTileSet = mapObject->characterTileSet();
             charOrExitRowPosition = aCharacterTileSet.rowPosition();
             charOrExitColumnPosition = aCharacterTileSet.columnPosition();
-            mapObject->setTileSet(TileSet(charOrExitRowPosition, charOrExitColumnPosition, true, ""),
-                                  charOrExitRowPosition, charOrExitColumnPosition);
+            aCharacterTileSet.setGamePiece("");
+            mapObject->setTileSet(aCharacterTileSet, charOrExitRowPosition, charOrExitColumnPosition);
+            mapGrid[charOrExitRowPosition][charOrExitColumnPosition]->setText("");
+            mapGrid[charOrExitRowPosition][charOrExitColumnPosition]->setStyleSheet("background-color: white;");
+
         }
+        mapObject->setCharacterTileSet(modifiedTile);
+        mapObject->setIsCharacterPlaced(true);
     }
     else if(mapElementSelected.compare("Exit") == 0)
     {
+        TileSet aExitTileSet = mapObject->exitTileSet();
         if(mapObject->isExitPlaced())
         {
-            TileSet aExitTileSet = mapObject->exitTileSet();
+
             charOrExitRowPosition = aExitTileSet.rowPosition();
             charOrExitColumnPosition = aExitTileSet.columnPosition();
             mapObject->setTileSet(TileSet(charOrExitRowPosition, charOrExitColumnPosition, true, ""),
                                   charOrExitRowPosition, charOrExitColumnPosition);
+            mapGrid[charOrExitRowPosition][charOrExitColumnPosition]->setText("");
+            mapGrid[charOrExitRowPosition][charOrExitColumnPosition]->setStyleSheet("background-color: white;");
+
         }
+        mapObject->setExitTileSet(modifiedTile);
+        mapObject->setIsExitPlaced(true);
     }
     else if(mapElementSelected.compare("Remove") == 0)
     {
@@ -112,6 +128,7 @@ void MapGenerator::addMapElement(QAbstractButton* button)
 
     }
 
+
     mapObject->setLastModifiedTile(modifiedTile);
     mapObject->setTileSet(modifiedTile, aRowPosition, aColumnPosition);
     mapObject->notifyObservers();
@@ -120,8 +137,6 @@ void MapGenerator::addMapElement(QAbstractButton* button)
 //  Generates the map grid in the GUI
 void MapGenerator::generateMap()
 {
-    QTextStream cout(stdout, QIODevice::WriteOnly);
-    cout << "omg";
     statusMessage(QString("Generating map...")); // if this isn't here, a weird bug pops up
     if (layout->count() > 0 )
     {
@@ -185,8 +200,9 @@ void MapGenerator::update(Observable *aObs)
                 mapGrid[row].append(new QPushButton(aMap->mapGridTileSet(row, column).getGamePiece()));
                 mapGrid[row][column]->setObjectName(QString::number(row)+"_"+QString::number(column));
                 mapGrid[row][column]->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+                mapGrid[row][column]->setStyleSheet("background-color: white;");
                 mapGridElements->addButton(mapGrid[row][column]);
-//                connect(mapGrid[row][column], SIGNAL(clicked()), SLOT(addMapElement()));
+                //                connect(mapGrid[row][column], SIGNAL(clicked()), SLOT(addMapElement()));
                 layout->addWidget(mapGrid[row][column], row, column);
             }
         }
@@ -203,7 +219,35 @@ void MapGenerator::update(Observable *aObs)
     if (tile.rowPosition() < mapObject->mapWidth() && tile.columnPosition() < mapObject->mapHeight())
     {
         mapGrid[tile.rowPosition()][tile.columnPosition()]->setText(tile.getGamePiece());
+        if(tile.getGamePiece() == "Wall")
+        {
+            mapGrid[tile.rowPosition()][tile.columnPosition()]->setStyleSheet("background-color: grey;");
+        }
+        else if(tile.getGamePiece() == "Chest")
+        {
+            mapGrid[tile.rowPosition()][tile.columnPosition()]->setStyleSheet("background-color: yellow;");
+        }
+        else if(tile.getGamePiece() == "Monster")
+        {
+            mapGrid[tile.rowPosition()][tile.columnPosition()]->setStyleSheet("background-color: red;");
+        }
+        else if(tile.getGamePiece() == "Exit")
+        {
+            mapGrid[tile.rowPosition()][tile.columnPosition()]->setStyleSheet("background-color: black;");
+        }
+        else if(tile.getGamePiece() == "Character")
+        {
+            mapGrid[tile.rowPosition()][tile.columnPosition()]->setStyleSheet("background-color: blue;");
+        }
+        else if(tile.getGamePiece() == "")
+        {
+            mapGrid[tile.rowPosition()][tile.columnPosition()]->setStyleSheet("background-color: white;");
+        }
+
     }
+
+
+
 
 
 }

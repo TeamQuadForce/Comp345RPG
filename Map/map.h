@@ -17,10 +17,8 @@ public:
     Map(int aWidth, int aHeight);
 
     void displayMap();
-    void saveMap();
-    void saveMap2();
-    void loadMap();
-    void loadMap2();
+    void saveMap();    
+    void loadMap();    
     void createMapGrid();
     void clearMapGrid();
 

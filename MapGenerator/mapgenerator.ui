@@ -16,9 +16,9 @@
   <widget class="QGroupBox" name="mapElementsGroupBox">
    <property name="geometry">
     <rect>
-     <x>6</x>
+     <x>10</x>
      <y>100</y>
-     <width>101</width>
+     <width>97</width>
      <height>165</height>
     </rect>
    </property>
@@ -28,85 +28,20 @@
    <property name="title">
     <string>Map Elements</string>
    </property>
-   <layout class="QFormLayout" name="formLayout">
-    <item row="0" column="0">
-     <widget class="QRadioButton" name="chestButton">
-      <property name="text">
-       <string>Chest</string>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-      <attribute name="buttonGroup">
-       <string>mapElementsButtonGroup</string>
-      </attribute>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QRadioButton" name="monsterButton">
-      <property name="text">
-       <string>Monster</string>
-      </property>
-      <attribute name="buttonGroup">
-       <string>mapElementsButtonGroup</string>
-      </attribute>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QRadioButton" name="characterButton">
-      <property name="text">
-       <string>Character</string>
-      </property>
-      <attribute name="buttonGroup">
-       <string>mapElementsButtonGroup</string>
-      </attribute>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QRadioButton" name="wallButton">
-      <property name="text">
-       <string>Wall</string>
-      </property>
-      <attribute name="buttonGroup">
-       <string>mapElementsButtonGroup</string>
-      </attribute>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QRadioButton" name="exitButton">
-      <property name="text">
-       <string>Exit</string>
-      </property>
-      <attribute name="buttonGroup">
-       <string>mapElementsButtonGroup</string>
-      </attribute>
-     </widget>
-    </item>
-    <item row="5" column="0">
-     <widget class="QRadioButton" name="removeButton">
-      <property name="text">
-       <string>Remove</string>
-      </property>
-      <attribute name="buttonGroup">
-       <string>mapElementsButtonGroup</string>
-      </attribute>
-     </widget>
-    </item>
-   </layout>
    <widget class="QRadioButton" name="chestButton">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>23</y>
-      <width>65</width>
-      <height>17</height>
+      <width>51</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
      <string>Chest</string>
     </property>
     <property name="checked">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <attribute name="buttonGroup">
      <string>mapElementsButtonGroup</string>
@@ -116,9 +51,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>46</y>
-      <width>81</width>
-      <height>17</height>
+      <y>45</y>
+      <width>62</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
@@ -132,9 +67,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>69</y>
-      <width>91</width>
-      <height>17</height>
+      <y>67</y>
+      <width>71</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
@@ -148,9 +83,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>92</y>
-      <width>61</width>
-      <height>17</height>
+      <y>89</y>
+      <width>43</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
@@ -160,33 +95,33 @@
      <string>mapElementsButtonGroup</string>
     </attribute>
    </widget>
-   <widget class="QRadioButton" name="terrainButton">
+   <widget class="QRadioButton" name="exitButton">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>115</y>
-      <width>56</width>
-      <height>17</height>
+      <y>117</y>
+      <width>41</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Terrain</string>
+     <string>Exit</string>
     </property>
     <attribute name="buttonGroup">
      <string>mapElementsButtonGroup</string>
     </attribute>
    </widget>
-   <widget class="QRadioButton" name="exitButton">
+   <widget class="QRadioButton" name="removeButton">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>138</y>
-      <width>41</width>
-      <height>17</height>
+      <y>139</y>
+      <width>62</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Exit</string>
+     <string>Remove</string>
     </property>
     <attribute name="buttonGroup">
      <string>mapElementsButtonGroup</string>
