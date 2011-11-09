@@ -20,7 +20,7 @@ public:
     QString itemName();
     ItemType itemType();
 
-private:
+protected:
     QString mItemName;
     ItemType mItemType;
 };

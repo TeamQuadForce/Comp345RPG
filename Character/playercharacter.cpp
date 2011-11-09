@@ -3,6 +3,8 @@
 #include "playercharacter.h"
 #include "fighter.h"
 #include "diceroller.h"
+#include "weapon.h"
+#include "armor.h"
 
 PlayerCharacter::PlayerCharacter()
 {
@@ -50,6 +52,9 @@ void PlayerCharacter::init()
     mBaseArmorClass = 10; //base AC of all players, regardless of class or race
     mLevel = 1;
 
+    mInventory = new Inventory;
+    setStartingItems();
+
     //Notify observers that a new character is finished initializing, aka all stats are done
     notifyObservers();
 }
@@ -92,8 +97,8 @@ Inventory* PlayerCharacter::inventory()
 //Called when generating a new character. Sets all the ability scores
 //to the given parameters.
 void PlayerCharacter::modifyAbilityScores(short aStrength, short aDexterity,
-                                         short aConstitution, short aIntelligence,
-                                         short aWisdom, short aCharisma)
+                                          short aConstitution, short aIntelligence,
+                                          short aWisdom, short aCharisma)
 {
     mStrength = aStrength;
     mDexterity = aDexterity;
@@ -177,8 +182,16 @@ short PlayerCharacter::hitPoints()
 
 short PlayerCharacter::armorClass()
 {
-    //TODO: AC will also be based on shield and armor (if any) (size will not be implemented, maybe.. :))
-    return mBaseArmorClass + abilityModifier(Dexterity);
+    short equipAC = 0;
+    foreach (Item* item, inventory()->equippedItems())
+    {
+        if (item->itemType() == Item::Armor)
+        {
+            equipAC += ((Armor*)item)->armorClass();
+        }
+    }
+
+    return mBaseArmorClass + abilityModifier(Dexterity) + equipAC;
 }
 
 short PlayerCharacter::level()
@@ -213,4 +226,15 @@ void PlayerCharacter::notifyObservers()
 QPixmap PlayerCharacter::portrait()
 {
     return mPortrait;
+}
+
+void PlayerCharacter::setStartingItems()
+{
+    if (mClassName == "Fighter")
+    {
+        mInventory->addItem(new Weapon("Long Sword", Weapon::Melee, 1, 1, 8, 1));
+        mInventory->addItem(new Weapon("Long Bow", Weapon::Ranged, 4, 1, 10, 2));
+        mInventory->addItem(new Armor("Rags", Armor::BodyArmor, 1));
+        mInventory->equipItem(2);
+    }
 }

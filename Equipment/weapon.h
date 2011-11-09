@@ -13,13 +13,17 @@ public:
     };
 
     Weapon();
-    Weapon(const QString &aItemName, const WeaponType &aWeaponType);
+    Weapon(const QString &aItemName, const WeaponType &aWeaponType, const unsigned short &aRange,
+           const unsigned short &aNumOfDamageDice, const unsigned short &aDamageDie,
+           const unsigned short &aNumOfHands);
 
     WeaponType weaponType();
     unsigned short range();
     unsigned short numOfDice();
     unsigned short damageDie();
     unsigned short numOfHandsToWield();
+
+    QString itemDesription();
 
 private:
     WeaponType mWeaponType;

@@ -6,10 +6,12 @@
 #include "armor.h"
 #include "observer.h"
 #include "observable.h"
+#include "inventory.h"
 
 namespace Ui {
     class InventoryScreen;
 }
+class Inventory;
 
 class InventoryScreen : public QWidget, public Observer
 {
@@ -19,10 +21,17 @@ public:
     explicit InventoryScreen(QWidget *parent = 0);
     ~InventoryScreen();
 
+    void init(Inventory* aInventory);
+    void update(Observable* aObs);
+
 private:
     Ui::InventoryScreen *ui;
 
-    void update(Observable* aObs);
+    Inventory *mInventory;
+
+private slots:
+    void equipItem();
+    void unequipItem();
 };
 
 #endif // INVENTORY_H

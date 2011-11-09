@@ -15,11 +15,13 @@ public:
     };
 
     Armor();
-    Armor(const QString &aItemName, const ArmorType &aArmorType);
+    Armor(const QString &aItemName, const ArmorType &aArmorType, const short &aArmorClass);
 
     ArmorType armorType();
+    short armorClass();
+    QString itemDesription();
 
-private:
+protected:
     short mArmorClass;
     ArmorType mArmorType;
 };
