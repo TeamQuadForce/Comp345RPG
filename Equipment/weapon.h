@@ -1,22 +1,31 @@
 #ifndef WEAPON_H
 #define WEAPON_H
 
-class Weapon
+#include "item.h"
+
+class Weapon : public Item
 {
 public:
-    Weapon();
-
     enum WeaponType
     {
-        LongSword = 0,
-        LongBow
+        Melee = 0,
+        Ranged
     };
+
+    Weapon();
+    Weapon(const QString &aItemName, const WeaponType &aWeaponType);
+
+    WeaponType weaponType();
+    unsigned short range();
+    unsigned short numOfDice();
+    unsigned short damageDie();
+    unsigned short numOfHandsToWield();
 
 private:
     WeaponType mWeaponType;
     unsigned short mRange;
     unsigned short mNumberOfDamageDice;
-    unsigned short mDamageDice;
+    unsigned short mDamageDie;
     unsigned short mNumberOfHandsToWield;
 };
 
