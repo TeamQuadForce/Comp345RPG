@@ -18,7 +18,7 @@
     <rect>
      <x>10</x>
      <y>100</y>
-     <width>101</width>
+     <width>97</width>
      <height>165</height>
     </rect>
    </property>
@@ -56,13 +56,13 @@
      </widget>
     </item>
    </layout>
-   <widget class="QRadioButton" name="wallButton">
+    <widget class="QRadioButton" name="wallButton">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>92</y>
-      <width>61</width>
-      <height>17</height>
+      <y>89</y>
+      <width>43</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
@@ -72,33 +72,33 @@
      <string>mapElementsButtonGroup</string>
     </attribute>
    </widget>
-   <widget class="QRadioButton" name="terrainButton">
+   <widget class="QRadioButton" name="exitButton">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>115</y>
-      <width>71</width>
-      <height>17</height>
+      <y>117</y>
+      <width>41</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Terrain</string>
+     <string>Exit</string>
     </property>
     <attribute name="buttonGroup">
      <string>mapElementsButtonGroup</string>
     </attribute>
    </widget>
-   <widget class="QRadioButton" name="exitButton">
+   <widget class="QRadioButton" name="removeButton">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>138</y>
-      <width>51</width>
-      <height>17</height>
+      <y>139</y>
+      <width>62</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Exit</string>
+     <string>Remove</string>
     </property>
     <attribute name="buttonGroup">
      <string>mapElementsButtonGroup</string>
