@@ -200,7 +200,7 @@ void MapGenerator::update(Observable *aObs)
                 mapGrid[row].append(new QPushButton(aMap->mapGridTileSet(row, column).getGamePiece()));
                 mapGrid[row][column]->setObjectName(QString::number(row)+"_"+QString::number(column));
                 mapGrid[row][column]->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-                mapGrid[row][column]->setStyleSheet("background-color: white;");
+                mapGrid[row][column]->setStyleSheet(mapStyleSheet(aMap->mapGridTileSet(row, column)));
                 mapGridElements->addButton(mapGrid[row][column]);
                 //                connect(mapGrid[row][column], SIGNAL(clicked()), SLOT(addMapElement()));
                 layout->addWidget(mapGrid[row][column], row, column);
@@ -219,30 +219,7 @@ void MapGenerator::update(Observable *aObs)
     if (tile.rowPosition() < mapObject->mapWidth() && tile.columnPosition() < mapObject->mapHeight())
     {
         mapGrid[tile.rowPosition()][tile.columnPosition()]->setText(tile.getGamePiece());
-        if(tile.getGamePiece() == "Wall")
-        {
-            mapGrid[tile.rowPosition()][tile.columnPosition()]->setStyleSheet("background-color: grey;");
-        }
-        else if(tile.getGamePiece() == "Chest")
-        {
-            mapGrid[tile.rowPosition()][tile.columnPosition()]->setStyleSheet("background-color: yellow;");
-        }
-        else if(tile.getGamePiece() == "Monster")
-        {
-            mapGrid[tile.rowPosition()][tile.columnPosition()]->setStyleSheet("background-color: red;");
-        }
-        else if(tile.getGamePiece() == "Exit")
-        {
-            mapGrid[tile.rowPosition()][tile.columnPosition()]->setStyleSheet("background-color: black;");
-        }
-        else if(tile.getGamePiece() == "Character")
-        {
-            mapGrid[tile.rowPosition()][tile.columnPosition()]->setStyleSheet("background-color: blue;");
-        }
-        else if(tile.getGamePiece() == "")
-        {
-            mapGrid[tile.rowPosition()][tile.columnPosition()]->setStyleSheet("background-color: white;");
-        }
+        mapGrid[tile.rowPosition()][tile.columnPosition()]->setStyleSheet(mapStyleSheet(tile));
 
     }
 
@@ -321,4 +298,34 @@ void MapGenerator::returnToMenuButtonPress()
     }
     Game *game = (Game*)this->parentWidget();
     game->setCurrentIndex(0);
+}
+
+QString MapGenerator::mapStyleSheet(TileSet aTile)
+{
+    QString styleSheet = "";
+    if(aTile.getGamePiece() == "Wall")
+    {
+        styleSheet = QString("background-color: grey;");
+    }
+    else if(aTile.getGamePiece() == "Chest")
+    {
+        styleSheet = QString("background-color: yellow;");
+    }
+    else if(aTile.getGamePiece() == "Monster")
+    {
+        styleSheet = QString("background-color: red;");
+    }
+    else if(aTile.getGamePiece() == "Exit")
+    {
+        styleSheet = QString("background-color: black;");
+    }
+    else if(aTile.getGamePiece() == "Character")
+    {
+        styleSheet = QString("background-color: blue;");
+    }
+    else if(aTile.getGamePiece() == "")
+    {
+        styleSheet = QString("background-color: white;");
+    }
+    return styleSheet;
 }

@@ -7,6 +7,7 @@
 #include "mapgenerator.h"
 #include "game.h"
 #include <QSound>
+#include "dungeon.h"
 
 
 int main(int argc, char *argv[])
@@ -21,7 +22,7 @@ int main(int argc, char *argv[])
     CharacterGenerator *charGen = new CharacterGenerator(mainGameWindow);
     charGen->init();
 
-    MapGenerator *mapGen = new MapGenerator(mainGameWindow);
+    Dungeon *mapGen = new Dungeon(mainGameWindow);
     mapGen->init();
     mainGameWindow->insertWidget(1, charGen);
     mainGameWindow->insertWidget(2, mapGen);

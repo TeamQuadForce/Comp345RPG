@@ -5,6 +5,8 @@
 #include <Qlist>
 #include <map.h>
 #include <QAbstractButton>
+#include <QGridLayout>
+#include <QPushButton>
 
 
 namespace Ui {
@@ -24,11 +26,13 @@ public:
     void assignMovementOperations();
     void update(Observable *aObs);
 
+    QString mapStyleSheet(TileSet aTile);
 private:
     Ui::Dungeon *ui;
     void initializeMap();
     Map *mapObject;
-    QList<QList<QAbstractButton*> > mapGrid;
+    QGridLayout *layout;
+    QList<QList<QPushButton*> > mapGrid;
 
 private slots:
     void moveCharacter(QAbstractButton *button);

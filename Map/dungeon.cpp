@@ -1,13 +1,14 @@
 #include "dungeon.h"
 #include "ui_dungeon.h"
 #include <QFileDialog>
+#include <QTextStream>
 
 Dungeon::Dungeon(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Dungeon)
 {
     ui->setupUi(this);
-    init();
+
 }
 
 Dungeon::~Dungeon()
@@ -17,8 +18,14 @@ Dungeon::~Dungeon()
 
 void Dungeon::init()
 {
+    layout = new QGridLayout();
+    layout->setSpacing(0);
+    layout->setVerticalSpacing(0);
+
+    assignMovementOperations();
     mapObject = new Map();
     mapObject->loadMap();
+    mapObject->addObserver(this);
     initializeMap();
     this->show();
 }
@@ -27,6 +34,24 @@ void Dungeon::init()
 //Method it initialize the map
 void Dungeon::initializeMap()
 {
+    if(layout->count() == 0)
+    {
+        for (int row = 0; row < mapObject->mapHeight(); row++)
+        {
+            mapGrid.append(QList<QPushButton*>() );
+            for (int column = 0; column < mapObject->mapWidth(); column++)
+            {
+                mapGrid[row].append(new QPushButton(mapObject->mapGridTileSet(row, column).getGamePiece()));
+                mapGrid[row][column]->setObjectName(QString::number(row)+"_"+QString::number(column));
+                mapGrid[row][column]->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+                mapGrid[row][column]->setStyleSheet(mapStyleSheet(mapObject->mapGridTileSet(row, column)));
+
+                layout->addWidget(mapGrid[row][column], row, column);
+            }
+        }
+
+        ui->mapDungeonFrame->setLayout(layout);
+    }
     //Implement Matt Tam's "createMap" stuff
 }
 
@@ -39,11 +64,14 @@ void Dungeon::assignMovementOperations()
 //Slot to move the character
 void Dungeon::moveCharacter(QAbstractButton* button)
 {
+
     mapObject->moveCharacter(button->text());
 }
 
 void Dungeon::update(Observable *aObs)
 {
+    QTextStream cout(stdout, QIODevice::WriteOnly);
+    cout << "hi";
 //    QIcon characterImage(":/images/fighter.jpg");
 //    QIcon wallImage(":/images/wall.jpg");
 //    QIcon enemyImage(":/images/enemy.jpg");
@@ -55,6 +83,8 @@ void Dungeon::update(Observable *aObs)
     TileSet tile = aMap->lastModifiedTileSet();
     int row = tile.rowPosition();
     int column = tile.columnPosition();
+
+//    cout << row <<;
 
     if(tile.getGamePiece().compare("Character") == 0)
     {
@@ -72,3 +102,32 @@ void Dungeon::update(Observable *aObs)
     }
 }
 
+QString Dungeon::mapStyleSheet(TileSet aTile)
+{
+    QString styleSheet = "";
+    if(aTile.getGamePiece() == "Wall")
+    {
+        styleSheet = QString("background-color: grey;");
+    }
+    else if(aTile.getGamePiece() == "Chest")
+    {
+        styleSheet = QString("background-color: yellow;");
+    }
+    else if(aTile.getGamePiece() == "Monster")
+    {
+        styleSheet = QString("background-color: red;");
+    }
+    else if(aTile.getGamePiece() == "Exit")
+    {
+        styleSheet = QString("background-color: black;");
+    }
+    else if(aTile.getGamePiece() == "Character")
+    {
+        styleSheet = QString("background-color: blue;");
+    }
+    else if(aTile.getGamePiece() == "")
+    {
+        styleSheet = QString("background-color: white;");
+    }
+    return styleSheet;
+}

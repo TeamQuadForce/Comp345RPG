@@ -128,6 +128,16 @@ void Map::loadMap()
             for (int column = 0; column < height; column++)
             {
                 mMapGrid[row].append(TileSet(row, column, true, mapTileSet.takeFirst()));
+                if (mMapGrid[row][column].getGamePiece().compare("Character") == 0)
+                {
+                    setCharacterTileSet(mMapGrid[row][column]);
+                    setIsCharacterPlaced(true);
+                }
+                if (mMapGrid[row][column].getGamePiece().compare("Exit") == 0)
+                {
+                    setExitTileSet(mMapGrid[row][column]);
+                    setIsExitPlaced(true);
+                }
             }
             row++;
         }
@@ -299,9 +309,16 @@ bool Map::moveCharacter(QString aMovement)
 
         mCharacterTileSet.setRowPosition(newRowPosition);
         mCharacterTileSet.setColumnPosition(newColPosition);
-        mMapGrid[oldRowPosition][oldColPosition].setGamePiece("");
-        mMapGrid[newRowPosition][newColPosition].setGamePiece("Character");
+        TileSet aLastModifiedTileSet = mMapGrid[newRowPosition][newColPosition];
 
+        mMapGrid[newRowPosition][newColPosition].setGamePiece("Character");
+        setLastModifiedTile(aLastModifiedTileSet);
+        notifyObservers();
+
+        mMapGrid[oldRowPosition][oldColPosition].setGamePiece("");
+        aLastModifiedTileSet = mMapGrid[oldRowPosition][oldColPosition];
+        setLastModifiedTile(aLastModifiedTileSet);
+        notifyObservers();
 
         if(mCharacterTileSet.rowPosition() == mExitTileSet.rowPosition() &&
                 mCharacterTileSet.columnPosition() == mExitTileSet.columnPosition())
@@ -323,7 +340,7 @@ void Map::moveTile(TileSet tile, int row, int column)
 void Map::setIsDungeonCompleted(bool cleared)
 {
     mIsDungeonCompleted = cleared;
-    notifyObservers();
+//    notifyObservers();
 }
 
 //Return  if the dungeon is completed

@@ -39,7 +39,7 @@ private:
     int width, height;
 
     void statusMessage(QString aString);
-
+    QString mapStyleSheet(TileSet aTile);
     int validateHeight(int aHeight);
     int validateWidth(int aWidth);
 
