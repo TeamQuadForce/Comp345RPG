@@ -31,10 +31,10 @@
    <widget class="QRadioButton" name="wallButton">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>89</y>
+      <x>11</x>
+      <y>93</y>
       <width>43</width>
-      <height>16</height>
+      <height>17</height>
      </rect>
     </property>
     <property name="text">
@@ -47,10 +47,10 @@
    <widget class="QRadioButton" name="exitButton">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>117</y>
+      <x>11</x>
+      <y>116</y>
       <width>41</width>
-      <height>16</height>
+      <height>17</height>
      </rect>
     </property>
     <property name="text">
@@ -63,10 +63,10 @@
    <widget class="QRadioButton" name="removeButton">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>11</x>
       <y>139</y>
       <width>62</width>
-      <height>16</height>
+      <height>17</height>
      </rect>
     </property>
     <property name="text">
@@ -79,8 +79,8 @@
    <widget class="QRadioButton" name="chestButton">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>23</y>
+      <x>11</x>
+      <y>24</y>
       <width>51</width>
       <height>17</height>
      </rect>
@@ -98,8 +98,8 @@
    <widget class="QRadioButton" name="monsterButton">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>46</y>
+      <x>11</x>
+      <y>47</y>
       <width>62</width>
       <height>17</height>
      </rect>
@@ -114,9 +114,9 @@
    <widget class="QRadioButton" name="characterButton">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>11</x>
       <y>70</y>
-      <width>82</width>
+      <width>71</width>
       <height>17</height>
      </rect>
     </property>
@@ -131,9 +131,9 @@
   <widget class="QPushButton" name="saveMapButton">
    <property name="geometry">
     <rect>
-     <x>116</x>
-     <y>200</y>
-     <width>91</width>
+     <x>117</x>
+     <y>169</y>
+     <width>75</width>
      <height>23</height>
     </rect>
    </property>
@@ -144,9 +144,9 @@
   <widget class="QPushButton" name="loadMapButton">
    <property name="geometry">
     <rect>
-     <x>116</x>
-     <y>230</y>
-     <width>91</width>
+     <x>117</x>
+     <y>198</y>
+     <width>75</width>
      <height>23</height>
     </rect>
    </property>
@@ -265,9 +265,9 @@
   <widget class="QPushButton" name="generateMapButton">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>110</y>
-     <width>91</width>
+     <x>117</x>
+     <y>111</y>
+     <width>76</width>
      <height>23</height>
     </rect>
    </property>
@@ -292,8 +292,8 @@
    <property name="geometry">
     <rect>
      <x>117</x>
-     <y>141</y>
-     <width>91</width>
+     <y>140</y>
+     <width>75</width>
      <height>23</height>
     </rect>
    </property>
