@@ -8,6 +8,7 @@
 #include "ui_charactergenerator.h"
 #include "game.h"
 #include <QSound>
+#include <QFileDialog>
 
 using namespace std;
 
@@ -343,7 +344,8 @@ void CharacterGenerator::returnToMenuButtonPress()
 
 void CharacterGenerator::saveCharacter()
 {
-    QString fileName = QString("%1.baus").arg(mPlayer->name());
+    QString fileName = QFileDialog::getSaveFileName();
+   // QString fileName = QString("%1.baus").arg(mPlayer->name());
     QFile file(fileName);
     file.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out(&file);

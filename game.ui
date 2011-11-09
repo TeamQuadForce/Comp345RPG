@@ -27,8 +27,8 @@
    <widget class="QPushButton" name="characterGenButton">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>450</y>
+      <x>10</x>
+      <y>470</y>
       <width>191</width>
       <height>41</height>
      </rect>
@@ -44,7 +44,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
+      <y>10</y>
       <width>791</width>
       <height>521</height>
      </rect>
@@ -62,8 +62,8 @@
    <widget class="QPushButton" name="mapGenButton">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>390</y>
+      <x>10</x>
+      <y>420</y>
       <width>191</width>
       <height>41</height>
      </rect>
@@ -75,9 +75,26 @@
      <string>Create a Map</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>370</y>
+      <width>191</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 178, 102, 255), stop:0.55 rgba(235, 148, 61, 255), stop:0.98 rgba(0, 0, 0, 255), stop:1 rgba(0, 0, 0, 0));</string>
+    </property>
+    <property name="text">
+     <string>Play!</string>
+    </property>
+   </widget>
    <zorder>logo</zorder>
    <zorder>characterGenButton</zorder>
    <zorder>mapGenButton</zorder>
+   <zorder>pushButton</zorder>
   </widget>
   <widget class="QWidget" name="page_2"/>
   <widget class="QWidget" name="page_3"/>
