@@ -28,57 +28,6 @@
    <property name="title">
     <string>Map Elements</string>
    </property>
-   <widget class="QRadioButton" name="chestButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>23</y>
-      <width>51</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Chest</string>
-    </property>
-    <property name="checked">
-     <bool>false</bool>
-    </property>
-    <attribute name="buttonGroup">
-     <string>mapElementsButtonGroup</string>
-    </attribute>
-   </widget>
-   <widget class="QRadioButton" name="monsterButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>45</y>
-      <width>62</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Monster</string>
-    </property>
-    <attribute name="buttonGroup">
-     <string>mapElementsButtonGroup</string>
-    </attribute>
-   </widget>
-   <widget class="QRadioButton" name="characterButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>67</y>
-      <width>71</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Character</string>
-    </property>
-    <attribute name="buttonGroup">
-     <string>mapElementsButtonGroup</string>
-    </attribute>
-   </widget>
    <widget class="QRadioButton" name="wallButton">
     <property name="geometry">
      <rect>
@@ -122,6 +71,57 @@
     </property>
     <property name="text">
      <string>Remove</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string>mapElementsButtonGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QRadioButton" name="chestButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>23</y>
+      <width>51</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Chest</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+    <attribute name="buttonGroup">
+     <string>mapElementsButtonGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QRadioButton" name="monsterButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>46</y>
+      <width>62</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Monster</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string>mapElementsButtonGroup</string>
+    </attribute>
+   </widget>
+   <widget class="QRadioButton" name="characterButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>70</y>
+      <width>82</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Character</string>
     </property>
     <attribute name="buttonGroup">
      <string>mapElementsButtonGroup</string>
@@ -265,8 +265,8 @@
   <widget class="QPushButton" name="generateMapButton">
    <property name="geometry">
     <rect>
-     <x>117</x>
-     <y>112</y>
+     <x>120</x>
+     <y>110</y>
      <width>91</width>
      <height>23</height>
     </rect>

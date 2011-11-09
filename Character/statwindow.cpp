@@ -171,6 +171,9 @@ void StatWindow::update(Observable *aObs)
     ui->meleeBonus->setText(meleeBonuses);
     ui->rangedBonus->setText(rangedBonuses);
     //End of melee and ranged bonuses
+
+    ui->meleeDamageBonus->setText(QString::number(player->abilityModifier(PlayerCharacter::Strength)));
+    ui->rangeDamageBonus->setText(QString::number(player->abilityModifier(PlayerCharacter::Dexterity)));
 }
 
 void StatWindow::reset()
@@ -197,4 +200,6 @@ void StatWindow::reset()
     ui->armorClass->setText("10");
     ui->meleeBonus->setText("N/A");
     ui->rangedBonus->setText("N/A");
+    ui->meleeDamageBonus->setText("N/A");
+    ui->rangeDamageBonus->setText("N/A");
 }

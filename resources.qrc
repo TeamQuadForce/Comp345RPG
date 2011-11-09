@@ -7,6 +7,7 @@
         <file>wallpaperQuit.jpg</file>
         <file>stats.jpg</file>
         <file>map.PNG</file>
+        <file>play.jpg</file>
     </qresource>
     <qresource prefix="/dungeon">
         <file>images/chest.jpg</file>

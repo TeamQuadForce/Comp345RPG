@@ -360,51 +360,8 @@ void CharacterGenerator::saveCharacter()
     out <<mPlayer->abilityScore(PlayerCharacter::Wisdom)<<endl;
     out<<mPlayer->abilityScore(PlayerCharacter::Charisma)<<endl;
     file.close();
-    reset();
 
-    QString race;
-    QString className;
-    QString gender;
-    QString name;
-    short strength;
-    short dexterity;
-    short constitution;
-    short intelligence;
-    short wisdom;
-    short charisma;
 
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-    QTextStream in(&file);
-    race = in.readLine();
-    className = in.readLine();
-    gender = in.readLine();
-    name = in.readLine();
-    strength = in.readLine().toShort();
-    dexterity = in.readLine().toShort();
-    constitution = in.readLine().toShort();
-    intelligence = in.readLine().toShort();
-    wisdom = in.readLine().toShort();
-    charisma = in.readLine().toShort();
-    file.close();
-
-    PlayerCharacter *newPlayer = new PlayerCharacter(name,gender,race,className);
-    newPlayer->modifyAbilityScores(strength,dexterity,constitution,intelligence,wisdom,charisma);
-
-    QString fileNam = QString("compare.baus");
-    QFile fil(fileNam);
-    fil.open(QIODevice::WriteOnly | QIODevice::Text);
-    QTextStream tout(&fil);
-    tout<<newPlayer->race()<<endl;
-    tout<<newPlayer->className()<<endl;
-    tout<<newPlayer->gender()<<endl;
-    tout<<newPlayer->name()<<endl;
-    tout<<newPlayer->abilityScore(PlayerCharacter::Strength)<<endl;
-    tout<<newPlayer->abilityScore(PlayerCharacter::Dexterity)<<endl;
-    tout<<newPlayer->abilityScore(PlayerCharacter::Constitution)<<endl;
-    tout<<newPlayer->abilityScore(PlayerCharacter::Intelligence)<<endl;
-    tout<<newPlayer->abilityScore(PlayerCharacter::Wisdom)<<endl;
-    tout<<newPlayer->abilityScore(PlayerCharacter::Charisma)<<endl;
-    fil.close();
 
 
 }

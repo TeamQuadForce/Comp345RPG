@@ -53,6 +53,8 @@ public:
     void notifyObservers();
 
 private:
+    void setStartingItems();
+
     QList<Observer*> mObserverList;
     CharacterClass *mClass;
     Inventory *mInventory;
