@@ -2,7 +2,7 @@
 #define DUNGEON_H
 
 #include <QWidget>
-#include <Qlist>
+#include <QList>
 #include <QAbstractButton>
 #include <QGridLayout>
 #include <QPushButton>
