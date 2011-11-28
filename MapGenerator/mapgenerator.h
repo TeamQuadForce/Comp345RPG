@@ -10,6 +10,9 @@
 
 #include "map.h"
 #include "observer.h"
+#include "MapBuilder.h"
+#include "MapDirector.h"
+#include "arena.h"
 
 namespace Ui {
     class MapGenerator;
@@ -26,6 +29,7 @@ public:
     void init();
     void update(Observable *aObs);
 
+
 private:
     Ui::MapGenerator *ui;
 
@@ -37,6 +41,7 @@ private:
     QButtonGroup *mMapGridElements;
     int mWidth;
     int mHeight;
+    MapBuilder *mMapBuilder;
 
     void statusMessage(QString aString);
     QString mapStyleSheet(TileSet aTile);
@@ -53,7 +58,7 @@ private slots:
     void addMapElement(QAbstractButton* button);
     void saveMap();
     void loadMap();
-
+    void loadArena();
     void returnToMenuButtonPress();
 };
 

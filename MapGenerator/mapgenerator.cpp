@@ -41,6 +41,7 @@ void MapGenerator::init()
     connect(ui->saveMapButton, SIGNAL(clicked()), SLOT(saveMap()));
     connect(ui->loadMapButton, SIGNAL(clicked()), SLOT(loadMap()));
     connect(ui->returnToMenuButton, SIGNAL(clicked()), SLOT(returnToMenuButtonPress()));
+    connect(ui->arenaButton, SIGNAL(clicked()), SLOT(loadArena()));
 
     ui->chestButton->click(); // Default map element that is selected, put after connect so signal triggers method
     ui->displayMapButton->setVisible(false);
@@ -140,10 +141,7 @@ void MapGenerator::addMapElement(QAbstractButton* button)
 void MapGenerator::generateMap()
 {
     statusMessage(QString("Generating map...")); // if this isn't here, a weird bug pops up
-    if (mGridLayout->count() > 0 )
-    {
-        clearMap();
-    }
+    clearMap();
 
     mMapObject = new Map();
     mWidth = validateWidth(ui->widthLineEdit->text().toInt());
@@ -162,27 +160,31 @@ void MapGenerator::generateMap()
 //  Clears the map and deletes the map object
 void MapGenerator::clearMap()
 {
-    while(mGridLayout->count() > 0) {
-        QWidget* widget = mGridLayout->itemAt(0)->widget();
-        mGridLayout->removeWidget(widget);
-        delete widget;
-    }
-    disconnect(mMapGridElements, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(addMapElement(QAbstractButton*)));
+    if (mGridLayout->count() > 0) {
 
-    mMapObject->clearMapGrid();
+        // Removing all the items on the GUI map grid
+        while(mGridLayout->count() > 0) {
+            QWidget* widget = mGridLayout->itemAt(0)->widget();
+            mGridLayout->removeWidget(widget);
+            delete widget;
+        }
 
-    if (mMapObject != 0)
-    {
-        delete mMapObject;
-        mMapObject = 0;
-    }
+        // Disconnecting the connection for buttons in the GUI map grid
+        disconnect(mMapGridElements, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(addMapElement(QAbstractButton*)));
 
-    for (int row=0; row<mMapGrid.size() ; row++)
-    {
-        mMapGrid[row].clear();
+        // Clearing the map object's map grid
+        mMapObject->clearMapGrid();
+
+        if (mMapObject != 0)
+        {
+            delete mMapObject;
+            mMapObject = 0;
+        }
+        mMapGrid.clear();
+        ui->mapLevelLabel->setText("0");
+
+        statusMessage(QString("Cleared map" + mGridLayout->count()));
     }
-    mMapGrid.clear();
-    statusMessage(QString("Cleared map" + mGridLayout->count()));
 }
 
 //  The update method from the Observer pattern. Updates the GUI when a change has been
@@ -225,9 +227,10 @@ void MapGenerator::update(Observable *aObs)
 
     }
 
-
-
-
+    if (mMapObject->level() > 0)
+    {
+        ui->mapLevelLabel->setText(QString::number(mMapObject->level()));
+    }
 
 }
 
@@ -281,10 +284,7 @@ void MapGenerator::saveMap()
 
 void MapGenerator::loadMap()
 {
-    if (mGridLayout->count() > 0 )
-    {
-        clearMap();
-    }
+    clearMap();
     mMapObject = new Map();
     mMapObject->loadMap();
     mMapObject->addObserver(this);
@@ -293,6 +293,8 @@ void MapGenerator::loadMap()
 
 void MapGenerator::returnToMenuButtonPress()
 {
+    clearMap();
+
     if (mMapObject != 0)
     {
         delete mMapObject;
@@ -330,4 +332,23 @@ QString MapGenerator::mapStyleSheet(TileSet aTile)
         styleSheet = QString("background-color: white;");
     }
     return styleSheet;
+}
+
+void MapGenerator::loadArena()
+{
+    clearMap();
+
+    MapDirector mapDirector;
+    mMapBuilder = new Arena;
+
+    mapDirector.setMapBuilder(mMapBuilder);
+    mapDirector.constructMap();
+
+    mMapObject = mapDirector.map()->map();
+    mMapObject->setMapWidth(9);
+    mMapObject->setMapHeight(9);
+
+    mMapObject->addObserver(this);
+    mMapObject->notifyObservers();
+
 }
