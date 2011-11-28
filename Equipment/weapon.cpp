@@ -6,11 +6,13 @@ Weapon::Weapon()
 
 Weapon::Weapon(const QString &aItemName, const WeaponType &aWeaponType,
                const unsigned short &aRange, const unsigned short &aNumOfDamageDice,
-               const unsigned short &aDamageDie, const unsigned short &aNumOfHands) :
+               const unsigned short &aDamageDie, const short &aMagicalDamageBonus,
+               const unsigned short &aNumOfHands) :
     mWeaponType(aWeaponType),
     mRange(aRange),
     mNumberOfDamageDice(aNumOfDamageDice),
     mDamageDie(aDamageDie),
+    mMagicalDamageBonus(aMagicalDamageBonus),
     mNumberOfHandsToWield(aNumOfHands)
 {
     mItemName = aItemName;

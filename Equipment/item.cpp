@@ -6,7 +6,8 @@ Item::Item()
 
 Item::Item(const QString &aItemName, const ItemType &aItemType) :
     mItemName(aItemName),
-    mItemType(aItemType)
+    mItemType(aItemType),
+    mIsEquipped(false)
 {
 }
 

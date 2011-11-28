@@ -3,6 +3,7 @@
 
 #include <QList>
 #include "item.h"
+//class Item;
 
 class Inventory
 {

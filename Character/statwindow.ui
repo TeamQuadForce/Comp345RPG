@@ -770,7 +770,7 @@
     </property>
    </widget>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="backgroundPicStatWindow">
    <property name="geometry">
     <rect>
      <x>-340</x>
@@ -850,7 +850,7 @@
     </property>
    </widget>
   </widget>
-  <zorder>label</zorder>
+  <zorder>backgroundPicStatWindow</zorder>
   <zorder>groupBox_4</zorder>
   <zorder>groupBox_2</zorder>
   <zorder>groupBox_3</zorder>

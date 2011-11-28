@@ -233,8 +233,13 @@ void PlayerCharacter::setStartingItems()
 {
     if (mClassName == "Fighter")
     {
-        mInventory->addItem(new Weapon("Long Sword", Weapon::Melee, 1, 1, 8, 1));
-        mInventory->addItem(new Weapon("Long Bow", Weapon::Ranged, 4, 1, 8, 2));
+        mInventory->addItem(new Weapon("Long Sword", Weapon::Melee, 1, 1, 8, 0, 1));
+        mInventory->addItem(new Weapon("Long Bow", Weapon::Ranged, 4, 1, 8, 0, 2));
+        Armor* armor = new Armor("hello", Armor::BodyArmor, 58);
+        armor->addAbilityMod(PlayerCharacter::Strength, 80);
         mInventory->addItem(new Armor("Rags", Armor::BodyArmor, 1));
+        mInventory->addItem(armor);
+        mInventory->addItem(new Armor("Leather Gloves", Armor::Gloves, 1));
+        mInventory->addItem(new Armor("Leather Boots", Armor::Boots, 1));
     }
 }
