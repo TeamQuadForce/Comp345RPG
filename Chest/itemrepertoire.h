@@ -10,8 +10,8 @@ public:
     virtual ~ItemRepertoire();
     static ItemRepertoire* getUniqueInstance();
 
-//    Item* getItem(unsigned short aLevel);
-//    Item* getRandomItem();
+    Item* getItem(unsigned short aLevel);
+    Item* getRandomItem();
 
 private:
     ItemRepertoire();
