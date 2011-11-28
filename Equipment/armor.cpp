@@ -4,13 +4,15 @@ Armor::Armor()
 {
 }
 
-Armor::Armor(const QString &aItemName, const ArmorType &aArmorType, const short &aArmorClass) :
+Armor::Armor(const QString &aItemName, const ArmorType &aArmorType, const short &aArmorClass,
+             const unsigned short &aLevel) :
     mArmorClass(aArmorClass),
     mArmorType(aArmorType)
 {
     mItemName = aItemName;
     mItemType = Item::Armor;
     mIsEquipped = false;
+    mLevel = aLevel;
 }
 
 Armor::ArmorType Armor::armorType()
@@ -25,7 +27,7 @@ short Armor::armorClass()
 
 QString Armor::itemDescription()
 {
-    return QString("%1 (+%2 AC)").arg(mItemName).arg(mArmorClass);
+    return QString("%1 (%2 AC)").arg(mItemName).arg(mArmorClass);
 }
 
 void Armor::addAbilityMod(PlayerCharacter::AbilityScore aScore, short aValue)

@@ -10,8 +10,7 @@ public:
     {
         Potion = 0,
         Weapon,
-        Armor,
-        Ring
+        Armor
     };
 
     Item();
@@ -21,11 +20,15 @@ public:
     ItemType itemType();
     void setEquipped(bool aEquip);
     bool isEquipped();
+    unsigned short level();
+
+    //virtual QString itemDescription() = 0;
 
 protected:
     QString mItemName;
     ItemType mItemType;
     bool mIsEquipped;
+    unsigned short mLevel;
 };
 
 #endif // ITEM_H

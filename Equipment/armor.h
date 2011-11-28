@@ -10,7 +10,7 @@ public:
     enum ArmorType
     {
         BodyArmor = 0,
-        Gloves,
+        Bracers,
         Helmet,
         Boots,
         Belt,
@@ -19,7 +19,8 @@ public:
     };
 
     Armor();
-    Armor(const QString &aItemName, const ArmorType &aArmorType, const short &aArmorClass);
+    Armor(const QString &aItemName, const ArmorType &aArmorType, const short &aArmorClass,
+          const unsigned short &aLevel);
 
     ArmorType armorType();
     short armorClass();
