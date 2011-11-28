@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
     MapGenerator *mapGen = new MapGenerator(mainGameWindow);
     PlayGenerator *playGen = new PlayGenerator(mainGameWindow);
     mapGen->init();
+
     mainGameWindow->insertWidget(1, charGen);
     mainGameWindow->insertWidget(2, mapGen);
     mainGameWindow->insertWidget(3, playGen);

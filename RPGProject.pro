@@ -30,17 +30,23 @@ include(PlayGenerator/PlayGenerator.pri)
 SOURCES += main.cpp \
     diceroller.cpp \
     game.cpp \
-    quitdialog.cpp
+    quitdialog.cpp \
+    logger.cpp
 
 HEADERS  += \
     diceroller.h \
     observable.h \
     observer.h \
     game.h \
-    quitdialog.h
+    quitdialog.h \
+    logger.h
 
 FORMS    += game.ui \
-    quitdialog.ui
+    quitdialog.ui \
+    logger.ui
 
 RESOURCES += \
     resources.qrc
+
+
+

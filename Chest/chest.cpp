@@ -5,7 +5,7 @@ Chest::Chest()
 
 }
 
-void Chest::addItems()
+QList<Item *>& Chest::itemList()
 {
-
+    return mItemList;
 }

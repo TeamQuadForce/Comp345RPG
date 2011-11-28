@@ -10,6 +10,7 @@
 #include "map.h"
 #include "game.h"
 #include "dungeon.h"
+#include "logger.h"
 
 PlayGenerator::PlayGenerator(QWidget *parent) :
     QWidget(parent),
@@ -19,6 +20,7 @@ PlayGenerator::PlayGenerator(QWidget *parent) :
     connect(ui->loadCharacterButton, SIGNAL(clicked()), SLOT(loadCharacter()));
     connect(ui->loadMapButton, SIGNAL(clicked()), SLOT(loadMap()));
     connect(ui->enterDungeonButton, SIGNAL(clicked()), SLOT(enterDungeon()));
+    connect(ui->backButton, SIGNAL(clicked()), SLOT(backToMainScreen()));
 
     mPlayer = 0;
     mMap = 0;
@@ -85,10 +87,15 @@ void PlayGenerator::enterDungeon()
     {
         Game *game = (Game*)this->parentWidget();
         Dungeon *dungeon = new Dungeon((Game*)this->parentWidget());
-        dungeon->init(mPlayer, mMap, filename);
+        Logger *logger = new Logger((Game*)this->parentWidget());
+        dungeon->init(mPlayer, mMap, logger, filename);
         game->insertWidget(4, dungeon);
         game->setCurrentIndex(4);
+
     }
 }
 
-
+void PlayGenerator::backToMainScreen(){
+    Game *game=(Game*)this->parentWidget();
+    game->setCurrentIndex(0);
+}

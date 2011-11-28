@@ -8,6 +8,7 @@
         <file>stats.jpg</file>
         <file>map.PNG</file>
         <file>play.jpg</file>
+        <file>logger.JPG</file>
     </qresource>
     <qresource prefix="/dungeon">
         <file>images/chest.jpg</file>
@@ -15,5 +16,8 @@
         <file>images/exit.jpg</file>
         <file>images/terrain.jpg</file>
         <file>images/wall.jpg</file>
+    </qresource>
+    <qresource prefix="/music">
+        <file>sounds/character.wav</file>
     </qresource>
 </RCC>

@@ -9,11 +9,14 @@
 #include <QLabel>
 
 #include "map.h"
+#include "player.h"
 #include "playercharacter.h"
 #include "statwindow.h"
 #include "inventoryscreen.h"
 #include "chest.h"
 #include "chestbuilder.h"
+#include "diceroller.h"
+#include "logger.h"
 
 namespace Ui {
     class Dungeon;
@@ -28,7 +31,7 @@ public:
     Dungeon();
     ~Dungeon();
 
-    void init(PlayerCharacter *aPlayer, Map *aMap, QString filename);
+    void init(PlayerCharacter *aPlayer, Map *aMap, Logger *logger, QString filename);
     void assignMovementOperations();
     void update(Observable *aObs);
 
@@ -37,6 +40,9 @@ public:
 private:
     Ui::Dungeon *ui;
     void initializeMap();
+    void testDetermineTurnOrder();
+    QVector <PlayerCharacter*> determineTurnOrder(QVector <PlayerCharacter*> characterVector,
+                                                  QVector <int> characterInitiativeVector);
     Map *mMapObject;
     QGridLayout *mLayout;
     QList<QList<QLabel*> > mMapGrid;
@@ -45,6 +51,7 @@ private:
     PlayerCharacter *mPlayer;
     StatWindow *mStatWindow;
     InventoryScreen *mInventoryScreen;
+    Logger *mLogger;
 
     //Director specific functions for chests
     ChestBuilder* mChestBuilder;
