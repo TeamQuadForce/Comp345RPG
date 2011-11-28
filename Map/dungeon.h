@@ -12,6 +12,7 @@
 #include "playercharacter.h"
 #include "statwindow.h"
 #include "inventoryscreen.h"
+#include "logger.h"
 
 namespace Ui {
     class Dungeon;
@@ -26,7 +27,7 @@ public:
     Dungeon();
     ~Dungeon();
 
-    void init(PlayerCharacter *aPlayer, Map *aMap, QString filename);
+    void init(PlayerCharacter *aPlayer, Map *aMap, Logger *logger, QString filename);
     void assignMovementOperations();
     void update(Observable *aObs);
 
@@ -43,6 +44,7 @@ private:
     PlayerCharacter *mPlayer;
     StatWindow *mStatWindow;
     InventoryScreen *mInventoryScreen;
+    Logger *mLogger;
 
 private slots:
     void moveCharacter(QAbstractButton *button);

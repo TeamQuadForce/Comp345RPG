@@ -16,9 +16,10 @@ Dungeon::~Dungeon()
     delete ui;
     delete mStatWindow;
     delete mInventoryScreen;
+    delete mLogger;
 }
 
-void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, QString file)
+void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, Logger *aLogger, QString file)
 {
     mLayout = new QGridLayout();
     mLayout->setSpacing(0);
@@ -35,6 +36,7 @@ void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, QString file)
 
     mStatWindow = new StatWindow;
     mInventoryScreen = new InventoryScreen;
+    mLogger = new Logger;
     mInventoryScreen->init(mPlayer);
 
     mPlayer->addObserver(mStatWindow);
@@ -44,7 +46,9 @@ void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, QString file)
 
     mStatWindow->show();
     mInventoryScreen->show();
+    mLogger->show();
     this->show();
+    mLogger->addLogEntry("Lolol");
 }
 
 
