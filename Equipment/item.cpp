@@ -7,7 +7,8 @@ Item::Item()
 Item::Item(const QString &aItemName, const ItemType &aItemType) :
     mItemName(aItemName),
     mItemType(aItemType),
-    mIsEquipped(false)
+    mIsEquipped(false),
+    mLevel(0)
 {
 }
 
@@ -29,4 +30,9 @@ void Item::setEquipped(bool aEquip)
 bool Item::isEquipped()
 {
     return mIsEquipped;
+}
+
+unsigned short Item::level()
+{
+    return mLevel;
 }
