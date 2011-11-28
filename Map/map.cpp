@@ -392,3 +392,13 @@ void Map::setIsExitPlaced(bool aIsExitPlaced)
 {
     mIsExitPlaced = aIsExitPlaced;
 }
+
+int Map::level()
+{
+    return mLevel;
+}
+
+void Map::setLevel(int aLevel)
+{
+    mLevel = aLevel;
+}

@@ -33,6 +33,7 @@ public:
     bool isCharacterPlaced();
     bool isExitPlaced();
     bool isDungeonCompleted();
+    int level();
 
     //  Mutators
     void setMapWidth(int aWidth);
@@ -44,6 +45,7 @@ public:
     void setIsCharacterPlaced(bool aIsCharacterPlaced);
     void setIsExitPlaced(bool aIsExitPlaced);
     void setIsDungeonCompleted(bool cleared);
+    void setLevel(int aLevel);
 
     //Observer methods
     void addObserver(Observer *aObserver);
@@ -65,6 +67,7 @@ private:
     bool mIsCharacterPlaced;
     bool mIsExitPlaced;
     bool mIsDungeonCompleted;
+    int mLevel;
 
 
 //    TODO
