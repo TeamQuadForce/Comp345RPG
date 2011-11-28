@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 
     Game *mainGameWindow = new Game;
 
-    QSound intro(":/music/sounds/character.wav");
+    QSound intro("sounds/character.wav");
     intro.setLoops( -1 );
     intro.play();
     CharacterGenerator *charGen = new CharacterGenerator(mainGameWindow);

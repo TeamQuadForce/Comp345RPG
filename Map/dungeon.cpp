@@ -38,17 +38,23 @@ void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, Logger *aLogger, QString
     mInventoryScreen = new InventoryScreen;
     mLogger = new Logger;
     mInventoryScreen->init(mPlayer);
+    mLogger->addLogEntry("Character Stats Window Initialized");
 
     mPlayer->addObserver(mStatWindow);
+    mLogger->addLogEntry("Stat Window Observer has been added to player");
     mPlayer->addObserver(mInventoryScreen);
+    mLogger->addLogEntry("Character Inventory Screen Initialized");
 
     mPlayer->notifyObservers();
+    mLogger->addLogEntry("Observer Notified");
 
     mStatWindow->show();
+    mLogger->addLogEntry("Stats Window Displayed");
     mInventoryScreen->show();
+    mLogger->addLogEntry("Inventory Window Displayed");
     mLogger->show();
     this->show();
-    mLogger->addLogEntry("Lolol");
+
 }
 
 
@@ -167,9 +173,12 @@ void Dungeon::update(Observable *aObs)
     }
 
     if(mMapObject->isDungeonCompleted())
+
     {
+        mLogger->addLogEntry("Dungeon Completed!");
         mStatWindow->hide();
         mInventoryScreen->hide();
+        mLogger->hide();
         mPlayer->levelUp();
 
         QString fileName = filename;
