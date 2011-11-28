@@ -1,5 +1,6 @@
 #include <QApplication>
 #include <cmath>
+#include <QDebug>
 #include "playercharacter.h"
 #include "fighter.h"
 #include "diceroller.h"
@@ -241,5 +242,10 @@ void PlayerCharacter::setStartingItems()
         mInventory->addItem(armor);
         mInventory->addItem(new Armor("Leather Gloves", Armor::Gloves, 1));
         mInventory->addItem(new Armor("Leather Boots", Armor::Boots, 1));
+
+        foreach(Item* item, mInventory->backpack())
+        {
+            qDebug() << item->isEquipped();
+        }
     }
 }

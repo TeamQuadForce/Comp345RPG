@@ -17,6 +17,7 @@ Weapon::Weapon(const QString &aItemName, const WeaponType &aWeaponType,
 {
     mItemName = aItemName;
     mItemType = Item::Weapon;
+    mIsEquipped = false;
 }
 
 Weapon::WeaponType Weapon::weaponType()

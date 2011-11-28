@@ -10,6 +10,7 @@ Armor::Armor(const QString &aItemName, const ArmorType &aArmorType, const short 
 {
     mItemName = aItemName;
     mItemType = Item::Armor;
+    mIsEquipped = false;
 }
 
 Armor::ArmorType Armor::armorType()
