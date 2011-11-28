@@ -8,6 +8,7 @@
 #include "diceroller.h"
 #include "observer.h"
 #include "statwindow.h"
+#include "characterbuilder.h"
 
 namespace Ui {
     class CharacterGenerator;
@@ -26,21 +27,19 @@ public:
 
 private:
     Ui::CharacterGenerator *ui;
-    PlayerCharacter *mPlayer;
     StatWindow *mStatWindow;
+    CharacterBuilder* mCharacterBuilder;
 
     void removeLowestValue(QList<int> &aList);
+    //Director specific functions
+    void setCharacterBuilder(CharacterBuilder* aCharacterBuilder);
+    PlayerCharacter* player();
+    void constructCharacter();
 
 private slots:
     void changePicture();
 
     void rollAbilityScores();
-    void addToStrength();
-    void addToDexterity();
-    void addToConstitution();
-    void addToIntelligence();
-    void addToWisdom();
-    void addToCharisma();
 
     void generateCharacter();
     void readyToGenerate();

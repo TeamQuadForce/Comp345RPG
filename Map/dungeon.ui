@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>663</width>
-    <height>534</height>
+    <width>761</width>
+    <height>433</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QPushButton" name="upButton">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>260</y>
+     <x>110</x>
+     <y>261</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -32,7 +32,7 @@
   <widget class="QFrame" name="mapDungeonFrame">
    <property name="geometry">
     <rect>
-     <x>240</x>
+     <x>290</x>
      <y>20</y>
      <width>401</width>
      <height>351</height>
@@ -51,7 +51,7 @@
   <widget class="QPushButton" name="downButton">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>110</x>
      <y>290</y>
      <width>75</width>
      <height>23</height>
@@ -67,7 +67,7 @@
   <widget class="QPushButton" name="rightButton">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>191</x>
      <y>290</y>
      <width>75</width>
      <height>23</height>
@@ -83,7 +83,7 @@
   <widget class="QPushButton" name="leftButton">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>29</x>
      <y>290</y>
      <width>75</width>
      <height>23</height>

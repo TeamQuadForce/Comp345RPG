@@ -13,32 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLineEdit" name="wisdomLine">
-   <property name="geometry">
-    <rect>
-     <x>340</x>
-     <y>120</y>
-     <width>41</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="charismaLine">
-   <property name="geometry">
-    <rect>
-     <x>390</x>
-     <y>120</y>
-     <width>41</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QPushButton" name="generateCharacterButton">
    <property name="enabled">
     <bool>false</bool>
@@ -94,19 +68,6 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="strengthLine">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>120</y>
-     <width>41</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QComboBox" name="raceComboBox">
    <property name="geometry">
     <rect>
@@ -140,19 +101,6 @@
     <string/>
    </property>
   </widget>
-  <widget class="QLineEdit" name="dexterityLine">
-   <property name="geometry">
-    <rect>
-     <x>190</x>
-     <y>120</y>
-     <width>41</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QLineEdit" name="characterName">
    <property name="geometry">
     <rect>
@@ -166,45 +114,6 @@
     <number>28</number>
    </property>
   </widget>
-  <widget class="QPushButton" name="addIntelligenceButton">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>140</y>
-     <width>41</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>INT</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="intelligenceLine">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>120</y>
-     <width>41</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="addStrengthButton">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>140</y>
-     <width>41</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>STR</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="classLabel">
    <property name="geometry">
     <rect>
@@ -216,19 +125,6 @@
    </property>
    <property name="text">
     <string>Class:</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="addDexterityButton">
-   <property name="geometry">
-    <rect>
-     <x>190</x>
-     <y>140</y>
-     <width>41</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>DEX</string>
    </property>
   </widget>
   <widget class="QComboBox" name="genderComboBox">
@@ -256,19 +152,6 @@
     </property>
    </item>
   </widget>
-  <widget class="QPushButton" name="addConstitutionButton">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>140</y>
-     <width>41</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>CON</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="raceLabel">
    <property name="geometry">
     <rect>
@@ -280,19 +163,6 @@
    </property>
    <property name="text">
     <string>Race:</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="constitutionLine">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>120</y>
-     <width>41</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="raceLabel_3">
@@ -350,32 +220,6 @@
     <string>Gender:</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="addWisdomButton">
-   <property name="geometry">
-    <rect>
-     <x>340</x>
-     <y>140</y>
-     <width>41</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>WIS</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="addCharismaButton">
-   <property name="geometry">
-    <rect>
-     <x>390</x>
-     <y>140</y>
-     <width>41</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>CHA</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="saveCharacterButton">
    <property name="enabled">
     <bool>false</bool>
@@ -408,33 +252,69 @@
     <string/>
    </property>
   </widget>
+  <widget class="QComboBox" name="typeComboBox">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>120</y>
+     <width>101</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>&lt;Choose one&gt;</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Brute</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Nimble</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Tank</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="raceLabel_4">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>120</y>
+     <width>31</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Type:</string>
+   </property>
+  </widget>
   <zorder>label</zorder>
-  <zorder>wisdomLine</zorder>
-  <zorder>charismaLine</zorder>
   <zorder>generateCharacterButton</zorder>
   <zorder>classComboBox</zorder>
   <zorder>rollAbilityScoresButton</zorder>
-  <zorder>strengthLine</zorder>
   <zorder>raceComboBox</zorder>
   <zorder>playerPicture</zorder>
-  <zorder>dexterityLine</zorder>
   <zorder>characterName</zorder>
-  <zorder>addIntelligenceButton</zorder>
-  <zorder>intelligenceLine</zorder>
-  <zorder>addStrengthButton</zorder>
   <zorder>classLabel</zorder>
-  <zorder>addDexterityButton</zorder>
   <zorder>genderComboBox</zorder>
-  <zorder>addConstitutionButton</zorder>
   <zorder>raceLabel</zorder>
-  <zorder>constitutionLine</zorder>
   <zorder>raceLabel_3</zorder>
   <zorder>returnToMenuButton</zorder>
   <zorder>dicerollList</zorder>
   <zorder>raceLabel_2</zorder>
-  <zorder>addWisdomButton</zorder>
-  <zorder>addCharismaButton</zorder>
   <zorder>saveCharacterButton</zorder>
+  <zorder>typeComboBox</zorder>
+  <zorder>raceLabel_4</zorder>
  </widget>
  <resources/>
  <connections/>

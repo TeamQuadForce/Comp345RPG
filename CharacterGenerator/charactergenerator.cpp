@@ -4,11 +4,15 @@
 #include <QDateTime>
 #include <QLayout>
 #include <QDebug>
-#include "charactergenerator.h"
-#include "ui_charactergenerator.h"
-#include "game.h"
 #include <QSound>
 #include <QFileDialog>
+
+#include "game.h"
+#include "brutebuilder.h"
+#include "nimblebuilder.h"
+#include "tankbuilder.h"
+#include "charactergenerator.h"
+#include "ui_charactergenerator.h"
 
 using namespace std;
 
@@ -17,17 +21,17 @@ CharacterGenerator::CharacterGenerator(QWidget *parent) :
     ui(new Ui::CharacterGenerator)
 {
     ui->setupUi(this);
-    mPlayer = 0;
+    mCharacterBuilder = 0;
 }
 
 CharacterGenerator::~CharacterGenerator()
 {
     delete ui;
     ui = 0;
-    delete mPlayer;
-    mPlayer = 0;
     delete mStatWindow;
     mStatWindow = 0;
+    delete mCharacterBuilder;
+    mCharacterBuilder = 0;
 }
 
 //Initialization method for all connect logic for signals and slots
@@ -41,13 +45,8 @@ void CharacterGenerator::init()
     connect(ui->raceComboBox, SIGNAL(currentIndexChanged(int)), SLOT(changePicture()));
     connect(ui->classComboBox, SIGNAL(currentIndexChanged(int)), SLOT(changePicture()));
     connect(ui->genderComboBox, SIGNAL(currentIndexChanged(int)), SLOT(changePicture()));
+    connect(ui->typeComboBox, SIGNAL(currentIndexChanged(int)), SLOT(readyToGenerate()));
     connect(ui->rollAbilityScoresButton, SIGNAL(clicked()), SLOT(rollAbilityScores()));
-    connect(ui->addStrengthButton, SIGNAL(clicked()), SLOT(addToStrength()));
-    connect(ui->addDexterityButton, SIGNAL(clicked()), SLOT(addToDexterity()));
-    connect(ui->addConstitutionButton, SIGNAL(clicked()), SLOT(addToConstitution()));
-    connect(ui->addIntelligenceButton, SIGNAL(clicked()), SLOT(addToIntelligence()));
-    connect(ui->addWisdomButton, SIGNAL(clicked()), SLOT(addToWisdom()));
-    connect(ui->addCharismaButton, SIGNAL(clicked()), SLOT(addToCharisma()));
     connect(ui->generateCharacterButton, SIGNAL(clicked()), SLOT(generateCharacter()));
     connect(ui->genderComboBox, SIGNAL(currentIndexChanged(int)), SLOT(readyToGenerate()));
     connect(ui->raceComboBox, SIGNAL(currentIndexChanged(int)), SLOT(readyToGenerate()));
@@ -129,18 +128,7 @@ void CharacterGenerator::rollAbilityScores()
         ui->dicerollList->addItem(QString::number(abilityDice[i]));
     }
 
-    ui->strengthLine->clear();
-    ui->addStrengthButton->setEnabled(true);
-    ui->dexterityLine->clear();
-    ui->addDexterityButton->setEnabled(true);
-    ui->constitutionLine->clear();
-    ui->addConstitutionButton->setEnabled(true);
-    ui->intelligenceLine->clear();
-    ui->addIntelligenceButton->setEnabled(true);
-    ui->wisdomLine->clear();
-    ui->addWisdomButton->setEnabled(true);
-    ui->charismaLine->clear();
-    ui->addCharismaButton->setEnabled(true);
+    ui->typeComboBox->setEnabled(true);
 }
 
 //Removes the lowest number in a given list of integers.
@@ -169,15 +157,10 @@ void CharacterGenerator::removeLowestValue(QList<int> &aList)
 //ability scores. It will enable the generate character button
 void CharacterGenerator::readyToGenerate()
 {
-    if(!ui->strengthLine->text().isEmpty() &&
-        !ui->dexterityLine->text().isEmpty() &&
-        !ui->constitutionLine->text().isEmpty() &&
-        !ui->intelligenceLine->text().isEmpty() &&
-        !ui->wisdomLine->text().isEmpty() &&
-        !ui->charismaLine->text().isEmpty() &&
-        ui->genderComboBox->currentIndex() != 0 &&
-        ui->raceComboBox->currentIndex() != 0 &&
-        ui->classComboBox->currentIndex() != 0)
+    if(ui->genderComboBox->currentIndex() != 0 &&
+            ui->raceComboBox->currentIndex() != 0 &&
+            ui->classComboBox->currentIndex() != 0 &&
+            ui->typeComboBox->currentIndex() != 0)
     {
         ui->generateCharacterButton->setEnabled(true);
     }
@@ -187,140 +170,43 @@ void CharacterGenerator::readyToGenerate()
     }
 }
 
-//Add's the currently selected ability score from the list to
-//the strength text line when pressing the ADD button
-void CharacterGenerator::addToStrength()
-{
-    if (ui->dicerollList->selectedItems().size() == 1)
-    {
-        QListWidgetItem *item = ui->dicerollList->selectedItems().first();
-        if (!item->isHidden())
-        {
-            QString selectedAttribute = item->text();
-            ui->strengthLine->setText(selectedAttribute);
-            item->setHidden(true);
-            ui->addStrengthButton->setEnabled(false);
-            readyToGenerate();
-        }
-    }
-}
-
-//Add's the currently selected ability score from the list to
-//the dexterity text line when pressing the ADD button
-void CharacterGenerator::addToDexterity()
-{
-    if (ui->dicerollList->selectedItems().size() == 1)
-    {
-        QListWidgetItem *item = ui->dicerollList->selectedItems().first();
-        if (!item->isHidden())
-        {
-            QString selectedAttribute = item->text();
-            ui->dexterityLine->setText(selectedAttribute);
-            item->setHidden(true);
-            ui->addDexterityButton->setEnabled(false);
-            readyToGenerate();
-        }
-    }
-}
-
-//Add's the currently selected ability score from the list to
-//the constitution text line when pressing the ADD button
-void CharacterGenerator::addToConstitution()
-{
-    if (ui->dicerollList->selectedItems().size() == 1)
-    {
-        QListWidgetItem *item = ui->dicerollList->selectedItems().first();
-        if (!item->isHidden())
-        {
-            QString selectedAttribute = item->text();
-            ui->constitutionLine->setText(selectedAttribute);
-            item->setHidden(true);
-            ui->addConstitutionButton->setEnabled(false);
-            readyToGenerate();
-        }
-    }
-}
-
-//Add's the currently selected ability score from the list to
-//the intelligence text line when pressing the ADD button
-void CharacterGenerator::addToIntelligence()
-{
-    if (ui->dicerollList->selectedItems().size() == 1)
-    {
-        QListWidgetItem *item = ui->dicerollList->selectedItems().first();
-        if (!item->isHidden())
-        {
-            QString selectedAttribute = item->text();
-            ui->intelligenceLine->setText(selectedAttribute);
-            item->setHidden(true);
-            ui->addIntelligenceButton->setEnabled(false);
-            readyToGenerate();
-        }
-    }
-}
-
-//Add's the currently selected ability score from the list to
-//the wisdom text line when pressing the ADD button
-void CharacterGenerator::addToWisdom()
-{
-    if (ui->dicerollList->selectedItems().size() == 1)
-    {
-        QListWidgetItem *item = ui->dicerollList->selectedItems().first();
-        if (!item->isHidden())
-        {
-            QString selectedAttribute = item->text();
-            ui->wisdomLine->setText(selectedAttribute);
-            item->setHidden(true);
-            ui->addWisdomButton->setEnabled(false);
-            readyToGenerate();
-        }
-    }
-}
-
-//Add's the currently selected ability score from the list to
-//the charisma text line when pressing the ADD button
-void CharacterGenerator::addToCharisma()
-{
-    if (ui->dicerollList->selectedItems().size() == 1)
-    {
-        QListWidgetItem *item = ui->dicerollList->selectedItems().first();
-        if (!item->isHidden())
-        {
-            QString selectedAttribute = item->text();
-            ui->charismaLine->setText(selectedAttribute);
-            item->setHidden(true);
-            ui->addCharismaButton->setEnabled(false);
-            readyToGenerate();
-        }
-    }
-}
-
 //Generates a new character based on the user's specified race, class, and
 //ability scores.
 void CharacterGenerator::generateCharacter()
 {
-    if (mPlayer != 0)
+    //Builder stuff goes here
+    //Get the builder type
+    int typeIndex = ui->typeComboBox->currentIndex();
+
+    if (typeIndex == 1)
     {
-        delete mPlayer;
-        mPlayer = 0;
+       setCharacterBuilder(new BruteBuilder);
+    }
+    else if (typeIndex == 2)
+    {
+        setCharacterBuilder(new NimbleBuilder);
+    }
+    else if (typeIndex == 3)
+    {
+        setCharacterBuilder(new TankBuilder);
+    }
+    else
+    {
+        return;
     }
 
-    mPlayer = new PlayerCharacter(ui->characterName->text(),
-                                  ui->genderComboBox->currentText(),
-                                  ui->raceComboBox->currentText(),
-                                  ui->classComboBox->currentText(),
-                                  ui->playerPicture->pixmap()->pixmapData());
+    constructCharacter();
 
-    mPlayer->modifyAbilityScores(ui->strengthLine->text().toShort(),
-                                 ui->dexterityLine->text().toShort(),
-                                 ui->constitutionLine->text().toShort(),
-                                 ui->intelligenceLine->text().toShort(),
-                                 ui->wisdomLine->text().toShort(),
-                                 ui->charismaLine->text().toShort());
+    player()->addObserver(mStatWindow);
+    QList<QListWidgetItem *> list = ui->dicerollList->findItems("\\d+", Qt::MatchRegExp);
+    QList<short> abilityList;
 
-    mPlayer->addObserver(mStatWindow);
-
-    mPlayer->init();
+    foreach(QListWidgetItem* item, list)
+    {
+        abilityList.append(item->text().toShort());
+    }
+    mCharacterBuilder->setAbilityScores(abilityList);
+    player()->init();
 
     ui->returnToMenuButton->setEnabled(true);
     ui->saveCharacterButton->setEnabled(true);
@@ -331,10 +217,10 @@ void CharacterGenerator::generateCharacter()
 void CharacterGenerator::returnToMenuButtonPress()
 {
     reset();
-    if (mPlayer != 0)
+    if (player() != 0)
     {
-        delete mPlayer;
-        mPlayer = 0;
+        delete mCharacterBuilder;
+        mCharacterBuilder = 0;
     }
 
     Game *game = (Game*)this->parentWidget();
@@ -349,17 +235,47 @@ void CharacterGenerator::saveCharacter()
     QFile file(fileName);
     file.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out(&file);
-    out<<mPlayer->race()<<endl;
-    out<<mPlayer->className()<<endl;
-    out<<mPlayer->gender()<<endl;
-    out<<mPlayer->name()<<endl;
-    out<<mPlayer->abilityScore(PlayerCharacter::Strength)<<endl;
-    out<<mPlayer->abilityScore(PlayerCharacter::Dexterity)<<endl;
-    out<<mPlayer->abilityScore(PlayerCharacter::Constitution)<<endl;
-    out<<mPlayer->abilityScore(PlayerCharacter::Intelligence)<<endl;
-    out <<mPlayer->abilityScore(PlayerCharacter::Wisdom)<<endl;
-    out<<mPlayer->abilityScore(PlayerCharacter::Charisma)<<endl;
+    out<<player()->race()<<endl;
+    out<<player()->className()<<endl;
+    out<<player()->gender()<<endl;
+    out<<player()->name()<<endl;
+    out<<player()->abilityScore(PlayerCharacter::Strength)<<endl;
+    out<<player()->abilityScore(PlayerCharacter::Dexterity)<<endl;
+    out<<player()->abilityScore(PlayerCharacter::Constitution)<<endl;
+    out<<player()->abilityScore(PlayerCharacter::Intelligence)<<endl;
+    out<<player()->abilityScore(PlayerCharacter::Wisdom)<<endl;
+    out<<player()->abilityScore(PlayerCharacter::Charisma)<<endl;
     file.close();
+}
+
+void CharacterGenerator::setCharacterBuilder(CharacterBuilder *aCharacterBuilder)
+{
+    if (mCharacterBuilder != 0)
+    {
+        delete mCharacterBuilder;
+        mCharacterBuilder = 0;
+    }
+
+    mCharacterBuilder = aCharacterBuilder;
+}
+
+PlayerCharacter * CharacterGenerator::player()
+{
+    if (mCharacterBuilder != 0 && mCharacterBuilder->getPlayer() != 0)
+    {
+        return mCharacterBuilder->getPlayer();
+    }
+
+    return 0;
+}
+
+void CharacterGenerator::constructCharacter()
+{
+    mCharacterBuilder->createNewCharacter(ui->characterName->text(),
+                                          ui->genderComboBox->currentText(),
+                                          ui->raceComboBox->currentText(),
+                                          ui->classComboBox->currentText(),
+                                          ui->playerPicture->pixmap()->pixmapData());
 }
 
 //Resets the GUI back to it's default state
@@ -372,18 +288,7 @@ void CharacterGenerator::reset()
     ui->genderComboBox->setCurrentIndex(0);
     ui->playerPicture->clear();
     ui->dicerollList->clear();
-    ui->strengthLine->clear();
-    ui->addStrengthButton->setEnabled(true);
-    ui->dexterityLine->clear();
-    ui->addDexterityButton->setEnabled(true);
-    ui->constitutionLine->clear();
-    ui->addConstitutionButton->setEnabled(true);
-    ui->intelligenceLine->clear();
-    ui->addIntelligenceButton->setEnabled(true);
-    ui->wisdomLine->clear();
-    ui->addWisdomButton->setEnabled(true);
-    ui->charismaLine->clear();
-    ui->addCharismaButton->setEnabled(true);
     ui->generateCharacterButton->setEnabled(false);
     ui->saveCharacterButton->setEnabled(false);
+    ui->typeComboBox->setEnabled(false);
 }
