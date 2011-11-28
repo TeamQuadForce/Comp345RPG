@@ -8,7 +8,7 @@ class Chest
 {
 public:
     Chest();
-    void addItems();
+    QList<Item*>& itemList();
 
 private:
     QList<Item*> mItemList;

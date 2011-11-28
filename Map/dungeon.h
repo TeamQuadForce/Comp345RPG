@@ -13,6 +13,8 @@
 #include "playercharacter.h"
 #include "statwindow.h"
 #include "inventoryscreen.h"
+#include "chest.h"
+#include "chestbuilder.h"
 #include "diceroller.h"
 #include "logger.h"
 
@@ -51,6 +53,12 @@ private:
     StatWindow *mStatWindow;
     InventoryScreen *mInventoryScreen;
     Logger *mLogger;
+
+    //Director specific functions for chests
+    ChestBuilder* mChestBuilder;
+    void setChestBuilder(ChestBuilder* aChestBuilder);
+    Chest* chest();
+    void constructChest();
 
 private slots:
     void moveCharacter(QAbstractButton *button);
