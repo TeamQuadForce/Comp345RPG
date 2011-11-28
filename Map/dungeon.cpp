@@ -14,8 +14,11 @@ Dungeon::Dungeon(QWidget *parent) :
 Dungeon::~Dungeon()
 {
     delete ui;
+    ui = 0;
     delete mStatWindow;
+    mStatWindow = 0;
     delete mInventoryScreen;
+    mInventoryScreen = 0;
 }
 
 void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, QString file)
@@ -46,7 +49,6 @@ void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, QString file)
     mInventoryScreen->show();
     this->show();
 }
-
 
 //Method it initialize the map
 void Dungeon::initializeMap()
@@ -191,4 +193,23 @@ void Dungeon::update(Observable *aObs)
 //        game->setCurrentIndex(0);
         qApp->quit();
     }
+}
+
+void Dungeon::setChestBuilder(ChestBuilder *aChestBuilder)
+{
+    if (mChestBuilder != 0)
+    {
+        delete mChestBuilder;
+        mChestBuilder = 0;
+    }
+
+    mChestBuilder = aChestBuilder;
+}
+
+Chest * Dungeon::chest()
+{
+}
+
+void Dungeon::constructChest()
+{
 }

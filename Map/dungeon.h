@@ -12,6 +12,8 @@
 #include "playercharacter.h"
 #include "statwindow.h"
 #include "inventoryscreen.h"
+#include "chest.h"
+#include "chestbuilder.h"
 
 namespace Ui {
     class Dungeon;
@@ -43,6 +45,12 @@ private:
     PlayerCharacter *mPlayer;
     StatWindow *mStatWindow;
     InventoryScreen *mInventoryScreen;
+
+    //Director specific functions for chests
+    ChestBuilder* mChestBuilder;
+    void setChestBuilder(ChestBuilder* aChestBuilder);
+    Chest* chest();
+    void constructChest();
 
 private slots:
     void moveCharacter(QAbstractButton *button);
