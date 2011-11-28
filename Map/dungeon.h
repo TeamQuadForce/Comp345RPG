@@ -25,7 +25,7 @@ public:
     Dungeon();
     ~Dungeon();
 
-    void init(PlayerCharacter *aPlayer, Map *aMap);
+    void init(PlayerCharacter *aPlayer, Map *aMap, QString filename);
     void assignMovementOperations();
     void update(Observable *aObs);
 
@@ -37,6 +37,7 @@ private:
     Map *mMapObject;
     QGridLayout *mLayout;
     QList<QList<QPushButton*> > mMapGrid;
+    QString filename;
 
     PlayerCharacter *mPlayer;
     StatWindow *mStatWindow;

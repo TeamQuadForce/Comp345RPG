@@ -239,12 +239,14 @@ void CharacterGenerator::saveCharacter()
     out<<player()->className()<<endl;
     out<<player()->gender()<<endl;
     out<<player()->name()<<endl;
+    out<<player()->level()<<endl;
     out<<player()->abilityScore(PlayerCharacter::Strength)<<endl;
     out<<player()->abilityScore(PlayerCharacter::Dexterity)<<endl;
     out<<player()->abilityScore(PlayerCharacter::Constitution)<<endl;
     out<<player()->abilityScore(PlayerCharacter::Intelligence)<<endl;
     out<<player()->abilityScore(PlayerCharacter::Wisdom)<<endl;
     out<<player()->abilityScore(PlayerCharacter::Charisma)<<endl;
+    out<<fileName<<endl;
     file.close();
 }
 
