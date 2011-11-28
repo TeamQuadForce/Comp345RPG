@@ -16,9 +16,10 @@ Dungeon::~Dungeon()
     delete ui;
     delete mStatWindow;
     delete mInventoryScreen;
+    delete mLogger;
 }
 
-void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, QString file)
+void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, Logger *aLogger, QString file)
 {
     mLayout = new QGridLayout();
     mLayout->setSpacing(0);
@@ -36,16 +37,25 @@ void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, QString file)
 
     mStatWindow = new StatWindow;
     mInventoryScreen = new InventoryScreen;
+    mLogger = new Logger;
     mInventoryScreen->init(mPlayer);
+    mLogger->addLogEntry("Character Stats Window Initialized");
 
     mPlayer->addObserver(mStatWindow);
+    mLogger->addLogEntry("Stat Window Observer has been added to player");
     mPlayer->addObserver(mInventoryScreen);
+    mLogger->addLogEntry("Character Inventory Screen Initialized");
 
     mPlayer->notifyObservers();
+    mLogger->addLogEntry("Observer Notified");
 
     mStatWindow->show();
+    mLogger->addLogEntry("Stats Window Displayed");
     mInventoryScreen->show();
+    mLogger->addLogEntry("Inventory Window Displayed");
+    mLogger->show();
     this->show();
+
 }
 
 
@@ -215,9 +225,12 @@ void Dungeon::update(Observable *aObs)
     }
 
     if(mMapObject->isDungeonCompleted())
+
     {
+        mLogger->addLogEntry("Dungeon Completed!");
         mStatWindow->hide();
         mInventoryScreen->hide();
+        mLogger->hide();
         mPlayer->levelUp();
 
         QString fileName = filename;

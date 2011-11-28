@@ -15,7 +15,7 @@ void Arena::buildWall()
             TileSet wallTile = mMap->mapGridTileSet(row, column);
             wallTile.setIsTerrain(false);
             wallTile.setGamePiece("Wall");
-            if (row == 0 && column != 4 || row == 8 && column !=4)
+            if ((row == 0 && column != 4) || (row == 8 && column !=4))
             {
                 mMap->setTileSet(wallTile, row, column);
             }

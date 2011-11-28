@@ -1,5 +1,3 @@
-INCLUDEPATH += ../Equipment
-
 HEADERS += \
     Character/statwindow.h \
     Character/playercharacter.h \
