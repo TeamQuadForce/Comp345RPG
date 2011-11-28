@@ -19,6 +19,7 @@ private slots:
     void loadCharacter();
     void loadMap();
     void enterDungeon();
+    void backToMainScreen();
 
 private:
     Ui::PlayGenerator *ui;

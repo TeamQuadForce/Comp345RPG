@@ -12,6 +12,7 @@ Logger::Logger(QWidget *parent) :
     ui(new Ui::Logger)
 {
     ui->setupUi(this);
+    ui->log->setReadOnly(true);
 }
 
 Logger::~Logger()
