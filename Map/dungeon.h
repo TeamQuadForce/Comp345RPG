@@ -6,6 +6,7 @@
 #include <QAbstractButton>
 #include <QGridLayout>
 #include <QPushButton>
+#include <QLabel>
 
 #include "map.h"
 #include "playercharacter.h"
@@ -36,7 +37,8 @@ private:
     void initializeMap();
     Map *mMapObject;
     QGridLayout *mLayout;
-    QList<QList<QPushButton*> > mMapGrid;
+    QList<QList<QLabel*> > mMapGrid;
+    //QList<QList<QPushButton*> > mMapGrid;
 
     PlayerCharacter *mPlayer;
     StatWindow *mStatWindow;

@@ -49,17 +49,68 @@ void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap)
 //Method it initialize the map
 void Dungeon::initializeMap()
 {
+    QPixmap characterMaleImage(":/images/Knight1M-SW.gif");
+    //QPixmap characterFemaleImage(":/images/Knight1F-SW.gif");
+    QPixmap wallImage(":/dungeon/images/wall.jpg");
+    QPixmap enemyImage(":/dungeon/images/enemy.jpg");
+    QPixmap exitImage(":/dungeon/images/exit.jpg");
+    QPixmap chestImage(":/dungeon/images/chest.jpg");
+    QPixmap terrainImage(":/dungeon/images/terrain.jpg");
+
     if(mLayout->count() == 0)
     {
         for (int row = 0; row < mMapObject->mapHeight(); row++)
         {
-            mMapGrid.append(QList<QPushButton*>() );
+            mMapGrid.append(QList<QLabel*>());
             for (int column = 0; column < mMapObject->mapWidth(); column++)
             {
-                mMapGrid[row].append(new QPushButton(mMapObject->mapGridTileSet(row, column).getGamePiece()));
+                mMapGrid[row].append(new QLabel());
+
+                QString gamePiece = mMapObject->mapGridTileSet(row, column).getGamePiece();
+
+                if (gamePiece.compare("You") == 0)
+                {
+                    /*
+                    if(mPlayer->gender().compare("Female") == 0)
+                    {
+                        mMapGrid[row][column]->setPixmap(characterFemaleImage);
+                    }
+                    else
+                    {
+                        mMapGrid[row][column]->setPixmap(characterMaleImage);
+                    }
+                    */
+                    mMapGrid[row][column]->setPixmap(characterMaleImage);
+                }
+
+                if (gamePiece.compare("Exit") == 0)
+                {
+                     mMapGrid[row][column]->setPixmap(exitImage);
+                }
+
+                if (gamePiece.compare("Chest") == 0)
+                {
+                     mMapGrid[row][column]->setPixmap(chestImage);
+                }
+
+                if (gamePiece.compare("Monster") == 0)
+                {
+                     mMapGrid[row][column]->setPixmap(enemyImage);
+                }
+
+                if (gamePiece.compare("Wall") == 0)
+                {
+                     mMapGrid[row][column]->setPixmap(wallImage);
+                }
+
+                if (gamePiece.compare("") == 0)
+                {
+                     mMapGrid[row][column]->setPixmap(terrainImage);
+                }
+
+                mMapGrid[row][column]->setScaledContents(true);
                 mMapGrid[row][column]->setObjectName(QString::number(row)+"_"+QString::number(column));
-                mMapGrid[row][column]->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-                mMapGrid[row][column]->setStyleSheet(mapStyleSheet(mMapObject->mapGridTileSet(row, column)));
+                mMapGrid[row][column]->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);                
 
                 mLayout->addWidget(mMapGrid[row][column], row, column);
             }
@@ -79,36 +130,34 @@ void Dungeon::assignMovementOperations()
 //Slot to move the character
 void Dungeon::moveCharacter(QAbstractButton* button)
 {
-
     mMapObject->moveCharacter(button->text());
 }
 
 void Dungeon::update(Observable *aObs)
 {
-
-//    QIcon characterImage(":/images/fighter.jpg");
-//    QIcon wallImage(":/images/wall.jpg");
-//    QIcon enemyImage(":/images/enemy.jpg");
-//    QIcon exitImage(":/images/exit.jpg");
-//    QIcon chestImage(":/images/chest.jpg");
-//    QIcon terrainImage(":/images/terrain.jpg");
-
+    QPixmap terrainImage(":/dungeon/images/terrain.jpg");
     Map *aMap = (Map*)aObs;
     TileSet tile = aMap->lastModifiedTileSet();
     int row = tile.rowPosition();
     int column = tile.columnPosition();
 
-
+    QPixmap characterMaleImage(QString(":/images/Knight1M-SW.gif"));
+    QPixmap characterFemaleImage(QString(":/images/Knight1F-SW.gif"));
 
     if(tile.getGamePiece().compare("You") == 0)
     {
-        mMapGrid[row][column]->setText("You");
-        mMapGrid[row][column]->setStyleSheet("background-color: blue;");
+        if(mPlayer->gender().compare("Female") == 0)
+        {
+            mMapGrid[row][column]->setPixmap(characterFemaleImage);
+        }
+        else
+        {
+            mMapGrid[row][column]->setPixmap(characterMaleImage);
+        }
     }
     else
     {
-        mMapGrid[row][column]->setText("");
-        mMapGrid[row][column]->setStyleSheet("background-color: white;");
+        mMapGrid[row][column]->setPixmap(terrainImage);
     }
 
     if(mMapObject->isDungeonCompleted())
@@ -121,34 +170,4 @@ void Dungeon::update(Observable *aObs)
 //        game->setCurrentIndex(0);
         qApp->quit();
     }
-}
-
-QString Dungeon::mapStyleSheet(TileSet aTile)
-{
-    QString styleSheet = "";
-    if(aTile.getGamePiece() == "Wall")
-    {
-        styleSheet = QString("background-color: grey;");
-    }
-    else if(aTile.getGamePiece() == "Chest")
-    {
-        styleSheet = QString("background-color: yellow;");
-    }
-    else if(aTile.getGamePiece() == "Monster")
-    {
-        styleSheet = QString("background-color: red;");
-    }
-    else if(aTile.getGamePiece() == "Exit")
-    {
-        styleSheet = QString("background-color: black;");
-    }
-    else if(aTile.getGamePiece() == "You")
-    {
-        styleSheet = QString("background-color: blue;");
-    }
-    else if(aTile.getGamePiece() == "")
-    {
-        styleSheet = QString("background-color: white;");
-    }
-    return styleSheet;
 }
