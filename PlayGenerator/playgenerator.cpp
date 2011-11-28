@@ -43,12 +43,14 @@ void PlayGenerator::loadCharacter(){
     QString className;
     QString gender;
     QString name;
+    short level;
     short strength;
     short dexterity;
     short constitution;
     short intelligence;
     short wisdom;
     short charisma;
+
 
     QString fileName = QFileDialog::getOpenFileName();
     QFile file(fileName);
@@ -58,16 +60,23 @@ void PlayGenerator::loadCharacter(){
     className = in.readLine();
     gender = in.readLine();
     name = in.readLine();
+    level = in.readLine().toShort();
     strength = in.readLine().toShort();
     dexterity = in.readLine().toShort();
     constitution = in.readLine().toShort();
     intelligence = in.readLine().toShort();
     wisdom = in.readLine().toShort();
     charisma = in.readLine().toShort();
+    filename= in.readLine();
     file.close();
 
     mPlayer = new PlayerCharacter(name,gender,race,className);
     mPlayer->modifyAbilityScores(strength,dexterity,constitution,intelligence,wisdom,charisma);
+    mPlayer->init();
+
+    for(int i=1; i<level; i++){
+        mPlayer->levelUp();
+    }
 }
 
 void PlayGenerator::enterDungeon()
@@ -76,8 +85,10 @@ void PlayGenerator::enterDungeon()
     {
         Game *game = (Game*)this->parentWidget();
         Dungeon *dungeon = new Dungeon((Game*)this->parentWidget());
-        dungeon->init(mPlayer, mMap);
+        dungeon->init(mPlayer, mMap, filename);
         game->insertWidget(4, dungeon);
         game->setCurrentIndex(4);
     }
 }
+
+

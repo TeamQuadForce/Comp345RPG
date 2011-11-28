@@ -18,11 +18,13 @@ Dungeon::~Dungeon()
     delete mInventoryScreen;
 }
 
-void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap)
+void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, QString file)
 {
     mLayout = new QGridLayout();
     mLayout->setSpacing(0);
     mLayout->setVerticalSpacing(0);
+
+    filename=file;
 
     assignMovementOperations();
     mMapObject = aMap;
@@ -38,7 +40,7 @@ void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap)
     mPlayer->addObserver(mStatWindow);
     mPlayer->addObserver(mInventoryScreen);
 
-    mPlayer->init();
+    mPlayer->notifyObservers();
 
     mStatWindow->show();
     mInventoryScreen->show();
@@ -164,6 +166,25 @@ void Dungeon::update(Observable *aObs)
     {
         mStatWindow->hide();
         mInventoryScreen->hide();
+        mPlayer->levelUp();
+
+        QString fileName = filename;
+        QFile file(fileName);
+        file.open(QIODevice::WriteOnly | QIODevice::Text);
+        QTextStream out(&file);
+        out<<mPlayer->race()<<endl;
+        out<<mPlayer->className()<<endl;
+        out<<mPlayer->gender()<<endl;
+        out<<mPlayer->name()<<endl;
+        out<<mPlayer->level()<<endl;
+        out<<mPlayer->abilityScore(PlayerCharacter::Strength)<<endl;
+        out<<mPlayer->abilityScore(PlayerCharacter::Dexterity)<<endl;
+        out<<mPlayer->abilityScore(PlayerCharacter::Constitution)<<endl;
+        out<<mPlayer->abilityScore(PlayerCharacter::Intelligence)<<endl;
+        out<<mPlayer->abilityScore(PlayerCharacter::Wisdom)<<endl;
+        out<<mPlayer->abilityScore(PlayerCharacter::Charisma)<<endl;
+        out<<fileName<<endl;
+        file.close();
 
 //        Game *game = (Game*)this->parentWidget();
 //        game->removeWidget(this);

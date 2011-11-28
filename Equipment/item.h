@@ -8,7 +8,7 @@ class Item
 public:
     enum ItemType
     {
-        UsableItem = 0,
+        Potion = 0,
         Weapon,
         Armor,
         Ring

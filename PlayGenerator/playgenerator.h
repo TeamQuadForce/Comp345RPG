@@ -24,6 +24,7 @@ private:
     Ui::PlayGenerator *ui;
     PlayerCharacter *mPlayer;
     Map *mMap;
+    QString filename;
 };
 
 #endif // PLAYGENERATOR_H

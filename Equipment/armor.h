@@ -1,6 +1,8 @@
 #ifndef ARMOR_H
 #define ARMOR_H
 #include "item.h"
+#include <QPair>
+#include "playercharacter.h"
 
 class Armor : public Item
 {
@@ -11,7 +13,9 @@ public:
         Gloves,
         Helmet,
         Boots,
-        Belt
+        Belt,
+        Shield,
+        Ring
     };
 
     Armor();
@@ -20,10 +24,13 @@ public:
     ArmorType armorType();
     short armorClass();
     QString itemDescription();
+    void addAbilityMod(PlayerCharacter::AbilityScore aScore, short aValue);
+    QList<QPair<PlayerCharacter::AbilityScore, short> > abilityMods();
 
 protected:
     short mArmorClass;
     ArmorType mArmorType;
+    QList<QPair<PlayerCharacter::AbilityScore, short> > mAbilitiesToChange;
 };
 
 #endif // ARMOR_H

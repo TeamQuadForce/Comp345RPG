@@ -10,6 +10,7 @@ Armor::Armor(const QString &aItemName, const ArmorType &aArmorType, const short 
 {
     mItemName = aItemName;
     mItemType = Item::Armor;
+    mIsEquipped = false;
 }
 
 Armor::ArmorType Armor::armorType()
@@ -25,4 +26,14 @@ short Armor::armorClass()
 QString Armor::itemDescription()
 {
     return QString("%1 (+%2 AC)").arg(mItemName).arg(mArmorClass);
+}
+
+void Armor::addAbilityMod(PlayerCharacter::AbilityScore aScore, short aValue)
+{
+    mAbilitiesToChange.append(QPair<PlayerCharacter::AbilityScore, short>(aScore, aValue));
+}
+
+QList<QPair<PlayerCharacter::AbilityScore, short> > Armor::abilityMods()
+{
+    return mAbilitiesToChange;
 }

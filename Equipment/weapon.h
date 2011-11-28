@@ -15,7 +15,7 @@ public:
     Weapon();
     Weapon(const QString &aItemName, const WeaponType &aWeaponType, const unsigned short &aRange,
            const unsigned short &aNumOfDamageDice, const unsigned short &aDamageDie,
-           const unsigned short &aNumOfHands);
+           const short &aMagicalDamageBonus, const unsigned short &aNumOfHands);
 
     WeaponType weaponType();
     unsigned short range();
@@ -27,9 +27,11 @@ public:
 
 private:
     WeaponType mWeaponType;
+
     unsigned short mRange;
     unsigned short mNumberOfDamageDice;
     unsigned short mDamageDie;
+    short mMagicalDamageBonus;
     unsigned short mNumberOfHandsToWield;
 };
 

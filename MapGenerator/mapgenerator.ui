@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>661</width>
-    <height>452</height>
+    <width>697</width>
+    <height>471</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -131,8 +131,8 @@
   <widget class="QPushButton" name="saveMapButton">
    <property name="geometry">
     <rect>
-     <x>117</x>
-     <y>169</y>
+     <x>118</x>
+     <y>170</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -144,8 +144,8 @@
   <widget class="QPushButton" name="loadMapButton">
    <property name="geometry">
     <rect>
-     <x>117</x>
-     <y>198</y>
+     <x>118</x>
+     <y>199</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -173,8 +173,8 @@
   <widget class="QFrame" name="mapGeneratorFrame">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>20</y>
+     <x>230</x>
+     <y>10</y>
      <width>431</width>
      <height>411</height>
     </rect>
@@ -190,6 +190,7 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
+   <zorder>label</zorder>
   </widget>
   <widget class="QGroupBox" name="mapDimensionsGroupBox">
    <property name="geometry">
@@ -265,8 +266,8 @@
   <widget class="QPushButton" name="generateMapButton">
    <property name="geometry">
     <rect>
-     <x>117</x>
-     <y>111</y>
+     <x>118</x>
+     <y>112</y>
      <width>76</width>
      <height>23</height>
     </rect>
@@ -278,9 +279,9 @@
   <widget class="QPushButton" name="displayMapButton">
    <property name="geometry">
     <rect>
-     <x>117</x>
-     <y>170</y>
-     <width>91</width>
+     <x>118</x>
+     <y>257</y>
+     <width>75</width>
      <height>23</height>
     </rect>
    </property>
@@ -291,8 +292,8 @@
   <widget class="QPushButton" name="clearMapButton">
    <property name="geometry">
     <rect>
-     <x>117</x>
-     <y>140</y>
+     <x>118</x>
+     <y>141</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -314,23 +315,48 @@
     <string>Return to menu</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QPushButton" name="arenaButton">
    <property name="geometry">
     <rect>
-     <x>-60</x>
-     <y>-80</y>
-     <width>1081</width>
-     <height>661</height>
+     <x>118</x>
+     <y>228</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Arena</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="mapLevelGroupBox">
+   <property name="geometry">
+    <rect>
+     <x>129</x>
+     <y>23</y>
+     <width>81</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/images/map.PNG);</string>
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
    </property>
-   <property name="text">
-    <string/>
+   <property name="title">
+    <string>Map Level</string>
    </property>
+   <widget class="QLabel" name="mapLevelLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>51</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
-  <zorder>label</zorder>
   <zorder>mapElementsGroupBox</zorder>
   <zorder>saveMapButton</zorder>
   <zorder>loadMapButton</zorder>
@@ -341,6 +367,8 @@
   <zorder>clearMapButton</zorder>
   <zorder>returnToMenuButton</zorder>
   <zorder>mapGeneratorFrame</zorder>
+  <zorder>arenaButton</zorder>
+  <zorder>mapLevelGroupBox</zorder>
  </widget>
  <resources/>
  <connections/>
