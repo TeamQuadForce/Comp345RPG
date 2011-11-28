@@ -29,9 +29,10 @@ void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, QString file)
     assignMovementOperations();
     mMapObject = aMap;
     mMapObject->addObserver(this);
-    initializeMap();
 
     mPlayer = aPlayer;
+    initializeMap();
+    testDetermineTurnOrder(); //test determine turn order
 
     mStatWindow = new StatWindow;
     mInventoryScreen = new InventoryScreen;
@@ -52,7 +53,7 @@ void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, QString file)
 void Dungeon::initializeMap()
 {
     QPixmap characterMaleImage(":/images/Knight1M-SW.gif");
-    //QPixmap characterFemaleImage(":/images/Knight1F-SW.gif");
+    QPixmap characterFemaleImage(":/images/Knight1F-SW.gif");
     QPixmap wallImage(":/dungeon/images/wall.jpg");
     QPixmap enemyImage(":/dungeon/images/enemy.jpg");
     QPixmap exitImage(":/dungeon/images/exit.jpg");
@@ -72,7 +73,6 @@ void Dungeon::initializeMap()
 
                 if (gamePiece.compare("You") == 0)
                 {
-                    /*
                     if(mPlayer->gender().compare("Female") == 0)
                     {
                         mMapGrid[row][column]->setPixmap(characterFemaleImage);
@@ -81,8 +81,6 @@ void Dungeon::initializeMap()
                     {
                         mMapGrid[row][column]->setPixmap(characterMaleImage);
                     }
-                    */
-                    mMapGrid[row][column]->setPixmap(characterMaleImage);
                 }
 
                 if (gamePiece.compare("Exit") == 0)
@@ -127,6 +125,60 @@ void Dungeon::initializeMap()
 void Dungeon::assignMovementOperations()
 {
     connect(ui->movementButtonGroup, SIGNAL(buttonClicked(QAbstractButton*)), SLOT(moveCharacter(QAbstractButton*)));
+}
+
+//Method to test determineTrunOrder
+void Dungeon::testDetermineTurnOrder()
+{
+    int numOfMonsters = 4;
+    QVector <PlayerCharacter*> characterVector;
+    QVector <int> characterInitiativeVector;
+
+    QString testName[4] = {"Sam", "Joe", "Carl", "Bob"};
+    QString testGender[4] = {"Female", "Male", "Male", "Male"};
+    QString testRace[4] = {"Human", "Human", "Human", "Human"};
+    QString testClassName[4] = {"Fighter", "Fighter", "Fighter", "Fighter"};
+    int testDexterity[4] = {4, 3, 2, 1};
+
+    characterVector.append(mPlayer);
+    characterInitiativeVector.append(DiceRoller::d20() + mPlayer->abilityScore(PlayerCharacter::Dexterity));
+
+    for(int counter = 0; counter < numOfMonsters; counter++)
+    {
+        characterVector.append(new PlayerCharacter(testName[counter],testGender[counter],testRace[counter],testClassName[counter]));
+        characterVector.last()->modifyAbilityScores(1,testDexterity[counter],1,1,1,1);
+        characterVector.last()->init();
+        characterInitiativeVector.append(DiceRoller::d20() + characterVector.last()->abilityScore(PlayerCharacter::Dexterity));
+    }
+
+    characterVector = determineTurnOrder(characterVector, characterInitiativeVector);
+}
+
+//Method to determine the turn order of player and monsters
+QVector <PlayerCharacter*> Dungeon::determineTurnOrder(QVector <PlayerCharacter*> characterVector,
+                                                       QVector <int> characterInitiativeVector)
+{
+   //Sort in decreasing initiative order
+   for (int index = 0; index < characterVector.size(); index++)
+   {
+        for(int counter = index; counter < characterVector.size() - 1; counter++)
+        {
+            if(characterInitiativeVector[counter + 1] >= characterInitiativeVector[index])
+            {
+                if(characterInitiativeVector[counter + 1] != characterInitiativeVector[index])
+                {
+                    PlayerCharacter* characterTemp = characterVector[index];
+                    int initiativeTemp = characterInitiativeVector[index];
+                    characterVector[index] = characterVector[counter + 1];
+                    characterInitiativeVector[index] = characterInitiativeVector[counter + 1];
+                    characterVector[counter + 1] = characterTemp;
+                    characterInitiativeVector[counter + 1] = initiativeTemp;
+                }
+            }
+        }
+   }
+
+   return characterVector;
 }
 
 //Slot to move the character

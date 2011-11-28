@@ -6,7 +6,8 @@ HEADERS += \
     Character/fighter.h \
     Character/characterclass.h \
     Character/inventoryscreen.h \
-    Character/inventory.h
+    Character/inventory.h \
+    Character/player.h
 
 SOURCES += \
     Character/statwindow.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
 FORMS += \
     Character/statwindow.ui \
     Character/inventoryscreen.ui
+
 
 
 

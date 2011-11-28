@@ -9,9 +9,11 @@
 #include <QLabel>
 
 #include "map.h"
+#include "player.h"
 #include "playercharacter.h"
 #include "statwindow.h"
 #include "inventoryscreen.h"
+#include "diceroller.h"
 
 namespace Ui {
     class Dungeon;
@@ -35,6 +37,9 @@ public:
 private:
     Ui::Dungeon *ui;
     void initializeMap();
+    void testDetermineTurnOrder();
+    QVector <PlayerCharacter*> determineTurnOrder(QVector <PlayerCharacter*> characterVector,
+                                                  QVector <int> characterInitiativeVector);
     Map *mMapObject;
     QGridLayout *mLayout;
     QList<QList<QLabel*> > mMapGrid;

@@ -7,6 +7,7 @@
 #include "inventory.h"
 #include "observable.h"
 #include "observer.h"
+#include "player.h"
 
 class Inventory;
 
