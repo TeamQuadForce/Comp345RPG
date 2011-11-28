@@ -69,6 +69,7 @@ void Dungeon::initializeMap()
     QPixmap exitImage(":/dungeon/images/exit.jpg");
     QPixmap chestImage(":/dungeon/images/chest.jpg");
     QPixmap terrainImage(":/dungeon/images/terrain.jpg");
+    int numberOfMonsters = 0;
 
     if(mLayout->count() == 0)
     {
@@ -106,6 +107,7 @@ void Dungeon::initializeMap()
                 if (gamePiece.compare("Monster") == 0)
                 {
                      mMapGrid[row][column]->setPixmap(enemyImage);
+                     numberOfMonsters = numberOfMonsters + 1;
                 }
 
                 if (gamePiece.compare("Wall") == 0)
@@ -126,6 +128,7 @@ void Dungeon::initializeMap()
             }
         }
 
+        generateTurnOrder(3);   // to be changed
         ui->mapDungeonFrame->setLayout(mLayout);
     }
     //Implement Matt Tam's "createMap" stuff
@@ -137,13 +140,15 @@ void Dungeon::assignMovementOperations()
     connect(ui->movementButtonGroup, SIGNAL(buttonClicked(QAbstractButton*)), SLOT(moveCharacter(QAbstractButton*)));
 }
 
-//Method to test determineTrunOrder
-void Dungeon::testDetermineTurnOrder()
+//Method to determine the monsters and the turn order the players on the map
+void Dungeon::generateTurnOrder(int numberOfMonsters)
 {
-    int numOfMonsters = 4;
+    int numOfMonsters = numberOfMonsters;
     QVector <PlayerCharacter*> characterVector;
     QVector <int> characterInitiativeVector;
 
+    //Here you generate monsters, or get the information from a monster list
+    //using test data for now
     QString testName[4] = {"Sam", "Joe", "Carl", "Bob"};
     QString testGender[4] = {"Female", "Male", "Male", "Male"};
     QString testRace[4] = {"Human", "Human", "Human", "Human"};
@@ -160,12 +165,20 @@ void Dungeon::testDetermineTurnOrder()
         characterVector.last()->init();
         characterInitiativeVector.append(DiceRoller::d20() + characterVector.last()->abilityScore(PlayerCharacter::Dexterity));
     }
+    //end of test data
 
-    characterVector = determineTurnOrder(characterVector, characterInitiativeVector);
+    //Determine the order of the players on the map
+    characterVector = turnOrderSort(characterVector, characterInitiativeVector);
+
+    //Add the players to a turn order list
+    for(int counter = 0; counter < characterVector.size(); counter++)
+    {
+        playerTurnOrderList.append(characterVector[counter]);
+    }
 }
 
-//Method to determine the turn order of player and monsters
-QVector <PlayerCharacter*> Dungeon::determineTurnOrder(QVector <PlayerCharacter*> characterVector,
+//Method to determine the turn order of player and monsters (determined by initiative)
+QVector <PlayerCharacter*> Dungeon::turnOrderSort(QVector <PlayerCharacter*> characterVector,
                                                        QVector <int> characterInitiativeVector)
 {
    //Sort in decreasing initiative order
@@ -188,6 +201,7 @@ QVector <PlayerCharacter*> Dungeon::determineTurnOrder(QVector <PlayerCharacter*
         }
    }
 
+   //Return the sorted vector
    return characterVector;
 }
 
