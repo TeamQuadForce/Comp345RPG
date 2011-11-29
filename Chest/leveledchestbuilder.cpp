@@ -3,3 +3,7 @@
 LeveledChestBuilder::LeveledChestBuilder()
 {
 }
+
+void LeveledChestBuilder::addItems()
+{
+}

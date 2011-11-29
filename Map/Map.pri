@@ -13,10 +13,7 @@ SOURCES += \
     Map/arena.cpp
 
 FORMS += \
-    Map/dungeon.ui \
-
-OTHER_FILES += \
-    Map/Map.pri
+    Map/dungeon.ui
 
 
 

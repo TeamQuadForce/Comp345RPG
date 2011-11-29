@@ -9,9 +9,13 @@
 #include <QLabel>
 
 #include "map.h"
+#include "player.h"
 #include "playercharacter.h"
 #include "statwindow.h"
 #include "inventoryscreen.h"
+#include "chest.h"
+#include "chestbuilder.h"
+#include "diceroller.h"
 #include "logger.h"
 
 namespace Ui {
@@ -36,15 +40,25 @@ public:
 private:
     Ui::Dungeon *ui;
     void initializeMap();
+    void generateTurnOrder(int numberOfMonsters);
+    QVector <PlayerCharacter*> turnOrderSort(QVector <PlayerCharacter*> characterVector,
+                                                  QVector <int> characterInitiativeVector);
     Map *mMapObject;
     QGridLayout *mLayout;
     QList<QList<QLabel*> > mMapGrid;
+    QList <PlayerCharacter*> playerTurnOrderList;
     QString filename;
 
     PlayerCharacter *mPlayer;
     StatWindow *mStatWindow;
     InventoryScreen *mInventoryScreen;
     Logger *mLogger;
+
+    //Director specific functions for chests
+    ChestBuilder* mChestBuilder;
+    void setChestBuilder(ChestBuilder* aChestBuilder);
+    Chest* chest();
+    void constructChest();
 
 private slots:
     void moveCharacter(QAbstractButton *button);
