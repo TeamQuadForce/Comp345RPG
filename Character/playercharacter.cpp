@@ -302,3 +302,44 @@ void PlayerCharacter::setStartingItems()
         mInventory->addItem(new Weapon("Long Bow", Weapon::Ranged, 4, 1, 8, 0, 2, 1));
     }
 }
+
+short PlayerCharacter::rollInitiative(QString &message)
+{
+    short roll = DiceRoller::d20() + abilityModifier(Dexterity);
+    message = QString("%1 Initiative roll is %2").arg(mName).arg(roll);
+    return roll;
+}
+
+short PlayerCharacter::attack(QString &message)
+{
+    short fullDamage = 0;
+    message = "Attack: ";
+
+    short damageDice;
+    short numOfDice;
+    short modifier;
+
+    foreach(Item* item, inventory()->backpack())
+    {
+        if (item->isEquipped() && item->itemType() == Item::Weapon)
+        {
+            Weapon* weapon = (Weapon*) item;
+            damageDice = weapon->damageDie();
+            numOfDice = weapon->numOfDice();
+            modifier = weapon->magicalDamageBonus();
+        }
+    }
+
+    for (int i = 0; i < numOfDice; i++)
+    {
+        short damage = DiceRoller::rollDice(damageDice);
+        message.append(" %1 +").arg(damage);
+        fullDamage += damage;
+
+    }
+
+    fullDamage += modifier;
+    message.append(" %1").arg(modifier);
+    return fullDamage;
+
+}

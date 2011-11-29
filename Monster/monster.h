@@ -43,6 +43,7 @@ public:
     short armorClass();
     short level();
     short attack(QString &message);
+    short rollInitiative(QString &message);
 
     //Observer methods
     void addObserver(Observer *aObserver);

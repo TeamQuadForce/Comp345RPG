@@ -17,6 +17,7 @@
 #include "chestbuilder.h"
 #include "diceroller.h"
 #include "logger.h"
+#include "monsterrepertoire.h"
 
 namespace Ui {
     class Dungeon;
@@ -40,14 +41,14 @@ public:
 private:
     Ui::Dungeon *ui;
     void initializeMap();
-    void generateTurnOrder(int numberOfMonsters);
-    QVector<PlayerCharacter*> turnOrderSort(QVector<PlayerCharacter*> characterVector, QVector<int> characterInitiativeVector);
-
+    void generateTurnOrder();
+    QList<Player*> turnOrderSort(QList<Player*> characterVector, QList<int> characterInitiativeVector);
+    QList<Player*> playerList;
 
     Map *mMapObject;
     QGridLayout *mLayout;
     QList<QList<QLabel*> > mMapGrid;
-    QList <PlayerCharacter*> playerTurnOrderList;
+    QList <Player*> playerTurnOrderList;
     QString filename;
     bool mIsArena;
 

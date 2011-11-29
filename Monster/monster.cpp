@@ -190,3 +190,10 @@ void Monster::modifyAttack(short aAttackRolls, short aAttackDice, short aAttackM
     mAttackModifier = aAttackModifier;
 }
 
+short Monster::rollInitiative(QString &message)
+{
+    short roll = DiceRoller::d20() + abilityModifier(Dexterity);
+    message = QString("%1 Initiative roll is %2").arg(mName).arg(roll);
+    return roll;
+}
+

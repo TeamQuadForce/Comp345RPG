@@ -15,7 +15,7 @@ Dungeon::Dungeon(QWidget *parent) :
 {
     ui->setupUi(this);
 }
-
+//Dungeon Destructor
 Dungeon::~Dungeon()
 {
     delete ui;
@@ -27,7 +27,7 @@ Dungeon::~Dungeon()
     delete mLogger;
     mLogger = 0;
 }
-
+//Initialize dungeon : associate player, map, logger , stats window and inventory to the dungeon.
 void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, QString file, bool aMapIsArena)
 {
     mLayout = new QGridLayout();
@@ -69,6 +69,9 @@ void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, QString file, bool aMapI
     mMoveCounter = mNumOfAllowedMoves;
 
     mIsArena = aMapIsArena;
+
+    playerList.append(mPlayer);
+    playerList.append(MonsterRepertoire::getUniqueInstance()->getMonster(mPlayer->level()));
 }
 
 //Method it initialize the map
@@ -140,7 +143,7 @@ void Dungeon::initializeMap()
             }
         }
 
-        generateTurnOrder(3);   // to be changed
+        generateTurnOrder();   // to be changed
         ui->mapDungeonFrame->setLayout(mLayout);
     }
     //Implement Matt Tam's "createMap" stuff
@@ -158,44 +161,21 @@ void Dungeon::assignMovementOperations()
 }
 
 //Method to determine the monsters and the turn order the players on the map
-void Dungeon::generateTurnOrder(int numberOfMonsters)
+void Dungeon::generateTurnOrder()
 {
-    int numOfMonsters = numberOfMonsters;
-    QVector <PlayerCharacter*> characterVector;
-    QVector <int> characterInitiativeVector;
-
-    //Here you generate monsters, or get the information from a monster list
-    //using test data for now
-    QString testName[4] = {"Sam", "Joe", "Carl", "Bob"};
-    QString testGender[4] = {"Female", "Male", "Male", "Male"};
-    QString testRace[4] = {"Human", "Human", "Human", "Human"};
-    QString testClassName[4] = {"Fighter", "Fighter", "Fighter", "Fighter"};
-    int testDexterity[4] = {4, 3, 2, 1};
-
-    characterVector.append(mPlayer);
-    characterInitiativeVector.append(DiceRoller::d20() + mPlayer->abilityScore(PlayerCharacter::Dexterity));
-
-    for(int counter = 0; counter < numOfMonsters; counter++)
+    QList <int> characterInitiativeVector;
+    QString message;
+    foreach(Player* player, playerList)
     {
-        characterVector.append(new PlayerCharacter(testName[counter],testGender[counter],testRace[counter],testClassName[counter]));
-        characterVector.last()->modifyAbilityScores(1,testDexterity[counter],1,1,1,1);
-        characterVector.last()->init();
-        characterInitiativeVector.append(DiceRoller::d20() + characterVector.last()->abilityScore(PlayerCharacter::Dexterity));
+        characterInitiativeVector.append(player->rollInitiative(message));
     }
-    //end of test data
 
     //Determine the order of the players on the map
-    characterVector = turnOrderSort(characterVector, characterInitiativeVector);
-
-    //Add the players to a turn order list
-    for(int counter = 0; counter < characterVector.size(); counter++)
-    {
-        playerTurnOrderList.append(characterVector[counter]);
-    }
+    playerTurnOrderList = turnOrderSort(playerList, characterInitiativeVector);
 }
 
 //Method to determine the turn order of player and monsters (determined by initiative)
-QVector<PlayerCharacter*> Dungeon::turnOrderSort(QVector<PlayerCharacter*> characterVector, QVector<int> characterInitiativeVector)
+QList<Player*> Dungeon::turnOrderSort(QList<Player*> characterVector, QList<int> characterInitiativeVector)
 {
    //Sort in decreasing initiative order
    for (int index = 0; index < characterVector.size(); index++)
@@ -206,7 +186,7 @@ QVector<PlayerCharacter*> Dungeon::turnOrderSort(QVector<PlayerCharacter*> chara
             {
                 if(characterInitiativeVector[counter + 1] != characterInitiativeVector[index])
                 {
-                    PlayerCharacter* characterTemp = characterVector[index];
+                    Player* characterTemp = characterVector[index];
                     int initiativeTemp = characterInitiativeVector[index];
                     characterVector[index] = characterVector[counter + 1];
                     characterInitiativeVector[index] = characterInitiativeVector[counter + 1];
@@ -310,6 +290,7 @@ void Dungeon::setTurnActionButtons(bool enable)
     ui->endTurnOptionButton->setEnabled(enable);
 }
 
+//Update Observer
 void Dungeon::update(Observable *aObs)
 {
     QPixmap terrainImage(":/dungeon/images/terrain.jpg");
@@ -337,6 +318,7 @@ void Dungeon::update(Observable *aObs)
         mMapGrid[row][column]->setPixmap(terrainImage);
     }
 
+    //Level Up player and save player inside a new file
     if(mMapObject->isDungeonCompleted())
 
     {
@@ -371,6 +353,7 @@ void Dungeon::update(Observable *aObs)
     }
 }
 
+//Associate an instance of chestBuilder to the dungeon
 void Dungeon::setChestBuilder(ChestBuilder *aChestBuilder)
 {
     if (mChestBuilder != 0)
@@ -382,6 +365,7 @@ void Dungeon::setChestBuilder(ChestBuilder *aChestBuilder)
     mChestBuilder = aChestBuilder;
 }
 
+//Retrieve an instance of a chest from the chest builder
 Chest * Dungeon::chest()
 {
     if (mChestBuilder != 0 && mChestBuilder->getChest() != 0)
@@ -392,6 +376,7 @@ Chest * Dungeon::chest()
     return 0;
 }
 
+//Constructs a chest based on the player level
 void Dungeon::constructChest()
 {
     mChestBuilder->createNewChest(mPlayer->level());
