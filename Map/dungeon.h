@@ -40,12 +40,13 @@ public:
 private:
     Ui::Dungeon *ui;
     void initializeMap();
-    void testDetermineTurnOrder();
-    QVector <PlayerCharacter*> determineTurnOrder(QVector <PlayerCharacter*> characterVector,
+    void generateTurnOrder(int numberOfMonsters);
+    QVector <PlayerCharacter*> turnOrderSort(QVector <PlayerCharacter*> characterVector,
                                                   QVector <int> characterInitiativeVector);
     Map *mMapObject;
     QGridLayout *mLayout;
     QList<QList<QLabel*> > mMapGrid;
+    QList <PlayerCharacter*> playerTurnOrderList;
     QString filename;
 
     PlayerCharacter *mPlayer;
