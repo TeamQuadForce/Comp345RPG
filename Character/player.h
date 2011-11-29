@@ -2,7 +2,6 @@
 #define PLAYER_H
 
 class Player{
-    virtual void move() =0;
     virtual void attack() =0;
 };
 

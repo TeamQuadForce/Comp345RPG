@@ -4,8 +4,9 @@
 #include <QString>
 #include "observable.h"
 #include "observer.h"
+#include "player.h"
 
-class Monster : public Observable
+class Monster : public Observable, public Player
 {
 public:
     Monster();
