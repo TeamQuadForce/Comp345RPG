@@ -196,7 +196,13 @@ QVector <PlayerCharacter*> Dungeon::determineTurnOrder(QVector <PlayerCharacter*
 //Slot to move the character
 void Dungeon::moveCharacter(QAbstractButton* button)
 {
-    mMapObject->moveCharacter(button->text());
+    bool isChest = false;
+    mMapObject->moveCharacter(button->text(), isChest);
+
+    if (isChest)
+    {
+
+    }
 }
 
 void Dungeon::update(Observable *aObs)
@@ -273,8 +279,15 @@ void Dungeon::setChestBuilder(ChestBuilder *aChestBuilder)
 
 Chest * Dungeon::chest()
 {
+    if (mChestBuilder != 0 && mChestBuilder->getChest() != 0)
+    {
+        return mChestBuilder->getChest();
+    }
+
+    return 0;
 }
 
 void Dungeon::constructChest()
 {
+    mChestBuilder->createNewChest();
 }
