@@ -225,7 +225,7 @@ void Dungeon::moveCharacter(QAbstractButton* button)
         }
         else
         {
-            //setChestBuilder(new LeveledChestBuilder);
+            setChestBuilder(new LeveledChestBuilder);
         }
 
         constructChest();
