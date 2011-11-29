@@ -9,7 +9,7 @@ void LeveledChestBuilder::addItems()
 {
     const unsigned int cNumOfItemsInChest = qrand() % 5 + 1;
 
-    for (unsigned int i; i < cNumOfItemsInChest; ++i)
+    for (unsigned int i = 0; i < cNumOfItemsInChest; ++i)
     {
         mChest->itemList().append(ItemRepertoire::getUniqueInstance()->getItem(mChest->level()));
     }
