@@ -2,6 +2,7 @@
 
 ChestBuilder::ChestBuilder()
 {
+    mChest = 0;
 }
 
 Chest * ChestBuilder::getChest()

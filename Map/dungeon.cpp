@@ -218,7 +218,6 @@ void Dungeon::moveCharacter(QAbstractButton* button)
     if (isChest)
     {
         mLogger->addLogEntry("Character Steps on Chest");
-        setChestBuilder(new RandomChestBuilder);
 
         if (mIsArena)
         {
