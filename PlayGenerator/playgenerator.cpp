@@ -56,6 +56,7 @@ void PlayGenerator::loadCharacter(){
 
 
     QString fileName = QFileDialog::getOpenFileName();
+    if(filename!=""){
     QFile file(fileName);
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QTextStream in(&file);
@@ -80,6 +81,8 @@ void PlayGenerator::loadCharacter(){
     for(int i=1; i<level; i++){
         mPlayer->levelUp();
     }
+    }
+
 }
 
 void PlayGenerator::enterDungeon()
