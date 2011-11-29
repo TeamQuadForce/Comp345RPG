@@ -25,7 +25,7 @@ public:
     };
 
     void init();
-    QString name();
+    QString name();    
 
     void modifyAbilityScores(short aStrength, short aDexterity,
                              short aConstitution, short aIntelligence,
@@ -42,7 +42,7 @@ public:
     short hitPoints();
     short armorClass();
     short level();
-    short attack();
+    short attack(QString &message);
 
     //Observer methods
     void addObserver(Observer *aObserver);
