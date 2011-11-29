@@ -22,7 +22,7 @@ Dungeon::~Dungeon()
     delete mLogger;
 }
 
-void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, Logger *aLogger, QString file)
+void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, QString file)
 {
     mLayout = new QGridLayout();
     mLayout->setSpacing(0);
