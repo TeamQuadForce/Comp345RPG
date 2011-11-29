@@ -61,9 +61,19 @@ private:
     void setChestBuilder(ChestBuilder* aChestBuilder);
     Chest* chest();
     void constructChest();
+    void moveMonsters();
+
+    //For turn-based play
+    void startNextPlayerTurn();
+    void setTurnActionButtons(bool enable);
+    int mMoveCounter;
 
 private slots:
+    void startMoveOption();
+    void startAttackOption();
+    void endTurn();
     void moveCharacter(QAbstractButton *button);
+    void characterAttack(QAbstractButton *button);
 };
 
 #endif // DUNGEON_H

@@ -82,6 +82,9 @@
     <property name="text">
      <string>Attack Up</string>
     </property>
+    <attribute name="buttonGroup">
+     <string>attackButtonGroup</string>
+    </attribute>
    </widget>
    <widget class="QPushButton" name="attackLeftButton">
     <property name="geometry">
@@ -95,6 +98,9 @@
     <property name="text">
      <string>Attack Left</string>
     </property>
+    <attribute name="buttonGroup">
+     <string>attackButtonGroup</string>
+    </attribute>
    </widget>
    <widget class="QPushButton" name="attackRightButton">
     <property name="geometry">
@@ -108,6 +114,9 @@
     <property name="text">
      <string>Attack Right</string>
     </property>
+    <attribute name="buttonGroup">
+     <string>attackButtonGroup</string>
+    </attribute>
    </widget>
    <widget class="QPushButton" name="attackDownButton">
     <property name="geometry">
@@ -121,6 +130,9 @@
     <property name="text">
      <string>Attack Down</string>
     </property>
+    <attribute name="buttonGroup">
+     <string>attackButtonGroup</string>
+    </attribute>
    </widget>
   </widget>
   <widget class="QFrame" name="optionsFrame">
@@ -289,5 +301,6 @@
  <connections/>
  <buttongroups>
   <buttongroup name="movementButtonGroup"/>
+  <buttongroup name="attackButtonGroup"/>
  </buttongroups>
 </ui>

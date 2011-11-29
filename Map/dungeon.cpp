@@ -6,6 +6,9 @@
 #include "randomchestbuilder.h"
 #include "leveledchestbuilder.h"
 
+
+const int mNumOfAllowedMoves = 6;
+
 Dungeon::Dungeon(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Dungeon)
@@ -60,6 +63,10 @@ void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, QString file, bool aMapI
     mLogger->addLogEntry("Inventory Window Displayed");
     mLogger->show();
     this->show();
+
+    ui->attackDirectionFrame->hide();
+    ui->moveDirectionFrame->hide();
+    mMoveCounter = mNumOfAllowedMoves;
 
     mIsArena = aMapIsArena;
 }
@@ -142,7 +149,12 @@ void Dungeon::initializeMap()
 //Method to assignment operations to movement buttons
 void Dungeon::assignMovementOperations()
 {
+    connect(ui->moveOptionButton, SIGNAL(clicked()), SLOT(startMoveOption()));
+    connect(ui->attackOptionButton, SIGNAL(clicked()), SLOT(startAttackOption()));
+    connect(ui->endTurnOptionButton, SIGNAL(clicked()), SLOT(endTurn()));
+
     connect(ui->movementButtonGroup, SIGNAL(buttonClicked(QAbstractButton*)), SLOT(moveCharacter(QAbstractButton*)));
+    connect(ui->attackButtonGroup, SIGNAL(buttonClicked(QAbstractButton*)), SLOT(characterAttack(QAbstractButton*)));
 }
 
 //Method to determine the monsters and the turn order the players on the map
@@ -213,31 +225,89 @@ QVector<PlayerCharacter*> Dungeon::turnOrderSort(QVector<PlayerCharacter*> chara
 void Dungeon::moveCharacter(QAbstractButton* button)
 {
     bool isChest = false;
-    mMapObject->moveCharacter(button->text(), isChest);
 
-    if (isChest)
+    if(mMoveCounter > 0)
     {
-        mLogger->addLogEntry("Character Steps on Chest");
+        mMapObject->moveCharacter(button->text(), isChest);
 
-        if (mIsArena)
+        if (isChest)
         {
-            setChestBuilder(new LeveledChestBuilder);
+            mLogger->addLogEntry("Character Steps on Chest");
+
+            if (mIsArena)
+            {
+                setChestBuilder(new LeveledChestBuilder);
+            }
+            else
+            {
+                setChestBuilder(new RandomChestBuilder);
+            }
+
+            constructChest();
+            mChestBuilder->addItems();
+
+            foreach(Item* item, chest()->itemList())
+            {
+                mLogger->addLogEntry(item->itemDescription()+" has been added to player inventory.");
+                mPlayer->inventory()->addItem(item);
+                mPlayer->notifyObservers();
+            }
         }
-        else
-        {
-            setChestBuilder(new RandomChestBuilder);
-        }
 
-        constructChest();
-        mChestBuilder->addItems();
+        mMoveCounter = mMoveCounter - 1;
 
-        foreach(Item* item, chest()->itemList())
+        if(mMoveCounter < 1)
         {
-            mLogger->addLogEntry(item->itemDescription()+" has been added to player inventory.");
-            mPlayer->inventory()->addItem(item);
-            mPlayer->notifyObservers();
+            ui->moveDirectionFrame->hide();
+            mMoveCounter = mNumOfAllowedMoves;
         }
     }
+}
+
+//Slot for character to attack
+void Dungeon::characterAttack(QAbstractButton *button)
+{
+
+}
+
+//Perform start of move procedure
+void Dungeon::startMoveOption()
+{
+    ui->moveOptionButton->setEnabled(false);
+    ui->attackDirectionFrame->hide();
+    ui->moveDirectionFrame->show();
+}
+
+//Perform start of attack procedure (backend)
+void Dungeon::startAttackOption()
+{
+    ui->attackOptionButton->setEnabled(false);
+    ui->attackDirectionFrame->show();
+    ui->moveDirectionFrame->hide();
+}
+
+//End the user's turn
+void Dungeon::endTurn()
+{
+    setTurnActionButtons(true);
+    ui->optionsFrame->show();
+    ui->attackDirectionFrame->hide();
+    ui->moveDirectionFrame->hide();
+    mMoveCounter = mNumOfAllowedMoves;
+    startNextPlayerTurn();
+}
+
+void Dungeon::startNextPlayerTurn()
+{
+    mMoveCounter = mNumOfAllowedMoves;
+}
+
+//Method to set the main turn actions all on or off
+void Dungeon::setTurnActionButtons(bool enable)
+{
+    ui->moveOptionButton->setEnabled(enable);
+    ui->attackOptionButton->setEnabled(enable);
+    ui->endTurnOptionButton->setEnabled(enable);
 }
 
 void Dungeon::update(Observable *aObs)
