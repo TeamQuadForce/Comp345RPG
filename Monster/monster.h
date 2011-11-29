@@ -5,12 +5,12 @@
 #include "observable.h"
 #include "observer.h"
 
-class GenericMonster : public Observable
+class Monster : public Observable
 {
 public:
-    GenericMonster();
-    GenericMonster(const QString &aName);
-    virtual ~GenericMonster();
+    Monster();
+    Monster(const QString &aName);
+    virtual ~Monster();
 
     short rollHitDie();
     enum AbilityScore

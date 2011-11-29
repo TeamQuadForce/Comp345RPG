@@ -1,26 +1,26 @@
 #include <QApplication>
 #include <cmath>
 #include <QDebug>
-#include "genericmonster.h"
+#include "monster.h"
 #include "diceroller.h"
 
-GenericMonster::GenericMonster()
+Monster::Monster()
 {
 }
 
-GenericMonster::GenericMonster(const QString &aName) :
+Monster::Monster(const QString &aName) :
     mName(aName)
 {
 
 }
 
-GenericMonster::~GenericMonster()
+Monster::~Monster()
 {
 }
 
 //Initializes a new player. This involves checking for racial modifiers,
 //setting the initial hit points, and setting the initial armor class.
-void GenericMonster::init()
+void Monster::init()
 {
 
     //Player starts with hit points equal to his/her class' hit die roll + CON modifier
@@ -35,7 +35,7 @@ void GenericMonster::init()
 
 //Called when generating a new character. Sets all the ability scores
 //to the given parameters.
-void GenericMonster::modifyAbilityScores(short aStrength, short aDexterity,
+void Monster::modifyAbilityScores(short aStrength, short aDexterity,
                                          short aConstitution, short aIntelligence,
                                          short aWisdom, short aCharisma)
 {
@@ -48,7 +48,7 @@ void GenericMonster::modifyAbilityScores(short aStrength, short aDexterity,
 }
 
 //Retrieves an ability score based on the given enumeration.
-short GenericMonster::abilityScore(AbilityScore aAbilityName)
+short Monster::abilityScore(AbilityScore aAbilityName)
 {
     switch (aAbilityName)
     {
@@ -67,7 +67,7 @@ short GenericMonster::abilityScore(AbilityScore aAbilityName)
 //Retrieves an ability modifier based on the given enumeration. An ability
 //modifier is either positive or negative and is given by the following
 //formula: (ability score) / 2 - 5.
-short GenericMonster::abilityModifier(GenericMonster::AbilityScore aAbilityName)
+short Monster::abilityModifier(Monster::AbilityScore aAbilityName)
 {
     short abilityScore;
 
@@ -84,37 +84,37 @@ short GenericMonster::abilityModifier(GenericMonster::AbilityScore aAbilityName)
     return (short)floor(abilityScore / 2) - 5;
 }
 
-short GenericMonster::meleeAttackBonus(int aAttackNumber)
+short Monster::meleeAttackBonus(int aAttackNumber)
 {
     return abilityModifier(Strength);
 }
 
-short GenericMonster::rangedAttackBonus(int aAttackNumber)
+short Monster::rangedAttackBonus(int aAttackNumber)
 {
     return abilityModifier(Dexterity);
 }
 
-QString GenericMonster::name()
+QString Monster::name()
 {
     return mName;
 }
 
-short GenericMonster::hitPoints()
+short Monster::hitPoints()
 {
     return mHitPoints;
 }
 
-short GenericMonster::armorClass()
+short Monster::armorClass()
 {
     return mBaseArmorClass + abilityModifier(Dexterity);
 }
 
-short GenericMonster::level()
+short Monster::level()
 {
     return mLevel;
 }
 
-void GenericMonster::addObserver(Observer *aObserver)
+void Monster::addObserver(Observer *aObserver)
 {
     if (!mObserverList.contains(aObserver))
     {
@@ -122,7 +122,7 @@ void GenericMonster::addObserver(Observer *aObserver)
     }
 }
 
-void GenericMonster::removeObserver(Observer *aObserver)
+void Monster::removeObserver(Observer *aObserver)
 {
     if (mObserverList.contains(aObserver))
     {
@@ -130,7 +130,7 @@ void GenericMonster::removeObserver(Observer *aObserver)
     }
 }
 
-void GenericMonster::notifyObservers()
+void Monster::notifyObservers()
 {
     foreach (Observer * obs, mObserverList)
     {
@@ -138,19 +138,19 @@ void GenericMonster::notifyObservers()
     }
 }
 
-short GenericMonster::rollHitDie()
+short Monster::rollHitDie()
 {
     return DiceRoller::d10();
 }
 
-void GenericMonster::modifyStats(short aBaseArmorClass, short aBaseAttack, short aLevel)
+void Monster::modifyStats(short aBaseArmorClass, short aBaseAttack, short aLevel)
 {
     mBaseArmorClass = aBaseArmorClass;
     mBaseAttack = aBaseAttack;
     mLevel = aLevel;
 }
 
-void GenericMonster::setHitPoints(short numOfDice, short typeOfDice, short modifier)
+void Monster::setHitPoints(short numOfDice, short typeOfDice, short modifier)
 {
     short aHitPoints = 0;
 
@@ -164,7 +164,7 @@ void GenericMonster::setHitPoints(short numOfDice, short typeOfDice, short modif
     mHitPoints = aHitPoints;
 }
 
-void GenericMonster::setDamage(short numOfDice, short typeOfDice, short modifier)
+void Monster::setDamage(short numOfDice, short typeOfDice, short modifier)
 {
     short aDamage = 0;
 
