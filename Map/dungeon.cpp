@@ -12,7 +12,7 @@ Dungeon::Dungeon(QWidget *parent) :
 {
     ui->setupUi(this);
 }
-
+//Dungeon Destructor
 Dungeon::~Dungeon()
 {
     delete ui;
@@ -24,7 +24,7 @@ Dungeon::~Dungeon()
     delete mLogger;
     mLogger = 0;
 }
-
+//Initialize dungeon : associate player, map, logger , stats window and inventory to the dungeon.
 void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, QString file, bool aMapIsArena)
 {
     mLayout = new QGridLayout();
@@ -220,6 +220,7 @@ void Dungeon::moveCharacter(QAbstractButton* button)
     }
 }
 
+//Update Observer
 void Dungeon::update(Observable *aObs)
 {
     QPixmap terrainImage(":/dungeon/images/terrain.jpg");
@@ -247,6 +248,7 @@ void Dungeon::update(Observable *aObs)
         mMapGrid[row][column]->setPixmap(terrainImage);
     }
 
+    //Level Up player and save player inside a new file
     if(mMapObject->isDungeonCompleted())
 
     {
@@ -281,6 +283,7 @@ void Dungeon::update(Observable *aObs)
     }
 }
 
+//Associate an instance of chestBuilder to the dungeon
 void Dungeon::setChestBuilder(ChestBuilder *aChestBuilder)
 {
     if (mChestBuilder != 0)
@@ -292,6 +295,7 @@ void Dungeon::setChestBuilder(ChestBuilder *aChestBuilder)
     mChestBuilder = aChestBuilder;
 }
 
+//Retrieve an instance of a chest from the chest builder
 Chest * Dungeon::chest()
 {
     if (mChestBuilder != 0 && mChestBuilder->getChest() != 0)
@@ -302,6 +306,7 @@ Chest * Dungeon::chest()
     return 0;
 }
 
+//Constructs a chest based on the player level
 void Dungeon::constructChest()
 {
     mChestBuilder->createNewChest(mPlayer->level());

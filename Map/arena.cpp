@@ -1,11 +1,13 @@
 #include "arena.h"
 
+//Create map grid
 void Arena::buildMapGrid()
 {
     mMap = new Map(9, 9);
     mMap->createMapGrid();
 }
 
+//Create the arena surrounding walls
 void Arena::buildWall()
 {
     for (int row = 0; row < mMap->mapHeight(); row++)
@@ -26,6 +28,7 @@ void Arena::buildWall()
         }
     }
 }
+//Create a chest
 void Arena::buildChest()
 {
     TileSet chestTile = mMap->mapGridTileSet(4, 4);
@@ -34,14 +37,14 @@ void Arena::buildChest()
 }
 
 
-
+//Create a Monster
 void Arena::buildMonster()
 {
     TileSet monsterTile = mMap->mapGridTileSet(7, 4);
     monsterTile.setGamePiece("Monster");
     mMap->setTileSet(monsterTile, 7, 4);
 }
-
+//Create the exit
 void Arena::buildExit()
 {
     TileSet exitTile = mMap->mapGridTileSet(8, 4);
@@ -50,7 +53,7 @@ void Arena::buildExit()
     mMap->setExitTileSet(exitTile);
     mMap->setIsExitPlaced(true);
 }
-
+//Create the character
 void Arena::buildCharacter()
 {
     TileSet characterTile = mMap->mapGridTileSet(0, 4);
@@ -61,6 +64,7 @@ void Arena::buildCharacter()
 
 }
 
+//Create arena level (default is level 5)
 void Arena::buildLevel()
 {
     mMap->setLevel(5);

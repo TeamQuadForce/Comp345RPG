@@ -56,8 +56,11 @@ void PlayGenerator::loadCharacter(){
 
 
     QString fileName = QFileDialog::getOpenFileName();
-    if(filename!=""){
+
     QFile file(fileName);
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text));
+    else{
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QTextStream in(&file);
     race = in.readLine();
@@ -81,7 +84,7 @@ void PlayGenerator::loadCharacter(){
     for(int i=1; i<level; i++){
         mPlayer->levelUp();
     }
-    }
+}
 
 }
 
