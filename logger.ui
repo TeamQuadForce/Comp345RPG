@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Logger</string>
   </property>
   <widget class="QScrollArea" name="scrollArea">
    <property name="geometry">
@@ -42,6 +42,11 @@
        <width>381</width>
        <height>311</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Courier</family>
+      </font>
      </property>
     </widget>
    </widget>
