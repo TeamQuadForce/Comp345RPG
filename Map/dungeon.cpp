@@ -229,7 +229,6 @@ void Dungeon::moveCharacter(QAbstractButton* button)
             //setChestBuilder(new LeveledChestBuilder);
         }
 
->>>>>>> 5e95baca8d35006c701626fc685da0fd6a127c38
         constructChest();
         mChestBuilder->addItems();
 
