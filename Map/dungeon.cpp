@@ -214,12 +214,14 @@ void Dungeon::moveCharacter(QAbstractButton* button)
 
     if (isChest)
     {
+        mLogger->addLogEntry("Character Steps on Chest");
         setChestBuilder(new RandomChestBuilder);
         constructChest();
         mChestBuilder->addItems();
 
         foreach(Item* item, chest()->itemList())
         {
+            mLogger->addLogEntry(item->itemDescription()+" has been added to player inventory.");
             mPlayer->inventory()->addItem(item);
             mPlayer->notifyObservers();
         }
