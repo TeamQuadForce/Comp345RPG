@@ -8,7 +8,7 @@ public:
     ChestBuilder();
 
     Chest* getChest();
-    void createNewChest();
+    void createNewChest(int aChestLevel);
 
     virtual void addItems() = 0;
 

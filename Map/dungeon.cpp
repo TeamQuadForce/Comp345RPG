@@ -221,11 +221,11 @@ void Dungeon::moveCharacter(QAbstractButton* button)
 
         if (mIsArena)
         {
-            setChestBuilder(new RandomChestBuilder);
+            setChestBuilder(new LeveledChestBuilder);
         }
         else
         {
-            setChestBuilder(new LeveledChestBuilder);
+            setChestBuilder(new RandomChestBuilder);
         }
 
         constructChest();
@@ -324,5 +324,5 @@ Chest * Dungeon::chest()
 
 void Dungeon::constructChest()
 {
-    mChestBuilder->createNewChest();
+    mChestBuilder->createNewChest(mPlayer->level());
 }

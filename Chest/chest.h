@@ -8,10 +8,13 @@ class Chest
 {
 public:
     Chest();
+    Chest(int aLevel);
     QList<Item*>& itemList();
+    int level();
 
 private:
     QList<Item*> mItemList;
+    int mLevel;
 };
 
 #endif // CHEST_H
