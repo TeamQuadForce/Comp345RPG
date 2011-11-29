@@ -3,6 +3,7 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include "game.h"
+#include "randomchestbuilder.h"
 
 Dungeon::Dungeon(QWidget *parent) :
     QWidget(parent),
@@ -36,7 +37,6 @@ void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, QString file)
 
     mPlayer = aPlayer;
     initializeMap();
-    testDetermineTurnOrder(); //test determine turn order
 
     mStatWindow = new StatWindow;
     mInventoryScreen = new InventoryScreen;
@@ -180,8 +180,7 @@ void Dungeon::generateTurnOrder(int numberOfMonsters)
 }
 
 //Method to determine the turn order of player and monsters (determined by initiative)
-QVector <PlayerCharacter*> Dungeon::turnOrderSort(QVector <PlayerCharacter*> characterVector,
-                                                       QVector <int> characterInitiativeVector)
+QVector<PlayerCharacter*> Dungeon::turnOrderSort(QVector<PlayerCharacter*> characterVector, QVector<int> characterInitiativeVector)
 {
    //Sort in decreasing initiative order
    for (int index = 0; index < characterVector.size(); index++)
@@ -210,7 +209,21 @@ QVector <PlayerCharacter*> Dungeon::turnOrderSort(QVector <PlayerCharacter*> cha
 //Slot to move the character
 void Dungeon::moveCharacter(QAbstractButton* button)
 {
-    mMapObject->moveCharacter(button->text());
+    bool isChest = false;
+    mMapObject->moveCharacter(button->text(), isChest);
+
+    if (isChest)
+    {
+        setChestBuilder(new RandomChestBuilder);
+        constructChest();
+        mChestBuilder->addItems();
+
+        foreach(Item* item, chest()->itemList())
+        {
+            mPlayer->inventory()->addItem(item);
+            mPlayer->notifyObservers();
+        }
+    }
 }
 
 void Dungeon::update(Observable *aObs)
@@ -287,8 +300,15 @@ void Dungeon::setChestBuilder(ChestBuilder *aChestBuilder)
 
 Chest * Dungeon::chest()
 {
+    if (mChestBuilder != 0 && mChestBuilder->getChest() != 0)
+    {
+        return mChestBuilder->getChest();
+    }
+
+    return 0;
 }
 
 void Dungeon::constructChest()
 {
+    mChestBuilder->createNewChest();
 }

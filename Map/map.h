@@ -52,7 +52,7 @@ public:
     void removeObserver(Observer *aObserver);
     void notifyObservers();
 
-    bool moveCharacter(QString aMovement);
+    bool moveCharacter(QString aMovement, bool &aIsChest);
     void moveTile(TileSet tile, int row, int column);
 
 
