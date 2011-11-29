@@ -42,6 +42,7 @@ private:
     int mWidth;
     int mHeight;
     MapBuilder *mMapBuilder;
+    bool mIsArena;
 
     void statusMessage(QString aString);
     QString mapStyleSheet(TileSet aTile);

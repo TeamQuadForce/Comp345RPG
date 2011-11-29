@@ -4,6 +4,7 @@
 #include <QTextStream>
 #include "game.h"
 #include "randomchestbuilder.h"
+#include "leveledchestbuilder.h"
 
 Dungeon::Dungeon(QWidget *parent) :
     QWidget(parent),
@@ -21,9 +22,10 @@ Dungeon::~Dungeon()
     delete mInventoryScreen;
     mInventoryScreen = 0;
     delete mLogger;
+    mLogger = 0;
 }
 
-void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, Logger *aLogger, QString file)
+void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, Logger *aLogger, QString file, bool aMapIsArena)
 {
     mLayout = new QGridLayout();
     mLayout->setSpacing(0);
@@ -59,6 +61,7 @@ void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, Logger *aLogger, QString
     mLogger->show();
     this->show();
 
+    mIsArena = aMapIsArena;
 }
 
 //Method it initialize the map
@@ -214,7 +217,15 @@ void Dungeon::moveCharacter(QAbstractButton* button)
 
     if (isChest)
     {
-        setChestBuilder(new RandomChestBuilder);
+        if (mIsArena)
+        {
+            setChestBuilder(new RandomChestBuilder);
+        }
+        else
+        {
+            //setChestBuilder(new LeveledChestBuilder);
+        }
+
         constructChest();
         mChestBuilder->addItems();
 

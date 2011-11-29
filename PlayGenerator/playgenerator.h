@@ -26,6 +26,7 @@ private:
     PlayerCharacter *mPlayer;
     Map *mMap;
     QString filename;
+    bool mMapIsArena;
 };
 
 #endif // PLAYGENERATOR_H

@@ -31,7 +31,7 @@ public:
     Dungeon();
     ~Dungeon();
 
-    void init(PlayerCharacter *aPlayer, Map *aMap, Logger *logger, QString filename);
+    void init(PlayerCharacter *aPlayer, Map *aMap, Logger *logger, QString filename, bool aMapIsArena);
     void assignMovementOperations();
     void update(Observable *aObs);
 
@@ -49,6 +49,7 @@ private:
     QList<QList<QLabel*> > mMapGrid;
     QList <PlayerCharacter*> playerTurnOrderList;
     QString filename;
+    bool mIsArena;
 
     PlayerCharacter *mPlayer;
     StatWindow *mStatWindow;

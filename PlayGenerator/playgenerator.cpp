@@ -24,6 +24,7 @@ PlayGenerator::PlayGenerator(QWidget *parent) :
 
     mPlayer = 0;
     mMap = 0;
+    mMapIsArena = false;
 }
 
 PlayGenerator::~PlayGenerator()
@@ -36,7 +37,7 @@ PlayGenerator::~PlayGenerator()
 void PlayGenerator::loadMap(){
 
     mMap = new Map();
-    mMap->loadMap();
+    mMapIsArena = mMap->loadMap();
 }
 
 void PlayGenerator::loadCharacter(){
@@ -88,7 +89,7 @@ void PlayGenerator::enterDungeon()
         Game *game = (Game*)this->parentWidget();
         Dungeon *dungeon = new Dungeon((Game*)this->parentWidget());
         Logger *logger = new Logger((Game*)this->parentWidget());
-        dungeon->init(mPlayer, mMap, logger, filename);
+        dungeon->init(mPlayer, mMap, logger, filename, mMapIsArena);
         game->insertWidget(4, dungeon);
         game->setCurrentIndex(4);
 

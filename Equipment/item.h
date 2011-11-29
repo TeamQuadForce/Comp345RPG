@@ -22,7 +22,7 @@ public:
     bool isEquipped();
     unsigned short level();
 
-    //virtual QString itemDescription() = 0;
+    virtual QString itemDescription() = 0;
 
 protected:
     QString mItemName;

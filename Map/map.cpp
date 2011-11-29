@@ -65,12 +65,12 @@ void Map::createMapGrid()
     }
 }
 
-void Map::saveMap()
+void Map::saveMap(bool aIsArena)
 {
     QString fileName = QFileDialog::getSaveFileName();
 
     QString mapDetails;
-    QString mapDimensions = QString("%1,%2").arg(mWidth).arg(mHeight);
+    QString mapInformation = QString("%1,%2,%3").arg(aIsArena).arg(mWidth).arg(mHeight);
 
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
@@ -80,7 +80,7 @@ void Map::saveMap()
 
     if (file.isOpen())
     {
-        out << mapDimensions << endl;
+        out << mapInformation << endl;
         for (int row = 0; row < mMapGrid.size(); row++)
         {
             for (int column = 0; column < mMapGrid[row].size(); column++)
@@ -98,8 +98,9 @@ void Map::saveMap()
 
 }
 
-void Map::loadMap()
+bool Map::loadMap()
 {
+    bool isArena = false;
     int first = 0;
     int row = 0;
     QString line;
@@ -108,7 +109,7 @@ void Map::loadMap()
     QFile file(fileName);
     QStringList mapTileSet;
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return;
+        return false;
 
     QTextStream in(&file);
     while (!in.atEnd())
@@ -118,6 +119,7 @@ void Map::loadMap()
 
         if (first == 0)
         {
+            isArena = mapTileSet.takeFirst().toInt();
             mWidth = mapTileSet.takeFirst().toInt();
             mHeight = mapTileSet.takeFirst().toInt();
             first = 1;
@@ -146,6 +148,8 @@ void Map::loadMap()
     file.close();
 
     displayMap();
+
+    return isArena;
 }
 
 //  Accessors
