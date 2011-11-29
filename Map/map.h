@@ -4,7 +4,6 @@
 #include <QList>
 #include "tileset.h"
 #include "observable.h"
-#include "dungeon.h"
 
 //Forward Declaration
 class TileSet;

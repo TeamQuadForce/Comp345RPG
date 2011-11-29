@@ -247,7 +247,7 @@ bool Map::moveCharacter(QString aMovement, bool &aIsChest)
                     mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("Chest") == 0 ||
                     mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("Exit") == 0)
             {
-                if (mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("Chest"))
+                if (mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("Chest") == 0)
                 {
                     aIsChest = true;
                 }
@@ -267,7 +267,7 @@ bool Map::moveCharacter(QString aMovement, bool &aIsChest)
                     mMapGrid[oldRowPosition + 1][oldColPosition].getGamePiece().compare("Chest") == 0 ||
                     mMapGrid[oldRowPosition + 1][oldColPosition].getGamePiece().compare("Exit") == 0)
             {
-                if (mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("Chest"))
+                if (mMapGrid[oldRowPosition + 1][oldColPosition].getGamePiece().compare("Chest") == 0)
                 {
                     aIsChest = true;
                 }
@@ -288,7 +288,7 @@ bool Map::moveCharacter(QString aMovement, bool &aIsChest)
                     mMapGrid[oldRowPosition][oldColPosition - 1].getGamePiece().compare("Chest") == 0  ||
                     mMapGrid[oldRowPosition][oldColPosition - 1].getGamePiece().compare("Exit") == 0)
             {
-                if (mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("Chest"))
+                if (mMapGrid[oldRowPosition][oldColPosition - 1].getGamePiece().compare("Chest") == 0)
                 {
                     aIsChest = true;
                 }
@@ -309,7 +309,7 @@ bool Map::moveCharacter(QString aMovement, bool &aIsChest)
                     mMapGrid[oldRowPosition][oldColPosition + 1].getGamePiece().compare("Chest") == 0 ||
                     mMapGrid[oldRowPosition][oldColPosition + 1].getGamePiece().compare("Exit") == 0)
             {
-                if (mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("Chest"))
+                if (mMapGrid[oldRowPosition][oldColPosition + 1].getGamePiece().compare("Chest") == 0)
                 {
                     aIsChest = true;
                 }

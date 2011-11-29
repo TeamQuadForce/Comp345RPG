@@ -3,6 +3,7 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include "game.h"
+#include "randomchestbuilder.h"
 
 Dungeon::Dungeon(QWidget *parent) :
     QWidget(parent),
@@ -36,7 +37,6 @@ void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, Logger *aLogger, QString
 
     mPlayer = aPlayer;
     initializeMap();
-    testDetermineTurnOrder(); //test determine turn order
 
     mStatWindow = new StatWindow;
     mInventoryScreen = new InventoryScreen;
@@ -180,8 +180,7 @@ void Dungeon::generateTurnOrder(int numberOfMonsters)
 }
 
 //Method to determine the turn order of player and monsters (determined by initiative)
-QVector <PlayerCharacter*> Dungeon::turnOrderSort(QVector <PlayerCharacter*> characterVector,
-                                                       QVector <int> characterInitiativeVector)
+QVector<PlayerCharacter*> Dungeon::turnOrderSort(QVector<PlayerCharacter*> characterVector, QVector<int> characterInitiativeVector)
 {
    //Sort in decreasing initiative order
    for (int index = 0; index < characterVector.size(); index++)
@@ -215,7 +214,15 @@ void Dungeon::moveCharacter(QAbstractButton* button)
 
     if (isChest)
     {
+        setChestBuilder(new RandomChestBuilder);
+        constructChest();
+        mChestBuilder->addItems();
 
+        foreach(Item* item, chest()->itemList())
+        {
+            mPlayer->inventory()->addItem(item);
+            mPlayer->notifyObservers();
+        }
     }
 }
 
