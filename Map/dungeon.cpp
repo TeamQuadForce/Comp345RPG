@@ -25,13 +25,13 @@ Dungeon::~Dungeon()
     mLogger = 0;
 }
 
-void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, Logger *aLogger, QString file, bool aMapIsArena)
+void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, QString file, bool aMapIsArena)
 {
     mLayout = new QGridLayout();
     mLayout->setSpacing(0);
     mLayout->setVerticalSpacing(0);
 
-    filename=file;
+    filename = file;
 
     assignMovementOperations();
     mMapObject = aMap;

@@ -89,7 +89,7 @@ void PlayGenerator::enterDungeon()
         Game *game = (Game*)this->parentWidget();
         Dungeon *dungeon = new Dungeon((Game*)this->parentWidget());
         Logger *logger = new Logger((Game*)this->parentWidget());
-        dungeon->init(mPlayer, mMap, logger, filename, mMapIsArena);
+        dungeon->init(mPlayer, mMap, filename, mMapIsArena);
         game->insertWidget(4, dungeon);
         game->setCurrentIndex(4);
 

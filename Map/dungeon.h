@@ -31,7 +31,7 @@ public:
     Dungeon();
     ~Dungeon();
 
-    void init(PlayerCharacter *aPlayer, Map *aMap, Logger *logger, QString filename, bool aMapIsArena);
+    void init(PlayerCharacter *aPlayer, Map *aMap, QString filename, bool aMapIsArena);
     void assignMovementOperations();
     void update(Observable *aObs);
 
