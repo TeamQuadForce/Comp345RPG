@@ -5,7 +5,6 @@
 class Player{
 public:
     virtual short attack(QString &message) = 0;
-    virtual QString message() = 0;
 };
 
 #endif // PLAYER_H

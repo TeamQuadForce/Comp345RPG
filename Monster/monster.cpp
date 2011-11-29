@@ -167,18 +167,18 @@ void Monster::setHitPoints(short numOfDice, short typeOfDice, short modifier)
 short Monster::attack(QString &message)
 {
     short fullDamage = 0;
-    aMessage = "Attack: ";
+    message = "Attack: ";
 
     for (int i = 0; i < mAttackRolls; i++)
     {
         short damage = DiceRoller::rollDice(mAttackDice);
-        aMessage.append(" " + damage + "+");
+        message.append(" %1 +").arg(damage);
         fullDamage += damage;
 
     }
 
     fullDamage += mAttackModifier;
-    aMessage.append(" " + mAttackModifier);
+    message.append(" %1").arg(mAttackModifier);
     return fullDamage;
 
 }
