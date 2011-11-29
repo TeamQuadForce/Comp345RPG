@@ -300,8 +300,5 @@ void PlayerCharacter::setStartingItems()
     {
         mInventory->addItem(new Weapon("Long Sword", Weapon::Melee, 1, 1, 8, 0, 1, 1));
         mInventory->addItem(new Weapon("Long Bow", Weapon::Ranged, 4, 1, 8, 0, 2, 1));
-        Armor* armor = new Armor("Magic Helmet", Armor::Helmet, 5, 5);
-        armor->addAbilityMod(PlayerCharacter::Strength, 2);
-        mInventory->addItem(armor);
     }
 }

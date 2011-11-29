@@ -1,9 +1,10 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <QString>
 class Player{
-    virtual void move() =0;
-    virtual void attack() =0;
+public:
+    virtual short attack(QString &message) = 0;
 };
 
 #endif // PLAYER_H

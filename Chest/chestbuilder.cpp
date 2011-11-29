@@ -10,7 +10,7 @@ Chest * ChestBuilder::getChest()
     return mChest;
 }
 
-void ChestBuilder::createNewChest()
+void ChestBuilder::createNewChest(int aChestLevel)
 {
     if (mChest != 0)
     {
@@ -18,5 +18,5 @@ void ChestBuilder::createNewChest()
         mChest = 0;
     }
 
-    mChest = new Chest;
+    mChest = new Chest(aChestLevel);
 }
