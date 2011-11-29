@@ -164,18 +164,25 @@ void Monster::setHitPoints(short numOfDice, short typeOfDice, short modifier)
     mHitPoints = aHitPoints;
 }
 
-void Monster::setDamage(short numOfDice, short typeOfDice, short modifier)
+short Monster::attack()
 {
     short aDamage = 0;
 
-    for (int i = 0; i < numOfDice; i++)
+    for (int i = 0; i < mAttackRolls; i++)
     {
-        aDamage += DiceRoller::rollDice(typeOfDice);
+        aDamage += DiceRoller::rollDice(mAttackDice);
     }
 
-    aDamage += modifier;
+    aDamage += mAttackModifier;
 
-    mDamage = aDamage;
+    return aDamage;
 
+}
+
+void Monster::modifyAttack(short aAttackRolls, short aAttackDice, short aAttackModifier)
+{
+    mAttackRolls = aAttackRolls;
+    mAttackDice = aAttackDice;
+    mAttackModifier = aAttackModifier;
 }
 

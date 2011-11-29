@@ -29,9 +29,11 @@ public:
     void modifyAbilityScores(short aStrength, short aDexterity,
                              short aConstitution, short aIntelligence,
                              short aWisdom, short aCharisma);
+
     void setHitPoints(short numOfDice, short typeOfDice, short modifier);
-    void setDamage(short numOfDice, short typeOfDice, short modifier);
+    void modifyAttack(short aAttackRolls, short aAttackDice, short aAttackModifier);
     void modifyStats(short aBaseArmorClass, short aBaseAttack, short aLevel);
+
     short abilityScore(AbilityScore aAbilityName);
     short abilityModifier(AbilityScore aAbilityName);
     short meleeAttackBonus(int aAttackNumber);
@@ -39,6 +41,7 @@ public:
     short hitPoints();
     short armorClass();
     short level();
+    short attack();
 
     //Observer methods
     void addObserver(Observer *aObserver);
@@ -52,7 +55,9 @@ private:
     QString mName;
 
     short mBaseAttack;
-    short mDamage;
+    short mAttackRolls;
+    short mAttackDice;
+    short mAttackModifier;
     short mHitPoints;
     short mBaseArmorClass;
     short mLevel;
