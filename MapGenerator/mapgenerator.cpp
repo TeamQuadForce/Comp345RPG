@@ -45,6 +45,8 @@ void MapGenerator::init()
 
     ui->chestButton->click(); // Default map element that is selected, put after connect so signal triggers method
     ui->displayMapButton->setVisible(false);
+
+    mIsArena = false;
 }
 
 //  SLOT METHODS
@@ -279,7 +281,7 @@ void MapGenerator::saveMap()
     {
         return;
     }
-    mMapObject->saveMap();
+    mMapObject->saveMap(mIsArena);
 }
 
 void MapGenerator::loadMap()
@@ -351,4 +353,5 @@ void MapGenerator::loadArena()
     mMapObject->addObserver(this);
     mMapObject->notifyObservers();
 
+    mIsArena = true;
 }

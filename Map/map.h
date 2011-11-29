@@ -17,8 +17,8 @@ public:
     Map(int aWidth, int aHeight);
 
     void displayMap();
-    void saveMap();    
-    void loadMap();    
+    void saveMap(bool aIsArena);
+    bool loadMap();
     void createMapGrid();
     void clearMapGrid();
 
