@@ -4,11 +4,26 @@
 
 Inventory::Inventory()
 {
+    mBackpack.clear();
 }
 
 void Inventory::addItem(Item *aItem)
 {
-    mBackpack.append(aItem);
+    bool okToAdd = true;
+
+    //if this item already exists in the backpack, dont put it in
+    foreach(Item *item, mBackpack)
+    {
+        if (item->itemDescription() == aItem->itemDescription())
+        {
+            okToAdd = false;
+        }
+    }
+
+    if (okToAdd)
+    {
+        mBackpack.append(aItem);
+    }
 }
 
 void Inventory::removeItem(const int &aIndex)
@@ -57,6 +72,7 @@ void Inventory::equipItem(const int &aIndex)
             }
         }
     }
+
     mBackpack[aIndex]->setEquipped(true);
 }
 

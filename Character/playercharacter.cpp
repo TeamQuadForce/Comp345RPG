@@ -19,7 +19,6 @@ PlayerCharacter::PlayerCharacter(const QString &aName, const QString &aGender, c
     mName(aName),
     mPortrait(QPixmap(aPortrait))
 {
-
 }
 
 PlayerCharacter::~PlayerCharacter()
@@ -32,6 +31,8 @@ PlayerCharacter::~PlayerCharacter()
 //setting the initial hit points, and setting the initial armor class.
 void PlayerCharacter::init()
 {
+    mInventory = new Inventory();
+
     if (mClassName == "Fighter")
     {
         mClass = new Fighter();
@@ -53,7 +54,6 @@ void PlayerCharacter::init()
 
     mBaseArmorClass = 10; //base AC of all players, regardless of class or race
     mLevel = 1;
-    mInventory = new Inventory();
     setStartingItems();
 
     //Notify observers that a new character is finished initializing, aka all stats are done
@@ -93,7 +93,6 @@ CharacterClass* PlayerCharacter::characterClass()
 Inventory* PlayerCharacter::inventory()
 {
     return mInventory;
-    notifyObservers();
 }
 
 //Called when generating a new character. Sets all the ability scores
@@ -113,14 +112,46 @@ void PlayerCharacter::modifyAbilityScores(short aStrength, short aDexterity,
 //Retrieves an ability score based on the given enumeration.
 short PlayerCharacter::abilityScore(AbilityScore aAbilityName)
 {
+    //Get the equip ability scores and add it to here
+    short strength = 0;
+    short dexterity = 0;
+    short constitution = 0;
+    short intelligence = 0;
+    short wisdom = 0;
+    short charisma = 0;
+
+    if (mInventory != 0)
+    {
+        foreach(Item* item, mInventory->backpack())
+        {
+            if (item->itemType() == Item::Armor && item->isEquipped())
+            {
+                Armor* armor = (Armor*) item;
+                for (int i = 0; i < armor->abilityMods().size(); ++i)
+                {
+                    QPair<AbilityScore, short> pair = armor->abilityMods().at(i);
+                    switch (pair.first)
+                    {
+                    case Strength: strength += pair.second; break;
+                    case Dexterity: dexterity += pair.second; break;
+                    case Constitution: constitution += pair.second; break;
+                    case Intelligence: intelligence += pair.second; break;
+                    case Wisdom: wisdom += pair.second; break;
+                    case Charisma: charisma += pair.second; break;
+                    }
+                }
+            }
+        }
+    }
+
     switch (aAbilityName)
     {
-    case Strength: return mStrength;
-    case Dexterity: return mDexterity;
-    case Constitution: return mConstitution;
-    case Intelligence: return mIntelligence;
-    case Wisdom: return mWisdom;
-    case Charisma: return mCharisma;
+    case Strength: return mStrength + strength;
+    case Dexterity: return mDexterity + dexterity;
+    case Constitution: return mConstitution + constitution;
+    case Intelligence: return mIntelligence + intelligence;
+    case Wisdom: return mWisdom + wisdom;
+    case Charisma: return mCharisma + charisma;
     }
 
     //If still here, there's a problem!
@@ -132,16 +163,48 @@ short PlayerCharacter::abilityScore(AbilityScore aAbilityName)
 //formula: (ability score) / 2 - 5.
 short PlayerCharacter::abilityModifier(PlayerCharacter::AbilityScore aAbilityName)
 {
-    short abilityScore;
+    short abilityScore = 0;
+
+    //Get the equip ability scores and add it to here
+    short strength = 0;
+    short dexterity = 0;
+    short constitution = 0;
+    short intelligence = 0;
+    short wisdom = 0;
+    short charisma = 0;
+
+    if (mInventory != 0)
+    {
+        foreach(Item* item, mInventory->backpack())
+        {
+            if (item->itemType() == Item::Armor && item->isEquipped())
+            {
+                Armor* armor = (Armor*) item;
+                for (int i = 0; i < armor->abilityMods().size(); ++i)
+                {
+                    QPair<AbilityScore, short> pair = armor->abilityMods().at(i);
+                    switch (pair.first)
+                    {
+                    case Strength: strength += pair.second; break;
+                    case Dexterity: dexterity += pair.second; break;
+                    case Constitution: constitution += pair.second; break;
+                    case Intelligence: intelligence += pair.second; break;
+                    case Wisdom: wisdom += pair.second; break;
+                    case Charisma: charisma += pair.second; break;
+                    }
+                }
+            }
+        }
+    }
 
     switch (aAbilityName)
     {
-    case Strength: abilityScore = mStrength; break;
-    case Dexterity: abilityScore = mDexterity; break;
-    case Constitution: abilityScore = mConstitution; break;
-    case Intelligence: abilityScore = mIntelligence; break;
-    case Wisdom: abilityScore = mWisdom; break;
-    case Charisma: abilityScore = mCharisma; break;
+    case Strength: abilityScore = mStrength + strength; break;
+    case Dexterity: abilityScore = mDexterity + dexterity; break;
+    case Constitution: abilityScore = mConstitution + constitution; break;
+    case Intelligence: abilityScore = mIntelligence + intelligence; break;
+    case Wisdom: abilityScore = mWisdom + wisdom; break;
+    case Charisma: abilityScore = mCharisma + charisma; break;
     }
 
     return (short)floor(abilityScore / 2) - 5;
@@ -185,6 +248,7 @@ short PlayerCharacter::hitPoints()
 short PlayerCharacter::armorClass()
 {
     short equipAC = 0;
+
     foreach (Item* item, inventory()->backpack())
     {
         if (item->itemType() == Item::Armor && item->isEquipped())
@@ -236,8 +300,8 @@ void PlayerCharacter::setStartingItems()
     {
         mInventory->addItem(new Weapon("Long Sword", Weapon::Melee, 1, 1, 8, 0, 1, 1));
         mInventory->addItem(new Weapon("Long Bow", Weapon::Ranged, 4, 1, 8, 0, 2, 1));
-        mInventory->addItem(new Armor("Rags", Armor::BodyArmor, 1, 1));
-        mInventory->addItem(new Armor("Leather Gloves", Armor::Bracers, 1, 1));
-        mInventory->addItem(new Armor("Leather Boots", Armor::Boots, 1, 1));
+        Armor* armor = new Armor("Magic Helmet", Armor::Helmet, 5, 5);
+        armor->addAbilityMod(PlayerCharacter::Strength, 2);
+        mInventory->addItem(armor);
     }
 }
