@@ -225,7 +225,7 @@ void Map::notifyObservers()
     }
 }
 
-bool Map::moveCharacter(QString aMovement)
+bool Map::moveCharacter(QString aMovement, bool &aIsChest)
 {
     int oldRowPosition = mCharacterTileSet.rowPosition();
     int oldColPosition = mCharacterTileSet.columnPosition();
@@ -247,6 +247,10 @@ bool Map::moveCharacter(QString aMovement)
                     mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("Chest") == 0 ||
                     mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("Exit") == 0)
             {
+                if (mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("Chest"))
+                {
+                    aIsChest = true;
+                }
                 newRowPosition = oldRowPosition - 1;
                 newColPosition = oldColPosition;
             }
@@ -263,6 +267,11 @@ bool Map::moveCharacter(QString aMovement)
                     mMapGrid[oldRowPosition + 1][oldColPosition].getGamePiece().compare("Chest") == 0 ||
                     mMapGrid[oldRowPosition + 1][oldColPosition].getGamePiece().compare("Exit") == 0)
             {
+                if (mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("Chest"))
+                {
+                    aIsChest = true;
+                }
+
                 newRowPosition = oldRowPosition + 1;
                 newColPosition = oldColPosition;
             }
@@ -279,6 +288,11 @@ bool Map::moveCharacter(QString aMovement)
                     mMapGrid[oldRowPosition][oldColPosition - 1].getGamePiece().compare("Chest") == 0  ||
                     mMapGrid[oldRowPosition][oldColPosition - 1].getGamePiece().compare("Exit") == 0)
             {
+                if (mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("Chest"))
+                {
+                    aIsChest = true;
+                }
+
                 newRowPosition = oldRowPosition;
                 newColPosition = oldColPosition - 1;
             }
@@ -295,6 +309,11 @@ bool Map::moveCharacter(QString aMovement)
                     mMapGrid[oldRowPosition][oldColPosition + 1].getGamePiece().compare("Chest") == 0 ||
                     mMapGrid[oldRowPosition][oldColPosition + 1].getGamePiece().compare("Exit") == 0)
             {
+                if (mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("Chest"))
+                {
+                    aIsChest = true;
+                }
+
                 newRowPosition = oldRowPosition;
                 newColPosition = oldColPosition + 1;
             }
@@ -310,8 +329,6 @@ bool Map::moveCharacter(QString aMovement)
 
         mCharacterTileSet.setRowPosition(newRowPosition);
         mCharacterTileSet.setColumnPosition(newColPosition);
-
-
 
         mMapGrid[newRowPosition][newColPosition].setGamePiece("You");
         TileSet aLastModifiedTileSet = mMapGrid[newRowPosition][newColPosition];

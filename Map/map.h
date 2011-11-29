@@ -4,6 +4,7 @@
 #include <QList>
 #include "tileset.h"
 #include "observable.h"
+#include "dungeon.h"
 
 //Forward Declaration
 class TileSet;
@@ -52,7 +53,7 @@ public:
     void removeObserver(Observer *aObserver);
     void notifyObservers();
 
-    bool moveCharacter(QString aMovement);
+    bool moveCharacter(QString aMovement, bool &aIsChest);
     void moveTile(TileSet tile, int row, int column);
 
 
