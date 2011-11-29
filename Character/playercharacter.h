@@ -11,7 +11,7 @@
 
 class Inventory;
 
-class PlayerCharacter : public Observable
+class PlayerCharacter : public Observable, public Player
 {
 public:
     PlayerCharacter();
@@ -49,6 +49,8 @@ public:
     short hitPoints();
     short armorClass();
     short level();
+    short rollInitiative(QString &message);
+    short attack(QString &message);
 
     //Observer methods
     void addObserver(Observer *aObserver);
