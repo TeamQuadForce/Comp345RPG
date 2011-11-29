@@ -29,7 +29,7 @@ void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, QString file)
     mLayout->setSpacing(0);
     mLayout->setVerticalSpacing(0);
 
-    filename=file;
+    filename = file;
 
     assignMovementOperations();
     mMapObject = aMap;
