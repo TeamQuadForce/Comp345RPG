@@ -69,6 +69,7 @@ private:
     void monsterTurn(Player* aPlayer);
     void setTurnActionButtons(bool enable);
     int mMoveCounter;
+    bool mCanExit;
 
 private slots:
     void startMoveOption();

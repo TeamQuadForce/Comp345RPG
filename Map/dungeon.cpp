@@ -6,6 +6,10 @@
 #include "randomchestbuilder.h"
 #include "leveledchestbuilder.h"
 #include <QDebug>
+#include <QMessageBox>
+#include "inventory.h"
+#include "armor.h"
+#include "weapon.h"
 
 const int mNumOfAllowedMoves = 6;
 
@@ -30,6 +34,8 @@ Dungeon::~Dungeon()
 //Initialize dungeon : associate player, map, logger , stats window and inventory to the dungeon.
 void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, QString file, bool aMapIsArena)
 {
+    mCanExit = false;
+
     mLayout = new QGridLayout();
     mLayout->setSpacing(0);
     mLayout->setVerticalSpacing(0);
@@ -72,6 +78,7 @@ void Dungeon::init(PlayerCharacter *aPlayer, Map *aMap, QString file, bool aMapI
 
     playerList.append(mPlayer);
     playerList.append(MonsterRepertoire::getUniqueInstance()->getMonster(mPlayer->level()));
+    generateTurnOrder();
 }
 
 //Method it initialize the map
@@ -143,7 +150,6 @@ void Dungeon::initializeMap()
             }
         }
 
-        generateTurnOrder();   // to be changed
         ui->mapDungeonFrame->setLayout(mLayout);
     }
     //Implement Matt Tam's "createMap" stuff
@@ -164,10 +170,9 @@ void Dungeon::assignMovementOperations()
 void Dungeon::generateTurnOrder()
 {
     QList <int> characterInitiativeVector;
-    QString message;
     foreach(Player* player, playerList)
     {
-        characterInitiativeVector.append(player->rollInitiative(message));
+        characterInitiativeVector.append(player->rollInitiative(mLogger));
     }
 
     //Determine the order of the players on the map
@@ -177,28 +182,32 @@ void Dungeon::generateTurnOrder()
 //Method to determine the turn order of player and monsters (determined by initiative)
 QList<Player*> Dungeon::turnOrderSort(QList<Player*> characterVector, QList<int> characterInitiativeVector)
 {
-   //Sort in decreasing initiative order
-   for (int index = 0; index < characterVector.size(); index++)
-   {
-        for(int counter = index; counter < characterVector.size() - 1; counter++)
-        {
-            if(characterInitiativeVector[counter + 1] >= characterInitiativeVector[index])
+    if (!mCanExit)
+    {
+       //Sort in decreasing initiative order
+       for (int index = 0; index < characterVector.size(); index++)
+       {
+            for(int counter = index; counter < characterVector.size() - 1; counter++)
             {
-                if(characterInitiativeVector[counter + 1] != characterInitiativeVector[index])
+                if(characterInitiativeVector[counter + 1] >= characterInitiativeVector[index])
                 {
-                    Player* characterTemp = characterVector[index];
-                    int initiativeTemp = characterInitiativeVector[index];
-                    characterVector[index] = characterVector[counter + 1];
-                    characterInitiativeVector[index] = characterInitiativeVector[counter + 1];
-                    characterVector[counter + 1] = characterTemp;
-                    characterInitiativeVector[counter + 1] = initiativeTemp;
+                    if(characterInitiativeVector[counter + 1] != characterInitiativeVector[index])
+                    {
+                        Player* characterTemp = characterVector[index];
+                        int initiativeTemp = characterInitiativeVector[index];
+                        characterVector[index] = characterVector[counter + 1];
+                        characterInitiativeVector[index] = characterInitiativeVector[counter + 1];
+                        characterVector[counter + 1] = characterTemp;
+                        characterInitiativeVector[counter + 1] = initiativeTemp;
+                    }
                 }
             }
-        }
-   }
+       }
+       //Return the sorted vector
+       return characterVector;
+    }
 
-   //Return the sorted vector
-   return characterVector;
+    return characterVector;
 }
 
 //Slot to move the character
@@ -247,7 +256,83 @@ void Dungeon::moveCharacter(QAbstractButton* button)
 //Slot for character to attack
 void Dungeon::characterAttack(QAbstractButton *button)
 {
+    QString directionOfAttack = button->text();
 
+    //Check the radio button and make sure the character has a weapon of that type equipped
+    if (ui->meleeButton->isChecked())
+    {
+        bool hasEquipped = false;
+        foreach (Item* item, mPlayer->inventory()->backpack())
+        {
+            if (item->itemType() == Item::Weapon)
+            {
+                Weapon* weapon = (Weapon*) item;
+                if (weapon->weaponType() == Weapon::Melee && weapon->isEquipped())
+                {
+                    hasEquipped = true;
+                }
+            }
+        }
+
+        if (!hasEquipped)
+        {
+            mLogger->addLogEntry("Player does not have a melee weapon equipped, can't attack.");
+            return;
+        }
+    }
+    else if (ui->rangedButton->isChecked())
+    {
+        bool hasEquipped = false;
+        foreach (Item* item, mPlayer->inventory()->backpack())
+        {
+            if (item->itemType() == Item::Weapon)
+            {
+                Weapon* weapon = (Weapon*) item;
+                if (weapon->weaponType() == Weapon::Ranged && weapon->isEquipped())
+                {
+                    hasEquipped = true;
+                }
+            }
+        }
+
+        if (!hasEquipped)
+        {
+            mLogger->addLogEntry("Player does not have a ranged weapon equipped, can't attack.");
+            return;
+        }
+    }
+
+    bool monsterIsThere = mMapObject->isAMonsterThere(directionOfAttack);
+
+    //attack logic from player -> monster
+    if (monsterIsThere)
+    {
+        //roll to see if you hit. d20 + str modifier + base attack bonus, must be equal to or
+        //higher than the enemy's AC
+        short hitNumber = mPlayer->rollHit(mLogger);
+        Monster* monster = (Monster*) playerList[1];
+        mLogger->addLogEntry(QString("You attempt to hit with %1 against enemy AC of %2").arg(hitNumber).arg(monster->armorClass()));
+        if (hitNumber >= monster->armorClass())
+        {
+            mLogger->addLogEntry(QString(""));
+            short damage = mPlayer->attack(mLogger);
+            mLogger->addLogEntry(QString("Monster takes %1 damage! And has %2 HP remaining.").arg(damage).arg(monster->hitPoints()));
+            bool isDead = monster->takeDamage(damage);
+            if (isDead)
+            {
+                mLogger->addLogEntry(QString("You dumpstered the %1.").arg(monster->name()));
+                //playerList.removeOne(monster);
+               // mMapObject->killMonsters();
+                mCanExit = true;
+            }
+        }
+        else
+        {
+            mLogger->addLogEntry("You missed!");
+        }
+
+        ui->attackDirectionFrame->hide();
+    }
 }
 
 //Perform start of move procedure
@@ -299,9 +384,36 @@ void Dungeon::startNextPlayerTurn()
 
 void Dungeon::monsterTurn(Player* aPlayer)
 {
-    QString message;
-    mMapObject->moveMonster(0);
-    aPlayer->attack(message);
+    bool hasAttacked = false;
+    mMapObject->moveMonster(0, hasAttacked);
+    if (hasAttacked)
+    {
+        //roll to see if you hit. d20 + str modifier + base attack bonus, must be equal to or
+        //higher than the players AC
+        short hitNumber = aPlayer->rollHit(mLogger);
+        mLogger->addLogEntry(QString("Enemy attempts to hit with %1 against player AC of %2").arg(hitNumber).arg(mPlayer->armorClass()));
+        if (hitNumber >= mPlayer->armorClass())
+        {
+            mLogger->addLogEntry(QString(""));
+            short damage = aPlayer->attack(mLogger);
+            mLogger->addLogEntry(QString("Player takes %1 damage!").arg(damage));
+            bool isDead = mPlayer->takeDamage(damage);
+            if (isDead)
+            {
+                mLogger->addLogEntry("You have died. Restart the game.");
+                QMessageBox deadBox;
+                deadBox.setDetailedText("You died.");
+                deadBox.setModal(true);
+                deadBox.exec();
+                qApp->quit();
+            }
+        }
+        else
+        {
+            mLogger->addLogEntry("Enemy missed!");
+        }
+    }
+
     startNextPlayerTurn();
 }
 
@@ -347,7 +459,7 @@ void Dungeon::update(Observable *aObs)
     }
 
     //Level Up player and save player inside a new file
-    if(mMapObject->isDungeonCompleted())
+    if(mMapObject->isDungeonCompleted() && mCanExit)
     {
         mLogger->addLogEntry("Dungeon Completed!");
         mStatWindow->hide();

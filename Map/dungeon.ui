@@ -121,7 +121,7 @@
      <string>attackButtonGroup</string>
     </attribute>
    </widget>
-   <widget class="QRadioButton" name="radioButton">
+   <widget class="QRadioButton" name="meleeButton">
     <property name="geometry">
      <rect>
       <x>11</x>
@@ -140,7 +140,7 @@
      <string>typeOfAttackButtonGroup</string>
     </attribute>
    </widget>
-   <widget class="QRadioButton" name="radioButton_2">
+   <widget class="QRadioButton" name="rangedButton">
     <property name="geometry">
      <rect>
       <x>11</x>

@@ -49,9 +49,11 @@ public:
     short hitPoints();
     short armorClass();
     short level();
-    short rollInitiative(QString &message);
-    short attack(QString &message);
+    short rollInitiative(Logger* aLogger);
+    short attack(Logger* aLogger);
     QString type();
+    bool takeDamage(short aDamage);
+    short rollHit(Logger *aLogger);
 
     //Observer methods
     void addObserver(Observer *aObserver);

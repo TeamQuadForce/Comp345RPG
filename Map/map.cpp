@@ -358,9 +358,28 @@ bool Map::moveCharacter(QString aMovement, bool &aIsChest)
     }
 }
 
-bool Map::moveMonster(int aIndex)
+bool Map::moveMonster(int aIndex, bool &aHasAttacked)
 {
     const int numberOfMovements = 6;
+
+    //try to attack, if successful dont move
+    if (!aHasAttacked)
+    {
+        int rowPos = mMonsters[aIndex].rowPosition();
+        int colPos = mMonsters[aIndex].columnPosition();
+
+        if (rowPos + 1 < mapWidth() && rowPos - 1 >= 0 && colPos + 1 < mapHeight() && colPos - 1 > 0)
+        {
+            if (mMapGrid[rowPos][colPos + 1].getGamePiece().compare("You") == 0 ||
+                    mMapGrid[rowPos][colPos - 1].getGamePiece().compare("You") == 0 ||
+                    mMapGrid[rowPos + 1][colPos].getGamePiece().compare("You") == 0 ||
+                    mMapGrid[rowPos - 1][colPos + 1].getGamePiece().compare("You") == 0)
+            {
+                aHasAttacked = true;
+                return true;
+            }
+        }
+    }
 
     for (int i = 0; i < numberOfMovements; ++i)
     {
@@ -369,7 +388,6 @@ bool Map::moveMonster(int aIndex)
         int oldColPosition = mMonsters[aIndex].columnPosition();
         int newRowPosition = -1;
         int newColPosition = -1;
-
 
         //Character wants to move up
         if(randomMove == 0 && (oldRowPosition - 1) >= 0)
@@ -444,6 +462,24 @@ bool Map::moveMonster(int aIndex)
         aLastModifiedTileSet = mMapGrid[oldRowPosition][oldColPosition];
         setLastModifiedTile(aLastModifiedTileSet);
         notifyObservers();
+
+        //Check to see if there is a player around, if so attack him once
+        if (!aHasAttacked)
+        {
+            int rowPos = mMonsters[aIndex].rowPosition();
+            int colPos = mMonsters[aIndex].columnPosition();
+
+            if (rowPos + 1 < mapWidth() && rowPos - 1 >= 0 && colPos + 1 < mapHeight() && colPos - 1 > 0)
+            {
+                if (mMapGrid[rowPos][colPos + 1].getGamePiece().compare("You") == 0 ||
+                        mMapGrid[rowPos][colPos - 1].getGamePiece().compare("You") == 0 ||
+                        mMapGrid[rowPos + 1][colPos].getGamePiece().compare("You") == 0 ||
+                        mMapGrid[rowPos - 1][colPos + 1].getGamePiece().compare("You") == 0)
+                {
+                    aHasAttacked = true;
+                }
+            }
+        }
     }
 }
 
@@ -520,4 +556,50 @@ void Map::setLevel(int aLevel)
 void Map::addMonsterTileSet(TileSet aTileSet)
 {
     mMonsters.append(aTileSet);
+}
+
+bool Map::isAMonsterThere(QString aDirection)
+{
+    if (aDirection == "Attack Up")
+    {
+        if (mCharacterTileSet.columnPosition() == mMonsters[0].columnPosition() &&
+                mCharacterTileSet.rowPosition() - 1 == mMonsters[0].rowPosition())
+        {
+            return true;
+        }
+    }
+    else if (aDirection == "Attack Right")
+    {
+        if (mCharacterTileSet.columnPosition() + 1 == mMonsters[0].columnPosition() &&
+                mCharacterTileSet.rowPosition() == mMonsters[0].rowPosition())
+        {
+            return true;
+        }
+    }
+    else if (aDirection == "Attack Down")
+    {
+        if (mCharacterTileSet.columnPosition() == mMonsters[0].columnPosition() &&
+                mCharacterTileSet.rowPosition() + 1 == mMonsters[0].rowPosition())
+        {
+            return true;
+
+        }
+    }
+    else if (aDirection == "Attack Left")
+    {
+        if (mCharacterTileSet.columnPosition() - 1 == mMonsters[0].columnPosition() &&
+                mCharacterTileSet.rowPosition() == mMonsters[0].rowPosition())
+        {
+            return true;
+
+        }
+    }
+
+    return false;
+}
+
+void Map::killMonsters()
+{
+    mMapGrid[mMonsters[0].rowPosition()][mMonsters[0].columnPosition()].setGamePiece("");
+    notifyObservers();
 }

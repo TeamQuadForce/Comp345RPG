@@ -41,7 +41,7 @@ void ItemRepertoire::fillRepertoire()
     mItemList.append(new Armor("Leather Armor", Armor::BodyArmor, 2, 2));
     mItemList.append(new Armor("Leather Bracers", Armor::Bracers, 2, 2));
     mItemList.append(new Armor("Leather Boots", Armor::Boots, 2, 2));
-    mItemList.append(new Armor("Heavy Shield", Armor::BodyArmor, 2, 2));
+    mItemList.append(new Armor("Heavy Shield", Armor::Shield, 2, 2));
 
     mItemList.append(new Armor("Studded Leather Helmet", Armor::BodyArmor, 3, 3));
     mItemList.append(new Armor("Studded Leather Armor", Armor::BodyArmor, 3, 3));

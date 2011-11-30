@@ -3,6 +3,7 @@
 #include <QDebug>
 #include "monster.h"
 #include "diceroller.h"
+#include <QStringList>
 
 Monster::Monster()
 {
@@ -164,20 +165,26 @@ void Monster::setHitPoints(short numOfDice, short typeOfDice, short modifier)
     mHitPoints = aHitPoints;
 }
 
-short Monster::attack(QString &message)
+short Monster::attack(Logger* aLogger)
 {
     short fullDamage = 0;
-    message = "Attack: ";
 
+    aLogger->addLogEntry(QString("%1 attacks!!: ").arg(mName));
     for (int i = 0; i < mAttackRolls; i++)
     {
         short damage = DiceRoller::rollDice(mAttackDice);
-        message.append(" %1 +").arg(damage);
+        aLogger->addLogEntry(QString("Dice number %1 (1d%3): %4 damage").arg(i + 1).arg(mAttackDice).arg(damage));
         fullDamage += damage;
     }
 
     fullDamage += mAttackModifier;
-    message.append(" %1").arg(mAttackModifier);
+    if (fullDamage < 0)
+    {
+        fullDamage = 0;
+    }
+
+    aLogger->addLogEntry(QString("Attack modifier: %1").arg(mAttackModifier));
+
     return fullDamage;
 }
 
@@ -188,15 +195,29 @@ void Monster::modifyAttack(short aAttackRolls, short aAttackDice, short aAttackM
     mAttackModifier = aAttackModifier;
 }
 
-short Monster::rollInitiative(QString &message)
+short Monster::rollInitiative(Logger* aLogger)
 {
     short roll = DiceRoller::d20() + abilityModifier(Dexterity);
-    message = QString("%1 Initiative roll is %2").arg(mName).arg(roll);
+    aLogger->addLogEntry(QString("%1 Initiative roll is %2").arg(mName).arg(roll));
     return roll;
 }
 
 QString Monster::type()
 {
     return "Monster";
+}
+
+bool Monster::takeDamage(short aDamage)
+{
+    mHitPoints -= aDamage;
+    return mHitPoints <= 0;
+}
+
+short Monster::rollHit(Logger *aLogger)
+{
+    short d20 = DiceRoller::d20();
+    aLogger->addLogEntry(QString("Rolls to hit (1d20 + BAB + STR Mod): %1 + %2 + %3").arg(d20).arg(mBaseAttack).arg(abilityModifier(Strength)));
+
+    return d20 + abilityModifier(Strength) + mBaseAttack;
 }
 

@@ -55,9 +55,11 @@ public:
     void notifyObservers();
 
     bool moveCharacter(QString aMovement, bool &aIsChest);
-    bool moveMonster(int aIndex);
+    bool moveMonster(int aIndex, bool &aHasAttacked);
     void moveTile(TileSet tile, int row, int column);
 
+    bool isAMonsterThere(QString aDirection);
+    void killMonsters();
 
 private:
     QList<QList<TileSet> > mMapGrid;

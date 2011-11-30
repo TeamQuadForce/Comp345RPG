@@ -300,20 +300,23 @@ void PlayerCharacter::setStartingItems()
     {
         mInventory->addItem(new Weapon("Long Sword", Weapon::Melee, 1, 1, 8, 0, 1, 1));
         mInventory->addItem(new Weapon("Long Bow", Weapon::Ranged, 4, 1, 8, 0, 2, 1));
+        Armor* armor = new Armor("Ring of Strength +1", Armor::Ring, 0, 1);
+        armor->addAbilityMod(Strength, 1);
+        mInventory->addItem(armor);
     }
 }
 
-short PlayerCharacter::rollInitiative(QString &message)
+short PlayerCharacter::rollInitiative(Logger* aLogger)
 {
     short roll = DiceRoller::d20() + abilityModifier(Dexterity);
-    message = QString("%1 Initiative roll is %2").arg(mName).arg(roll);
+    aLogger->addLogEntry(QString("%1 Initiative roll is %2").arg(mName).arg(roll));
     return roll;
 }
 
-short PlayerCharacter::attack(QString &message)
+short PlayerCharacter::attack(Logger* aLogger)
 {
     short fullDamage = 0;
-    message = "Attack: ";
+    aLogger->addLogEntry(QString("%1 Attacks!!!").arg(mName));
 
     short damageDice;
     short numOfDice;
@@ -333,13 +336,15 @@ short PlayerCharacter::attack(QString &message)
     for (int i = 0; i < numOfDice; i++)
     {
         short damage = DiceRoller::rollDice(damageDice);
-        message.append(" %1 +").arg(damage);
+        aLogger->addLogEntry(QString("Dice number %1 (1d%3): %4 damage").arg(i + 1).arg(damageDice).arg(damage));
         fullDamage += damage;
-
     }
 
     fullDamage += modifier;
-    message.append(" %1").arg(modifier);
+    fullDamage += abilityModifier(Strength);
+
+    aLogger->addLogEntry(QString("Attack modifier: %1").arg(modifier));
+    aLogger->addLogEntry(QString("Damage Bonus: %1").arg(abilityModifier(Strength)));
     return fullDamage;
 
 }
@@ -347,4 +352,19 @@ short PlayerCharacter::attack(QString &message)
 QString PlayerCharacter::type()
 {
     return "Player";
+}
+
+bool PlayerCharacter::takeDamage(short aDamage)
+{
+    mHitPoints -= aDamage;
+    notifyObservers();
+    return mHitPoints <= 0;
+}
+
+short PlayerCharacter::rollHit(Logger *aLogger)
+{
+    short d20 = DiceRoller::d20();
+    aLogger->addLogEntry(QString("Rolls to hit (1d20 + BAB + STR Mod): %1 + %2 + %3").arg(d20).arg(mClass->attackModifier(1)).arg(abilityModifier(Strength)));
+
+    return d20 + abilityModifier(Strength) + mClass->attackModifier(0);
 }
