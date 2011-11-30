@@ -47,12 +47,15 @@ public:
     void setIsDungeonCompleted(bool cleared);
     void setLevel(int aLevel);
 
+    void addMonsterTileSet(TileSet aTileSet);
+
     //Observer methods
     void addObserver(Observer *aObserver);
     void removeObserver(Observer *aObserver);
     void notifyObservers();
 
     bool moveCharacter(QString aMovement, bool &aIsChest);
+    bool moveMonster(int aIndex);
     void moveTile(TileSet tile, int row, int column);
 
 
@@ -69,6 +72,7 @@ private:
     bool mIsDungeonCompleted;
     int mLevel;
 
+    QList<TileSet> mMonsters;
 
 //    TODO
 //    bool isCharacterPlaced;

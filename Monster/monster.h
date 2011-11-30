@@ -44,6 +44,7 @@ public:
     short level();
     short attack(QString &message);
     short rollInitiative(QString &message);
+    QString type();
 
     //Observer methods
     void addObserver(Observer *aObserver);

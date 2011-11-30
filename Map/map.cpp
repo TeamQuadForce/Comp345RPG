@@ -140,6 +140,10 @@ bool Map::loadMap()
                     setExitTileSet(mMapGrid[row][column]);
                     setIsExitPlaced(true);
                 }
+                if (mMapGrid[row][column].getGamePiece().compare("Monster") == 0)
+                {
+                    addMonsterTileSet(mMapGrid[row][column]);
+                }
             }
             row++;
         }
@@ -354,6 +358,95 @@ bool Map::moveCharacter(QString aMovement, bool &aIsChest)
     }
 }
 
+bool Map::moveMonster(int aIndex)
+{
+    const int numberOfMovements = 6;
+
+    for (int i = 0; i < numberOfMovements; ++i)
+    {
+        int randomMove = qrand() % 4;
+        int oldRowPosition = mMonsters[aIndex].rowPosition();
+        int oldColPosition = mMonsters[aIndex].columnPosition();
+        int newRowPosition = -1;
+        int newColPosition = -1;
+
+
+        //Character wants to move up
+        if(randomMove == 0 && (oldRowPosition - 1) >= 0)
+        {
+            //if the cell to move to is empty terrain or a chest
+            if(mMapGrid[oldRowPosition - 1][oldColPosition].getGamePiece().compare("") == 0)
+            {
+                newRowPosition = oldRowPosition - 1;
+                newColPosition = oldColPosition;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //Character wants to move down
+        else if(randomMove == 1 && (oldRowPosition + 1) < mHeight)
+        {
+            //if the cell to move to is empty terrain or a chest
+            if(mMapGrid[oldRowPosition + 1][oldColPosition].getGamePiece().compare("") == 0)
+            {
+                newRowPosition = oldRowPosition + 1;
+                newColPosition = oldColPosition;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //Character wants to move left
+        else if(randomMove == 2 && (oldColPosition - 1) >= 0)
+        {
+            //if the cell to move to is empty terrain or a chest
+            if(mMapGrid[oldRowPosition][oldColPosition - 1].getGamePiece().compare("") == 0)
+            {
+                newRowPosition = oldRowPosition;
+                newColPosition = oldColPosition - 1;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //Character wants to move right
+        else if(randomMove == 3 && (oldColPosition + 1) < mWidth)
+        {
+            //if the cell to move to is empty terrain or a chest
+            if(mMapGrid[oldRowPosition][oldColPosition + 1].getGamePiece().compare("") == 0)
+            {
+                newRowPosition = oldRowPosition;
+                newColPosition = oldColPosition + 1;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+
+        mMonsters[aIndex].setRowPosition(newRowPosition);
+        mMonsters[aIndex].setColumnPosition(newColPosition);
+
+        mMapGrid[newRowPosition][newColPosition].setGamePiece("Monster");
+        TileSet aLastModifiedTileSet = mMapGrid[newRowPosition][newColPosition];
+        setLastModifiedTile(aLastModifiedTileSet);
+        notifyObservers();
+
+        mMapGrid[oldRowPosition][oldColPosition].setGamePiece("");
+        aLastModifiedTileSet = mMapGrid[oldRowPosition][oldColPosition];
+        setLastModifiedTile(aLastModifiedTileSet);
+        notifyObservers();
+    }
+}
+
 //Moves the title to a new postion and notifies any observers
 void Map::moveTile(TileSet aTile, int aRow, int aColumn)
 {
@@ -422,4 +515,9 @@ int Map::level()
 void Map::setLevel(int aLevel)
 {
     mLevel = aLevel;
+}
+
+void Map::addMonsterTileSet(TileSet aTileSet)
+{
+    mMonsters.append(aTileSet);
 }

@@ -66,6 +66,7 @@ private:
 
     //For turn-based play
     void startNextPlayerTurn();
+    void monsterTurn(Player* aPlayer);
     void setTurnActionButtons(bool enable);
     int mMoveCounter;
 

@@ -6,7 +6,7 @@ class Player{
 public:
     virtual short attack(QString &message) = 0;
     virtual short rollInitiative(QString &message) = 0;
-
+    virtual QString type() = 0;
 
 };
 

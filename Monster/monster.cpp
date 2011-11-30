@@ -174,13 +174,11 @@ short Monster::attack(QString &message)
         short damage = DiceRoller::rollDice(mAttackDice);
         message.append(" %1 +").arg(damage);
         fullDamage += damage;
-
     }
 
     fullDamage += mAttackModifier;
     message.append(" %1").arg(mAttackModifier);
     return fullDamage;
-
 }
 
 void Monster::modifyAttack(short aAttackRolls, short aAttackDice, short aAttackModifier)
@@ -195,5 +193,10 @@ short Monster::rollInitiative(QString &message)
     short roll = DiceRoller::d20() + abilityModifier(Dexterity);
     message = QString("%1 Initiative roll is %2").arg(mName).arg(roll);
     return roll;
+}
+
+QString Monster::type()
+{
+    return "Monster";
 }
 

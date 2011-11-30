@@ -5,7 +5,7 @@
 #include "game.h"
 #include "randomchestbuilder.h"
 #include "leveledchestbuilder.h"
-
+#include <QDebug>
 
 const int mNumOfAllowedMoves = 6;
 
@@ -280,6 +280,29 @@ void Dungeon::endTurn()
 void Dungeon::startNextPlayerTurn()
 {
     mMoveCounter = mNumOfAllowedMoves;
+
+    if (!playerTurnOrderList.isEmpty())
+    {
+        Player* player = playerTurnOrderList.takeFirst();
+        if (player->type() == "Monster")
+        {
+            //CHANGE
+            monsterTurn(playerList.at(1));
+        }
+    }
+    else
+    {
+        generateTurnOrder();
+        startNextPlayerTurn();
+    }
+}
+
+void Dungeon::monsterTurn(Player* aPlayer)
+{
+    QString message;
+    mMapObject->moveMonster(0);
+    aPlayer->attack(message);
+    startNextPlayerTurn();
 }
 
 //Method to set the main turn actions all on or off
@@ -294,6 +317,7 @@ void Dungeon::setTurnActionButtons(bool enable)
 void Dungeon::update(Observable *aObs)
 {
     QPixmap terrainImage(":/dungeon/images/terrain.jpg");
+    QPixmap monsterImage(":dungeon/images/enemy.jpg");
     Map *aMap = (Map*)aObs;
     TileSet tile = aMap->lastModifiedTileSet();
     int row = tile.rowPosition();
@@ -313,6 +337,10 @@ void Dungeon::update(Observable *aObs)
             mMapGrid[row][column]->setPixmap(characterMaleImage);
         }
     }
+    else if (tile.getGamePiece().compare("Monster") == 0)
+    {
+        mMapGrid[row][column]->setPixmap(monsterImage);
+    }
     else
     {
         mMapGrid[row][column]->setPixmap(terrainImage);
@@ -320,7 +348,6 @@ void Dungeon::update(Observable *aObs)
 
     //Level Up player and save player inside a new file
     if(mMapObject->isDungeonCompleted())
-
     {
         mLogger->addLogEntry("Dungeon Completed!");
         mStatWindow->hide();

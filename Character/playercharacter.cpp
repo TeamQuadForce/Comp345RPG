@@ -343,3 +343,8 @@ short PlayerCharacter::attack(QString &message)
     return fullDamage;
 
 }
+
+QString PlayerCharacter::type()
+{
+    return "Player";
+}
